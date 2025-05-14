@@ -1,6 +1,10 @@
 ---
 import Container from "@components/container.astro";
 import Layout from "@layouts/Layout.astro";
+import { Picture } from "astro:assets";
+
+import PAGE_NOT_FOUND from "../assets/404.png";
+
 ---
 
 <Layout title="404 Not Found">
@@ -8,7 +12,18 @@ import Layout from "@layouts/Layout.astro";
     <div class="min-h-[calc(100vh-16rem)] flex items-center justify-center">
       <div class="mt-16 text-center">
         <h1 class="text-4xl lg:text-5xl font-bold lg:tracking-tight">404</h1>
-        <p class="text-lg mt-4 text-slate-600">Page not found.</p>
+        <Picture
+            src={PAGE_NOT_FOUND}
+            alt="Die Seite wurde leider nicht gefunden"
+            sizes="(max-width: 800px) 100vw, 800px"
+            width={800}
+            height={600}
+            loading={"lazy"}
+            decoding={"async"}
+            class="w-full rounded-md object-cover object-center bg-white"
+        />
+        <div>
+        <p class="text-lg mt-4 text-slate-600">Diese Seite wurde leider nicht gefunden.</p>
       </div>
     </div>
   </Container>

@@ -14,6 +14,22 @@ import Link from "./ui/link.astro";
   <!--  </a>-->
   <!--</p>-->
   <p class="py-3 text-center text-sm text-slate-500">
-    Impressum - Kontakt - Datenschutz
+    <Link
+        href={"/impressum"}
+        style={"muted"}>
+      {"Impressum"}
+    </Link>
+    <Link
+        href={"/datenschutz"}
+        block
+        style={"muted"}>
+      {"Datenschutz"}
+    </Link>
+    <Link
+        href={"/contact"}
+        block
+        style={"muted"}>
+      {"Kontakt"}
+    </Link>
   </p>
 </footer>

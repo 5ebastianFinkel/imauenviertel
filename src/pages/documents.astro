@@ -1,0 +1,25 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Container from "@components/container.astro";
+import Sectionhead from "@components/sectionhead.astro";
+---
+
+<Layout title="Dokumente & Links">
+
+  <Container>
+    <Sectionhead>
+      <Fragment slot="title">Dokumente und Links</Fragment>
+      <Fragment slot="desc">
+        Übersicht aller wichtigen Dokumente und Links
+      </Fragment>
+    </Sectionhead>
+
+    <div class="grid md:grid-cols-3 gap-10 mx-auto max-w-screen-lg mt-12">
+      <a href="https://www.kleingarten-muenster.de/home/" >Stadt- und Bezirksverband Münster der Kleingärtner e.V.</a>
+      <a href="https://www.kleingarten.de/">Landesverband Westfalen- und Lippe der Kleingärtner e.V.</a>
+      <a>Bundesverband der Kleingartenvereine Deutschlands e.V</a>
+      <a>Landesverband Westfalen- und Lippe der Kleingärtner e.V.</a>
+      <a>Bundeskleingartengesetz</a>
+    </div>
+  </Container>
+</Layout>

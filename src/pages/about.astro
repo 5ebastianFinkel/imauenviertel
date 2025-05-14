@@ -11,11 +11,11 @@ const publishedTeamMembers = await getCollection("team", ({ data }) => {
 });
 ---
 
-<Layout title="Über uns">
+<Layout title="Der Vorstand">
   <Container>
     <Sectionhead>
-      <Fragment slot="title">Über uns</Fragment>
-      <Fragment slot="desc">Wir sind eine kleine Gruppe engagierter Gärtner.</Fragment>
+      <Fragment slot="title">Der Vorstand</Fragment>
+      <Fragment slot="desc"></Fragment>
     </Sectionhead>
 
     <div class="flex flex-col gap-3 mx-auto max-w-4xl mt-16">
@@ -23,24 +23,12 @@ const publishedTeamMembers = await getCollection("team", ({ data }) => {
         Der Vorstand stellt sich vor.
       </h2>
       <p class="text-lg leading-relaxed text-slate-500">
-        Laboris amet culpa laboris ex elit. Deserunt incididunt velit exercitation cillum commodo fugiat irure amet sit adipisicing exercitation nulla do. Consequat ullamco occaecat ut enim duis ut consectetur culpa exercitation occaecat excepteur et. Mollit in labore excepteur ipsum culpa consectetur sunt esse Lorem culpa proident.
-      </p>
+        Wir treffen uns regelmäßig, um im Team die vielen kleinen und größeren Aufgaben rund um unseren Kleingartenverein ehrenamtlich zu erledigen. Dazu gehören zum Beispiel die Aufnahme von neuen Mitgliedern, die Organisation der Mitgliederversammlung, die Jahresabrechnungen, der Kontakt zum Stadt- und Bezirksverband oder die Aushänge im Schaukasten.  Ihr erreicht uns alle zusammen über die E-Mailadresse: mail@imauenviertel.de       </p>
     </div>
     <div class="grid md:grid-cols-3 gap-10 mx-auto max-w-4xl mt-12">
       {
         publishedTeamMembers.map((teamMemberEntry) => (
           <div class="group">
-            <div class="w-full aspect-square">
-              <Picture
-                src={teamMemberEntry.data.avatar.src}
-                alt={teamMemberEntry.data.avatar.alt}
-                sizes="(max-width: 800px) 100vw, 400px"
-                width={400}
-                height={400}
-                class="w-full rounded-md rounded transition group-hover:-translate-y-1 group-hover:shadow-xl bg-white object-cover object-center aspect-square"
-              />
-            </div>
-
             <div class="mt-4 text-center">
               <h2 class="text-lg text-gray-800">{teamMemberEntry.data.name}</h2>
               <h3 class="text-sm text-slate-500">

@@ -1,7 +1,6 @@
 ---
 draft: false
 title: "Neuerungen bei der Gemeinschaftsarbeit - Fragen und Antworten"
-snippet: "Ornare cum cursus laoreet sagittis nunc fusce posuere per euismod dis vehicula a, semper fames lacus maecenas dictumst pulvinar neque enim non potenti. Torquent hac sociosqu eleifend potenti."
 image: {
     src: "https://images.unsplash.com/photo-1561563239-a6d2bd5dda20?q=80&w=2273&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     alt: "Schubkarre mit Harke im Garten"

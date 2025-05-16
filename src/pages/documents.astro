@@ -2,24 +2,44 @@
 import Layout from "@layouts/Layout.astro";
 import Container from "@components/container.astro";
 import Sectionhead from "@components/sectionhead.astro";
+import {Icon} from "astro-icon/components";
 ---
 
 <Layout title="Dokumente & Links">
 
-  <Container>
-    <Sectionhead>
-      <Fragment slot="title">Dokumente und Links</Fragment>
-      <Fragment slot="desc">
-        Übersicht aller wichtigen Dokumente und Links
-      </Fragment>
-    </Sectionhead>
+    <Container>
+        <Sectionhead>
+            <Fragment slot="title">Dokumente und Links</Fragment>
+            <Fragment slot="desc">
+                Übersicht aller wichtigen Dokumente und Links
+            </Fragment>
+        </Sectionhead>
+        <main class="flex flex-col gap-3 mx-auto max-w-4xl mt-16">
+            <h2 class="font-medium text-2xl text-gray-800 mt-8">Dokumente</h2>
+            <div class="grid md:grid-cols-3 gap-10 mx-auto max-w-screen-lg mt-12">
+                    <a class="flex mt-2 space-x-2 text-gray-600 hover:text-green-600" href="/downloads/Gartenlauben_2025.pdf" download>
+                        <Icon class="w-6 h-6" name="uil:file-download"/>
+                        <span> Richtlinie für Gartenlauben 2025 </span>
+                    </a>
+                    <a class="flex mt-2 space-x-2 text-gray-600 hover:text-green-600" href="/downloads/Gemeinschaftsarbeit_Fragen_Antworten_2025.pdf" download>
+                        <Icon class="w-6 h-6" name="uil:file-download"/>
+                        <span> Gemeinschaftsarbeit Fragen und Antworten </span>
+                    </a>
+                    <a class="flex mt-2 space-x-2 text-gray-600 hover:text-green-600" href="/downloads/Gartenlauben_2025.pdf" download="Gartenlaufen-2025.pdf">
+                        <Icon class="w-6 h-6" name="uil:file-download"/>
+                        <span> Richtlinie für Gartenlauben </span>
+                    </a>
+            </div>
 
-    <div class="grid md:grid-cols-3 gap-10 mx-auto max-w-screen-lg mt-12">
-      <a href="https://www.kleingarten-muenster.de/home/" >Stadt- und Bezirksverband Münster der Kleingärtner e.V.</a>
-      <a href="https://www.kleingarten.de/">Landesverband Westfalen- und Lippe der Kleingärtner e.V.</a>
-      <a>Bundesverband der Kleingartenvereine Deutschlands e.V</a>
-      <a>Landesverband Westfalen- und Lippe der Kleingärtner e.V.</a>
-      <a>Bundeskleingartengesetz</a>
-    </div>
-  </Container>
+            <h2 class="font-medium text-2xl text-gray-800 mt-8">Interessante Links</h2>
+            <div class="grid md:grid-cols-3 gap-10 mx-auto max-w-screen-lg mt-12">
+                <a class="hover:text-green-600" href="https://www.kleingarten-muenster.de/home/">Stadt- und Bezirksverband Münster der Kleingärtner
+                    e.V.</a>
+                <a class="hover:text-green-600" href="https://www.kleingarten.de/">Landesverband Westfalen- und Lippe der Kleingärtner e.V.</a>
+                <a class="hover:text-green-600">Bundesverband der Kleingartenvereine Deutschlands e.V</a>
+                <a class="hover:text-green-600">Landesverband Westfalen- und Lippe der Kleingärtner e.V.</a>
+                <a class="hover:text-green-600">Bundeskleingartengesetz</a>
+            </div>
+        </main>
+    </Container>
 </Layout>

@@ -2,17 +2,6 @@
 import Link from "./ui/link.astro";
 ---
 <footer class="my-20">
-  <p class="text-center text-sm text-slate-500">
-    Copyright © {new Date().getFullYear()} Im Auenviertel.
-  </p>
-  <!--<p class="text-center text-xs text-slate-500 mt-1">-->
-  <!--  Made by <a-->
-  <!--    href="https://web3templates.com"-->
-  <!--    target="_blank"-->
-  <!--    rel="noopener"-->
-  <!--    class="hover:underline">-->
-  <!--  </a>-->
-  <!--</p>-->
   <p class="py-3 text-center text-sm text-slate-500">
     <Link
         href={"/impressum"}
@@ -31,5 +20,8 @@ import Link from "./ui/link.astro";
         style={"muted"}>
       {"Kontakt"}
     </Link>
+  </p>
+  <p class="text-center text-sm text-slate-500 mt-4">
+    Copyright © {new Date().getFullYear()} Im Auenviertel.
   </p>
 </footer>

@@ -48,6 +48,15 @@ const sortedDates = dates.sort((a, b) => a.data.date.getTime() - b.data.date.get
                                     month: 'long',
                                     day: 'numeric',
                                 })}
+                                {date.data.startTime && (
+                                    <span class="ml-2 font-medium">
+                                        {date.data.startTime} Uhr
+                                        {date.data.endTime && ` - ${date.data.endTime} Uhr`}
+                                    </span>
+                                )}
+                                {!date.data.startTime && (
+                                    <span class="ml-2 text-gray-500 italic">Ganztägig</span>
+                                )}
                             </p>
                             {date.data.description && (
                                 <p 
@@ -62,6 +71,9 @@ const sortedDates = dates.sort((a, b) => a.data.date.getTime() - b.data.date.get
                                 title={date.data.title}
                                 date={date.data.date}
                                 description={date.data.description}
+                                duration={date.data.duration}
+                                startTime={date.data.startTime}
+                                endTime={date.data.endTime}
                             />
                         </div>
                     </article>
@@ -78,3 +90,7 @@ const sortedDates = dates.sort((a, b) => a.data.date.getTime() - b.data.date.get
         </main>
     </Container>
 </Layout>
+
+<script>
+    import '../scripts/calendar-button.js';
+</script>

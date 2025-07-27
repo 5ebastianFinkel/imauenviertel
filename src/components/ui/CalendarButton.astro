@@ -102,7 +102,7 @@ const { title, date, description, duration = 1 } = Astro.props;
           const title = btn.dataset.title;
           const dateString = btn.dataset.date;
           const description = btn.dataset.description;
-          const duration = parseFloat(btn.dataset.duration) || 1;
+          let duration = parseFloat(btn.dataset.duration) || 1;
 
           // Validate required fields
           if (!title || typeof title !== 'string' || title.trim() === '') {

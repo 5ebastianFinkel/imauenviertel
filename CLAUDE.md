@@ -23,6 +23,11 @@ This is an Astro v5 website for "Im Auenviertel" Kleingartenverein (German allot
 - `pnpm lint:fix` - Run oxlint with auto-fix for fixable issues
 - `pnpm lint:ci` - Run oxlint for CI environments (fails on warnings)
 
+### Type Checking
+- `pnpm typecheck` - Run TypeScript type checking without emitting files
+- `pnpm typecheck:watch` - Run TypeScript type checking in watch mode
+- `pnpm typecheck:ci` - Run strict TypeScript type checking for CI environments
+
 ## Architecture
 
 ### Framework Stack

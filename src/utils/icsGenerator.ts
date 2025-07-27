@@ -28,8 +28,8 @@ export function generateICSFile(
   description?: string,
   duration: number = 1 // Duration in hours
 ): string {
-  // Format date to YYYYMMDDTHHMMSSZ
-  const formatDate = (date: Date) => {
+  // Format date to YYYYMMDDTHHMMSSZ for ICS format
+  const formatDateTimeUTC = (date: Date) => {
     return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
   };
 
@@ -48,11 +48,11 @@ export function generateICSFile(
     'METHOD:PUBLISH',
     'BEGIN:VEVENT',
     `UID:${date.getTime()}-${Math.random().toString(36).substring(2, 9)}@imauenviertel.de`,
-    `DTSTART:${formatDate(date)}`,
-    `DTEND:${formatDate(endDate)}`,
+    `DTSTART:${formatDateTimeUTC(date)}`,
+    `DTEND:${formatDateTimeUTC(endDate)}`,
     `SUMMARY:${safeTitle}`,
     safeDescription ? `DESCRIPTION:${safeDescription}` : '',
-    `DTSTAMP:${formatDate(new Date())}`,
+    `DTSTAMP:${formatDateTimeUTC(new Date())}`,
     'STATUS:CONFIRMED',
     'END:VEVENT',
     'END:VCALENDAR'

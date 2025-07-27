@@ -13,6 +13,9 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui"
   },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.1.4"
+  },
   "dependencies": {
     "@astrojs/mdx": "^4.3.0",
     "@astrojs/sitemap": "^3.4.1",

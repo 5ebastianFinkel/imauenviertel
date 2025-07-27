@@ -9,11 +9,10 @@ const { title, date, description } = Astro.props;
 ---
 
 <button
-  class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+  class="calendar-button inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
   data-title={title}
   data-date={date.toISOString()}
   data-description={description}
-  id="calendar-button"
   aria-label={`Termin "${title}" zum Kalender hinzufügen`}
   role="button">
   <svg 
@@ -56,7 +55,7 @@ const { title, date, description } = Astro.props;
 
   // Add event listener when the document is loaded
   document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('#calendar-button').forEach(button => {
+    document.querySelectorAll('.calendar-button').forEach(button => {
       button.addEventListener('click', (e) => {
         const btn = e.currentTarget;
         const title = btn.dataset.title;

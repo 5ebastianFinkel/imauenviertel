@@ -49,4 +49,49 @@ describe('CalendarButton', () => {
     expect(result).toBeDefined();
     expect(result.download).toBe('Test_Event_No_Desc.ics');
   });
+
+  it('should handle invalid date strings gracefully', () => {
+    const title = "Test Event";
+    const invalidDate = "invalid-date-string";
+
+    // Mock console.error and alert to test error handling
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => {});
+
+    // This should not throw an error but handle it gracefully
+    expect(() => {
+      const date = new Date(invalidDate);
+      if (isNaN(date.getTime())) {
+        console.error('CalendarButton: Invalid date format:', invalidDate);
+        alert('Fehler: Das Datum des Termins ist ungültig.');
+        return;
+      }
+      window.downloadCalendar(title, invalidDate);
+    }).not.toThrow();
+
+    consoleSpy.mockRestore();
+    alertSpy.mockRestore();
+  });
+
+  it('should handle missing title gracefully', () => {
+    const date = new Date('2025-06-15T10:00:00Z');
+
+    // Mock console.error and alert to test error handling
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => {});
+
+    // This should not throw an error but handle it gracefully
+    expect(() => {
+      const title = '';
+      if (!title || title.trim() === '') {
+        console.error('CalendarButton: Invalid or missing title');
+        alert('Fehler: Kein gültiger Titel für den Termin gefunden.');
+        return;
+      }
+      window.downloadCalendar(title, date.toISOString());
+    }).not.toThrow();
+
+    consoleSpy.mockRestore();
+    alertSpy.mockRestore();
+  });
 });

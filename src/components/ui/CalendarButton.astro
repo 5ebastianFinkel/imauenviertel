@@ -97,14 +97,45 @@ const { title, date, description, duration = 1 } = Astro.props;
   document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.calendar-button').forEach(button => {
       button.addEventListener('click', (e) => {
-        const btn = e.currentTarget;
-        const title = btn.dataset.title;
-        const date = new Date(btn.dataset.date);
-        const description = btn.dataset.description;
-        const duration = parseFloat(btn.dataset.duration) || 1;
+        try {
+          const btn = e.currentTarget;
+          const title = btn.dataset.title;
+          const dateString = btn.dataset.date;
+          const description = btn.dataset.description;
+          const duration = parseFloat(btn.dataset.duration) || 1;
 
-        if (title && date) {
-          downloadICS(title, date, description, duration);
+          // Validate required fields
+          if (!title || typeof title !== 'string' || title.trim() === '') {
+            console.error('CalendarButton: Invalid or missing title');
+            alert('Fehler: Kein gültiger Titel für den Termin gefunden.');
+            return;
+          }
+
+          if (!dateString || typeof dateString !== 'string') {
+            console.error('CalendarButton: Invalid or missing date string');
+            alert('Fehler: Kein gültiges Datum für den Termin gefunden.');
+            return;
+          }
+
+          // Parse and validate date
+          const date = new Date(dateString);
+          if (isNaN(date.getTime())) {
+            console.error('CalendarButton: Invalid date format:', dateString);
+            alert('Fehler: Das Datum des Termins ist ungültig.');
+            return;
+          }
+
+          // Validate duration
+          if (isNaN(duration) || duration <= 0) {
+            console.warn('CalendarButton: Invalid duration, using default 1 hour');
+            duration = 1;
+          }
+
+          // Download ICS file
+          downloadICS(title.trim(), date, description, duration);
+        } catch (error) {
+          console.error('CalendarButton: Error generating calendar file:', error);
+          alert('Fehler beim Erstellen der Kalenderdatei. Bitte versuchen Sie es erneut.');
         }
       });
     });

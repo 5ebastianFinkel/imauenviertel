@@ -14,12 +14,20 @@
     "astro": "astro",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "lint:ci": "oxlint --max-warnings 0",
+    "typecheck": "tsc --noEmit",
+    "typecheck:watch": "tsc --noEmit --watch",
+    "typecheck:ci": "tsc --noEmit --strict"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.1.4",
-    "jsdom": "^26.1.0",
-    "vitest": "^3.2.4"
+    "@testing-library/jest-dom": "6.1.4",
+    "jsdom": "26.1.0",
+    "oxlint": "1.8.0",
+    "typescript": "5.8.3",
+    "vitest": "3.2.4"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.0",

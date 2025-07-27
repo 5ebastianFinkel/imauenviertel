@@ -1,0 +1,41 @@
+{
+  "$schema": "https://oxc.rs/schemas/oxlint.json",
+  "rules": {
+    "typescript": "all",
+    "javascript": "all",
+    "import": "all",
+    "promise": "all",
+    "unicorn": "all",
+    "react": "off",
+    "jsx-a11y": "off",
+    "nextjs": "off",
+    "react-hooks": "off",
+    "typescript/triple-slash-reference": "off"
+  },
+  "allow": [
+    "typescript/ban-ts-comment",
+    "typescript/no-explicit-any",
+    "typescript/no-unused-vars",
+    "typescript/triple-slash-reference",
+    "unicorn/filename-case",
+    "unicorn/prevent-abbreviations"
+  ],
+  "deny": [
+    "typescript/no-unsafe-assignment",
+    "typescript/no-unsafe-call",
+    "typescript/no-unsafe-member-access",
+    "typescript/no-unsafe-return"
+  ],
+  "fix": true,
+  "ignore_pattern": [
+    "node_modules",
+    "dist",
+    ".astro",
+    "*.d.ts",
+    "public",
+    "src/env.d.ts"
+  ],
+  "paths": [
+    "src"
+  ]
+}

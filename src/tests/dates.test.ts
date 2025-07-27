@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getCollection } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 
 describe('Date Collection', () => {
   it('should load date entries with correct structure', async () => {
@@ -27,11 +27,11 @@ describe('Date Collection', () => {
   });
 
   it('should filter by draft status', async () => {
-    const publishedDates = await getCollection('dates', ({ data }) => !data.draft);
+    const publishedDates = await getCollection('dates', ({ data }: CollectionEntry<'dates'>) => !data.draft);
     expect(publishedDates).toBeDefined();
     
     // All returned dates should be non-draft
-    publishedDates.forEach(date => {
+    publishedDates.forEach((date: CollectionEntry<'dates'>) => {
       expect(date.data.draft).toBe(false);
     });
   });

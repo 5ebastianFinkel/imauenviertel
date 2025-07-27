@@ -82,7 +82,7 @@ describe('CalendarButton', () => {
 
     // This should not throw an error but handle it gracefully
     expect(() => {
-      const title = '';
+      const title: string = '';
       if (!title || title.trim() === '') {
         console.error('CalendarButton: Invalid or missing title');
         alert('Fehler: Kein gültiger Titel für den Termin gefunden.');

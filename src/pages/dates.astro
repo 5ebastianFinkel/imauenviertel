@@ -1,0 +1,80 @@
+---
+import Container from "../components/container.astro";
+import Layout from "../layouts/Layout.astro";
+import Sectionhead from "../components/sectionhead.astro";
+import CalendarButton from "../components/ui/CalendarButton.astro";
+import { getCollection } from "astro:content";
+
+const dates = await getCollection("dates", ({ data }) => {
+  return !data.draft && data.date > new Date();
+});
+
+// Sort dates by date
+const sortedDates = dates.sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+---
+
+<Layout title="Termine">
+    <Container>
+        <Sectionhead>
+            <Fragment slot="title">Termine</Fragment>
+            <Fragment slot="desc">
+                Hier findest du alle wichtigen Termine im Überblick.
+            </Fragment>
+        </Sectionhead>
+        <main class="mt-16">
+            <div class="space-y-8" role="feed" aria-label="Liste der kommenden Termine">
+                {sortedDates.map((date) => (
+                    <article 
+                        class="flex flex-col md:flex-row justify-between items-start md:items-center p-6 rounded-lg border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
+                        role="article"
+                        aria-labelledby={`event-title-${date.id}`}>
+                        <div class="flex-1">
+                            <h3 
+                                id={`event-title-${date.id}`}
+                                class="text-xl font-semibold text-gray-900">
+                                {date.data.title}
+                            </h3>
+                            <p 
+                                class="text-gray-600 mt-2"
+                                aria-label={`Termin am ${date.data.date.toLocaleDateString('de-DE', {
+                                    weekday: 'long',
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric',
+                                })}`}>
+                                {date.data.date.toLocaleDateString('de-DE', {
+                                    weekday: 'long',
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric',
+                                })}
+                            </p>
+                            {date.data.description && (
+                                <p 
+                                    class="text-gray-600 mt-2"
+                                    aria-label="Beschreibung">
+                                    {date.data.description}
+                                </p>
+                            )}
+                        </div>
+                        <div class="mt-4 md:mt-0">
+                            <CalendarButton 
+                                title={date.data.title}
+                                date={date.data.date}
+                                description={date.data.description}
+                            />
+                        </div>
+                    </article>
+                ))}
+            </div>
+            {sortedDates.length === 0 && (
+                <p 
+                    class="text-center text-gray-600"
+                    role="status"
+                    aria-label="Keine Termine verfügbar">
+                    Aktuell sind keine Termine eingetragen.
+                </p>
+            )}
+        </main>
+    </Container>
+</Layout>

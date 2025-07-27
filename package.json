@@ -3,28 +3,39 @@
   "type": "module",
   "version": "2.2.0",
   "private": true,
+  "engines": {
+    "node": ">=16.12.0"
+  },
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.1.4",
+    "jsdom": "^26.1.0",
+    "vitest": "^3.2.4"
   },
   "dependencies": {
-    "@astrojs/mdx": "^3.0.1",
-    "@astrojs/sitemap": "^3.1.5",
-    "@astrojs/tailwind": "^5.1.0",
+    "@astrojs/mdx": "^4.3.0",
+    "@astrojs/sitemap": "^3.4.1",
     "@fontsource-variable/bricolage-grotesque": "^5.0.6",
     "@fontsource-variable/inter": "^5.0.18",
     "@iconify-json/bx": "^1.1.10",
     "@iconify-json/simple-icons": "^1.1.102",
     "@iconify-json/uil": "^1.1.8",
-    "@tailwindcss/typography": "^0.5.13",
-    "astro": "^4.8.7",
+    "@tailwindcss/typography": "^0.5.16",
+    "@tailwindcss/vite": "^4.1.11",
+    "astro": "^5.11.0",
     "astro-icon": "^1.1.0",
     "astro-navbar": "^2.3.2",
     "astro-seo": "^0.8.3",
     "sharp": "^0.33.4",
-    "tailwindcss": "^3.4.3"
+    "tailwindcss": "^4.1.11"
   }
 }

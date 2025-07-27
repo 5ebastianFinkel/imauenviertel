@@ -1,5 +1,5 @@
 import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
+import tailwind from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import icon from "astro-icon";
@@ -7,5 +7,8 @@ import icon from "astro-icon";
 // https://astro.build/config
 export default defineConfig({
   site: "https://imauenviertel.netlify.app",
-  integrations: [tailwind(), mdx(), sitemap(), icon()],
+  integrations: [mdx(), sitemap(), icon()],
+  vite: {
+    plugins: [tailwind()],
+  },
 });

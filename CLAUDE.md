@@ -18,7 +18,10 @@ This is an Astro v5 website for "Im Auenviertel" Kleingartenverein (German allot
 - `pnpm test:watch` - Run tests in watch mode
 - `pnpm test:ui` - Run tests with Vitest UI
 
-Note: No linting or formatting commands are configured. This project does not use ESLint, Prettier, or other code quality tools.
+### Linting
+- `pnpm lint` - Run oxlint on all source files
+- `pnpm lint:fix` - Run oxlint with auto-fix for fixable issues
+- `pnpm lint:ci` - Run oxlint for CI environments (fails on warnings)
 
 ## Architecture
 

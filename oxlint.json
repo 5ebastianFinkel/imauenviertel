@@ -9,12 +9,14 @@
     "react": "off",
     "jsx-a11y": "off",
     "nextjs": "off",
-    "react-hooks": "off"
+    "react-hooks": "off",
+    "typescript/triple-slash-reference": "off"
   },
   "allow": [
     "typescript/ban-ts-comment",
     "typescript/no-explicit-any",
     "typescript/no-unused-vars",
+    "typescript/triple-slash-reference",
     "unicorn/filename-case",
     "unicorn/prevent-abbreviations"
   ],
@@ -30,7 +32,8 @@
     "dist",
     ".astro",
     "*.d.ts",
-    "public"
+    "public",
+    "src/env.d.ts"
   ],
   "paths": [
     "src"

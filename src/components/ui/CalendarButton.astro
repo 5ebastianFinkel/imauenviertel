@@ -3,9 +3,10 @@ interface Props {
   title: string;
   date: Date;
   description?: string;
+  duration?: number; // Duration in hours, defaults to 1
 }
 
-const { title, date, description } = Astro.props;
+const { title, date, description, duration = 1 } = Astro.props;
 ---
 
 <button
@@ -13,6 +14,7 @@ const { title, date, description } = Astro.props;
   data-title={title}
   data-date={date.toISOString()}
   data-description={description}
+  data-duration={duration}
   aria-label={`Termin "${title}" zum Kalender hinzufügen`}
   role="button">
   <svg 
@@ -27,15 +29,52 @@ const { title, date, description } = Astro.props;
 </button>
 
 <script>
-  function downloadICS(title, date, description) {
+  // Sanitize text for ICS format to prevent injection and ensure valid content
+  function sanitizeICSText(text) {
+    if (!text) return '';
+    // Escape special characters according to ICS specification
+    return text
+      .replace(/\\/g, '\\\\') // Escape backslashes first
+      .replace(/;/g, '\\;')   // Escape semicolons
+      .replace(/,/g, '\\,')   // Escape commas
+      .replace(/\n/g, '\\n')  // Escape newlines
+      .replace(/\r/g, '');    // Remove carriage returns
+  }
+
+  // Sanitize filename to remove unsafe characters
+  function sanitizeFilename(filename) {
+    // Replace all unsafe characters with underscores
+    // Keep only alphanumeric, spaces, hyphens, dots, and underscores
+    return filename
+      .replace(/[^a-zA-Z0-9\s\-_.äöüÄÖÜß]/g, '_')
+      .replace(/\s+/g, '_') // Replace spaces with underscores
+      .replace(/_+/g, '_')  // Replace multiple underscores with single
+      .replace(/^_|_$/g, '') // Remove leading/trailing underscores
+      .substring(0, 255);   // Limit filename length
+  }
+
+  function downloadICS(title, date, description, duration = 1) {
+    // Sanitize inputs
+    const safeTitle = sanitizeICSText(title);
+    const safeDescription = sanitizeICSText(description);
+    
+    // Calculate end date based on duration
+    const endDate = new Date(date.getTime() + (duration * 3600000)); // duration in hours
+    
     const event = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
+      'PRODID:-//Im Auenviertel//Event Calendar//DE',
+      'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH',
       'BEGIN:VEVENT',
+      `UID:${date.getTime()}-${Math.random().toString(36).substring(2, 9)}@imauenviertel.de`,
       `DTSTART:${formatDate(date)}`,
-      `DTEND:${formatDate(new Date(date.getTime() + 3600000))}`,
-      `SUMMARY:${title}`,
-      description ? `DESCRIPTION:${description}` : '',
+      `DTEND:${formatDate(endDate)}`,
+      `SUMMARY:${safeTitle}`,
+      safeDescription ? `DESCRIPTION:${safeDescription}` : '',
+      `DTSTAMP:${formatDate(new Date())}`,
+      'STATUS:CONFIRMED',
       'END:VEVENT',
       'END:VCALENDAR'
     ].filter(Boolean).join('\r\n');
@@ -43,10 +82,11 @@ const { title, date, description } = Astro.props;
     const blob = new Blob([event], { type: 'text/calendar;charset=utf-8' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = `${title.replace(/\s+/g, '_')}.ics`;
+    a.download = `${sanitizeFilename(title)}.ics`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+    URL.revokeObjectURL(a.href); // Clean up the URL object
   }
 
   function formatDate(date) {
@@ -61,9 +101,10 @@ const { title, date, description } = Astro.props;
         const title = btn.dataset.title;
         const date = new Date(btn.dataset.date);
         const description = btn.dataset.description;
+        const duration = parseFloat(btn.dataset.duration) || 1;
 
         if (title && date) {
-          downloadICS(title, date, description);
+          downloadICS(title, date, description, duration);
         }
       });
     });

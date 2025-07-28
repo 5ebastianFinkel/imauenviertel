@@ -4,9 +4,11 @@ interface Props {
   date: Date;
   description?: string;
   duration?: number; // Duration in hours, defaults to 1
+  startTime?: string; // HH:MM format
+  endTime?: string; // HH:MM format
 }
 
-const { title, date, description, duration = 1 } = Astro.props;
+const { title, date, description, duration = 1, startTime, endTime } = Astro.props;
 ---
 
 <button
@@ -15,6 +17,8 @@ const { title, date, description, duration = 1 } = Astro.props;
   data-date={date.toISOString()}
   data-description={description}
   data-duration={duration}
+  data-start-time={startTime}
+  data-end-time={endTime}
   aria-label={`Termin "${title}" zum Kalender hinzufügen`}
   role="button">
   <svg 
@@ -28,116 +32,3 @@ const { title, date, description, duration = 1 } = Astro.props;
   <span>Zum Kalender hinzufügen</span>
 </button>
 
-<script>
-  // Sanitize text for ICS format to prevent injection and ensure valid content
-  function sanitizeICSText(text) {
-    if (!text) return '';
-    // Escape special characters according to ICS specification
-    return text
-      .replace(/\\/g, '\\\\') // Escape backslashes first
-      .replace(/;/g, '\\;')   // Escape semicolons
-      .replace(/,/g, '\\,')   // Escape commas
-      .replace(/\n/g, '\\n')  // Escape newlines
-      .replace(/\r/g, '');    // Remove carriage returns
-  }
-
-  // Sanitize filename to remove unsafe characters
-  function sanitizeFilename(filename) {
-    // Replace all unsafe characters with underscores
-    // Keep only alphanumeric, spaces, hyphens, dots, and underscores
-    return filename
-      .replace(/[^a-zA-Z0-9\s\-_.äöüÄÖÜß]/g, '_')
-      .replace(/\s+/g, '_') // Replace spaces with underscores
-      .replace(/_+/g, '_')  // Replace multiple underscores with single
-      .replace(/^_|_$/g, '') // Remove leading/trailing underscores
-      .substring(0, 255);   // Limit filename length
-  }
-
-  function downloadICS(title, date, description, duration = 1) {
-    // Sanitize inputs
-    const safeTitle = sanitizeICSText(title);
-    const safeDescription = sanitizeICSText(description);
-    
-    // Calculate end date based on duration
-    const endDate = new Date(date.getTime() + (duration * 3600000)); // duration in hours
-    
-    const event = [
-      'BEGIN:VCALENDAR',
-      'VERSION:2.0',
-      'PRODID:-//Im Auenviertel//Event Calendar//DE',
-      'CALSCALE:GREGORIAN',
-      'METHOD:PUBLISH',
-      'BEGIN:VEVENT',
-      `UID:${date.getTime()}-${Math.random().toString(36).substring(2, 9)}@imauenviertel.de`,
-      `DTSTART:${formatDate(date)}`,
-      `DTEND:${formatDate(endDate)}`,
-      `SUMMARY:${safeTitle}`,
-      safeDescription ? `DESCRIPTION:${safeDescription}` : '',
-      `DTSTAMP:${formatDate(new Date())}`,
-      'STATUS:CONFIRMED',
-      'END:VEVENT',
-      'END:VCALENDAR'
-    ].filter(Boolean).join('\r\n');
-
-    const blob = new Blob([event], { type: 'text/calendar;charset=utf-8' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `${sanitizeFilename(title)}.ics`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(a.href); // Clean up the URL object
-  }
-
-  function formatDate(date) {
-    return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-  }
-
-  // Add event listener when the document is loaded
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.calendar-button').forEach(button => {
-      button.addEventListener('click', (e) => {
-        try {
-          const btn = e.currentTarget;
-          const title = btn.dataset.title;
-          const dateString = btn.dataset.date;
-          const description = btn.dataset.description;
-          let duration = parseFloat(btn.dataset.duration) || 1;
-
-          // Validate required fields
-          if (!title || typeof title !== 'string' || title.trim() === '') {
-            console.error('CalendarButton: Invalid or missing title');
-            alert('Fehler: Kein gültiger Titel für den Termin gefunden.');
-            return;
-          }
-
-          if (!dateString || typeof dateString !== 'string') {
-            console.error('CalendarButton: Invalid or missing date string');
-            alert('Fehler: Kein gültiges Datum für den Termin gefunden.');
-            return;
-          }
-
-          // Parse and validate date
-          const date = new Date(dateString);
-          if (isNaN(date.getTime())) {
-            console.error('CalendarButton: Invalid date format:', dateString);
-            alert('Fehler: Das Datum des Termins ist ungültig.');
-            return;
-          }
-
-          // Validate duration
-          if (isNaN(duration) || duration <= 0) {
-            console.warn('CalendarButton: Invalid duration, using default 1 hour');
-            duration = 1;
-          }
-
-          // Download ICS file
-          downloadICS(title.trim(), date, description, duration);
-        } catch (error) {
-          console.error('CalendarButton: Error generating calendar file:', error);
-          alert('Fehler beim Erstellen der Kalenderdatei. Bitte versuchen Sie es erneut.');
-        }
-      });
-    });
-  });
-</script>

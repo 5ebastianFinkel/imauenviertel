@@ -29,6 +29,8 @@ Jede Termin-Datei beginnt mit einem Frontmatter-Block zwischen `---` Markierunge
 draft: false
 title: "Titel des Termins"
 date: "2025-MM-TT"
+startTime: "HH:MM"
+endTime: "HH:MM"
 description: "Optionale Beschreibung des Termins"
 duration: 2
 ---
@@ -46,38 +48,59 @@ duration: 2
 
 | Feld | Typ | Beschreibung | Standard | Beispiel |
 |------|-----|--------------|----------|----------|
+| `startTime` | string | Startzeit im Format HH:MM | - | `"10:00"` |
+| `endTime` | string | Endzeit im Format HH:MM | - | `"13:00"` |
 | `description` | string | Ausführliche Beschreibung | - | `"Unser jährliches Sommerfest!"` |
-| `duration` | number | Dauer in Stunden | 1 | `3` |
+| `duration` | number | Dauer in Stunden (nur wenn endTime nicht angegeben) | 1 | `3` |
+
+**Hinweis:** 
+- Wenn weder `startTime` noch `endTime` angegeben sind, wird der Termin als ganztägig behandelt.
+- Wenn nur `startTime` angegeben ist, wird `duration` verwendet, um die Endzeit zu berechnen.
+- Wenn sowohl `startTime` als auch `endTime` angegeben sind, wird `duration` ignoriert.
 
 ## Beispiele
 
-### Beispiel 1: Einfacher Termin
+### Beispiel 1: Ganztägiger Termin
 ```markdown
 ---
 draft: false
-title: "Mitgliederversammlung"
+title: "Tag der offenen Tür"
 date: "2025-05-17"
+description: "Besucher sind herzlich willkommen, unsere Anlage zu besichtigen."
 ---
 ```
 
-### Beispiel 2: Termin mit Beschreibung
-```markdown
----
-draft: false
-title: "Sommerfest"
-date: "2025-07-05"
-description: "Unser jährliches Sommerfest! Die genaue Uhrzeit wird noch bekannt gegeben. Freut euch auf ein gemütliches Beisammensein mit Grillen und guter Stimmung."
----
-```
-
-### Beispiel 3: Termin mit Dauer
+### Beispiel 2: Termin mit Start- und Endzeit
 ```markdown
 ---
 draft: false
 title: "Gemeinschaftsarbeit"
 date: "2025-04-05"
-description: "Frühjahrs-Gemeinschaftsarbeit von 10:00 bis 13:00 Uhr. Vorbereitung der Anlage für die neue Gartensaison. Bitte Gartengeräte mitbringen."
-duration: 3
+startTime: "10:00"
+endTime: "13:00"
+description: "Frühjahrs-Gemeinschaftsarbeit. Vorbereitung der Anlage für die neue Gartensaison. Bitte Gartengeräte mitbringen."
+---
+```
+
+### Beispiel 3: Termin mit Startzeit und Dauer
+```markdown
+---
+draft: false
+title: "Mitgliederversammlung"
+date: "2025-05-17"
+startTime: "19:00"
+duration: 2
+description: "Jährliche Mitgliederversammlung im Vereinsheim."
+---
+```
+
+### Beispiel 4: Mehrtägiger ganztägiger Termin
+```markdown
+---
+draft: false
+title: "Sommerfest"
+date: "2025-07-05"
+description: "Unser jährliches Sommerfest! Freut euch auf ein gemütliches Beisammensein mit Grillen und guter Stimmung."
 ---
 ```
 
@@ -116,16 +139,25 @@ duration: 3
 - Stellen Sie sicher, dass das Datum korrekt ist
 - Vergangene Termine werden automatisch ausgeblendet
 
+### Zeitangaben
+- Verwenden Sie das 24-Stunden-Format für `startTime` und `endTime` (z.B. "14:00" für 14 Uhr)
+- Für ganztägige Termine lassen Sie `startTime` und `endTime` weg
+- Bei Terminen mit unbekannter Endzeit verwenden Sie `startTime` mit `duration`
+
 ### Dauer
 - Die Dauer wird in Stunden angegeben
 - Verwenden Sie Dezimalzahlen für halbe Stunden (z.B. 2.5 für 2,5 Stunden)
 - Standard ist 1 Stunde, wenn nicht angegeben
+- Wird nur verwendet, wenn `endTime` nicht angegeben ist
 
 ## Anzeige auf der Website
 
 Die Termine werden auf der `/dates` Seite angezeigt mit:
 - Titel des Termins
 - Formatiertes Datum (z.B. "Samstag, 5. Juli 2025")
+- Zeitangabe:
+  - Bei Terminen mit Zeiten: "10:00 Uhr - 13:00 Uhr"
+  - Bei ganztägigen Terminen: "Ganztägig"
 - Beschreibung (falls vorhanden)
 - Kalender-Button zum Herunterladen als ICS-Datei
 
@@ -141,24 +173,34 @@ werden auf der Website angezeigt.
    - ❌ `date: "05.07.2025"`
    - ✅ `date: "2025-07-05"`
 
-2. **Fehlende Anführungszeichen**
+2. **Falsches Zeitformat**
+   - ❌ `startTime: "10:00 Uhr"`
+   - ❌ `startTime: "10.00"`
+   - ✅ `startTime: "10:00"`
+
+3. **Fehlende Anführungszeichen**
    - ❌ `title: Sommerfest`
    - ✅ `title: "Sommerfest"`
 
-3. **Vergessenes draft-Feld**
+4. **Vergessenes draft-Feld**
    - Ohne `draft: false` wird der Termin nicht angezeigt
 
-4. **Falsche Einrückung**
+5. **Falsche Einrückung**
    - Alle Felder müssen auf derselben Ebene sein
    - Keine zusätzlichen Leerzeichen vor den Feldnamen
+
+6. **Inkonsistente Zeitangaben**
+   - ❌ `startTime: "14:00"` mit `endTime: "13:00"` (Endzeit vor Startzeit)
+   - ✅ `startTime: "13:00"` mit `endTime: "14:00"`
 
 ## Kalender-Integration
 
 Jeder Termin kann als ICS-Datei heruntergeladen werden. Die ICS-Datei enthält:
 - Titel des Events
-- Datum und Uhrzeit (standardmäßig 10:00 Uhr)
-- Dauer (aus dem `duration` Feld)
+- Datum und Zeitangaben:
+  - Bei ganztägigen Terminen: Als Ganztagesevent
+  - Bei Terminen mit Zeiten: Mit korrekter Start- und Endzeit in der Zeitzone Europe/Berlin
 - Beschreibung (falls vorhanden)
-- Ort: "Kleingartenverein Im Auenviertel"
+- Automatische Anpassung an Sommer-/Winterzeit
 
-Besucher können diese Dateien in ihre Kalender-Apps importieren.
+Die generierten ICS-Dateien sind kompatibel mit allen gängigen Kalender-Apps (Outlook, Google Calendar, Apple Calendar, etc.) und zeigen die Termine in der korrekten lokalen Zeit an.

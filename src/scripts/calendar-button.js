@@ -13,6 +13,9 @@ function downloadICS(title, date, description, duration = 1, startTime, endTime)
   URL.revokeObjectURL(a.href);
 }
 
+// Expose function globally for testing and external modules
+window.downloadICS = downloadICS;
+
 // Initialize calendar buttons
 export function initializeCalendarButtons() {
   document.querySelectorAll('.calendar-button').forEach(button => {

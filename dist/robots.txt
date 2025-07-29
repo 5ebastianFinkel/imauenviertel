@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap:https://imauenviertel.netlify.app/sitemap-index.xml

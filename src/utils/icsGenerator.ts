@@ -1,3 +1,5 @@
+import { sanitizeFilename } from './stringUtils';
+
 // Sanitize text for ICS format to prevent injection and ensure valid content
 function sanitizeICSText(text: string | undefined): string {
   if (!text) return '';
@@ -10,17 +12,8 @@ function sanitizeICSText(text: string | undefined): string {
     .replace(/\r/g, '');    // Remove carriage returns
 }
 
-// Sanitize filename to remove unsafe characters
-export function sanitizeFilename(filename: string): string {
-  // Replace all unsafe characters with underscores
-  // Keep only alphanumeric, spaces, hyphens, dots, and underscores
-  return filename
-    .replace(/[^a-zA-Z0-9\s\-_.äöüÄÖÜß]/g, '_')
-    .replace(/\s+/g, '_') // Replace spaces with underscores
-    .replace(/_+/g, '_')  // Replace multiple underscores with single
-    .replace(/^_|_$/g, '') // Remove leading/trailing underscores
-    .substring(0, 255);   // Limit filename length
-}
+// Re-export for backward compatibility
+export { sanitizeFilename };
 
 export function generateICSFile(
   title: string, 

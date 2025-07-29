@@ -37,7 +37,7 @@ const makeTitle = title
     <!-- <link rel="preload" as="image" href={src} alt="Hero" /> -->
     <SEO
       title={makeTitle}
-      description="Kleingartenverein in Münster Gievenbeck"
+      description="Kleingartenverein in Münster Gievenbeck - Gemeinschaft, Natur und Erholung in unserem Kleingartenverein Im Auenviertel"
       canonical={canonicalURL}
       openGraph={{
         basic: {
@@ -49,18 +49,44 @@ const makeTitle = title
         image: {
           alt: "Im Auenviertel - Kleingartenverein",
         },
+        optional: {
+          siteName: "Im Auenviertel",
+          locale: "de_DE",
+        },
+      }}
+      twitter={{
+        card: "summary_large_image",
+        site: "@imauenviertel",
       }}
     />
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   </head>
   <body>
     <Navbar />
     <slot />
     <Footer />
+    <script>
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", user => {
+          if (!user) {
+            window.netlifyIdentity.on("login", () => {
+              document.location.href = "/admin/";
+            });
+          }
+        });
+      }
+    </script>
     <style is:global>
       /* Improve Page speed */
       /* https://css-tricks.com/almanac/properties/c/content-visibility/ */
       img {
         content-visibility: auto;
+      }
+      
+      
+      /* Reduce layout shift */
+      .calendar-button {
+        contain: layout style paint;
       }
     </style>
   </body>

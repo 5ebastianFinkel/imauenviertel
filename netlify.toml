@@ -1,0 +1,25 @@
+[build]
+  command = "pnpm build"
+  publish = "dist/"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Headers for the admin section
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+
+# Redirect rules
+[[redirects]]
+  from = "/admin"
+  to = "/admin/"
+  status = 301
+
+# Enable Git Gateway
+[context.production]
+  [context.production.environment]
+    GIT_LFS_ENABLED = "true"

@@ -74,6 +74,7 @@ describe('Decap CMS Configuration', () => {
     
     const netlifyContent = fs.readFileSync(netlifyPath, 'utf8');
     expect(netlifyContent).toContain('pnpm build');
-    expect(netlifyContent).toContain('@netlify/plugin-identity');
+    expect(netlifyContent).toContain('X-Frame-Options = "SAMEORIGIN"');
+    expect(netlifyContent).toContain('GIT_LFS_ENABLED = "true"');
   });
 });

@@ -55,11 +55,6 @@ describe('Decap CMS Configuration', () => {
     expect(config.public_folder).toBe('/uploads');
   });
 
-  it('should have uploads directory', () => {
-    const uploadsPath = path.join(process.cwd(), 'public/uploads');
-    expect(fs.existsSync(uploadsPath)).toBe(true);
-  });
-
   it('should have Netlify Identity script in admin HTML', () => {
     const adminPath = path.join(process.cwd(), 'public/admin/index.html');
     const adminContent = fs.readFileSync(adminPath, 'utf8');

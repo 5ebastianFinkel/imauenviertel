@@ -1,5 +1,9 @@
-node_modules
-dist/
-.DS_Store
-.astro/
-public/uploads/
+ node_modules/
+ dist/
+ .DS_Store
+ .astro/
+ public/uploads/
++# Package-manager artefacts
++pnpm-lock.yaml
++package-lock.json
++*.log

@@ -1,0 +1,171 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.11.0"><!-- <link rel="preload" as="image" href={src} alt="Hero" /> --><title>Der Vorstand | Im Auenviertel</title><link rel="canonical" href="https://imauenviertel.netlify.app/about/"><meta name="description" content="Kleingartenverein in Münster Gievenbeck - Gemeinschaft, Natur und Erholung in unserem Kleingartenverein Im Auenviertel"><meta name="robots" content="index, follow"><meta property="og:title" content="Im Auenviertel - Kleingartenverein"><meta property="og:type" content="website"><meta property="og:image" content="https://imauenviertel.netlify.app/opengraph.png"><meta property="og:url" content="https://imauenviertel.netlify.app/about/"><meta property="og:locale" content="de_DE"><meta property="og:site_name" content="Im Auenviertel"><meta property="og:image:url" content="https://imauenviertel.netlify.app/opengraph.png"><meta property="og:image:alt" content="Im Auenviertel - Kleingartenverein"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@imauenviertel"><script type="module">window.netlifyIdentity&&window.netlifyIdentity.on("init",i=>{i||window.netlifyIdentity.on("login",()=>{document.location.href="/admin/"})});</script><link rel="stylesheet" href="/_astro/about.Cr225CYE.css"></head> <body> <div class="max-w-screen-xl mx-auto px-5">  <header class="flex flex-col lg:flex-row justify-between items-center my-5">  <div class="flex w-full lg:w-auto items-center justify-between"> <a href="/" class="text-lg" aria-label="Zur Startseite"> <picture> <source srcset="/_astro/logo.CdfuXJl7_Z1xCwT8.webp" type="image/webp" sizes="(max-width: 80px) 1vh, 80px">  <img src="/_astro/logo.CdfuXJl7_ZQMigm.png" alt="Logo Im Auenviertel" sizes="(max-width: 80px) 1vh, 80px" loading="lazy" decoding="async" fetchpriority="auto" width="80" height="80" class="w-full rounded-md object-cover object-center bg-white"> </picture> <span class="font-bold text-slate-800">Im Auen</span><span class="text-slate-500">viertel</span> </a> <div class="block lg:hidden"> <button id="astronav-menu" aria-label="Toggle Menu">  <svg fill="currentColor" class="w-8 h-8 text-gray-800" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> <title>Toggle Menu</title> <path class="astronav-close-icon astronav-toggle hidden" fill-rule="evenodd" clip-rule="evenodd" d="M18.278 16.864a1 1 0 01-1.414 1.414l-4.829-4.828-4.828 4.828a1 1 0 01-1.414-1.414l4.828-4.829-4.828-4.828a1 1 0 011.414-1.414l4.829 4.828 4.828-4.828a1 1 0 111.414 1.414l-4.828 4.829 4.828 4.828z"></path> <path class="astronav-open-icon astronav-toggle" fill-rule="evenodd" d="M4 5h16a1 1 0 010 2H4a1 1 0 110-2zm0 6h16a1 1 0 010 2H4a1 1 0 010-2zm0 6h16a1 1 0 010 2H4a1 1 0 010-2z"></path> </svg>  </button> </div> </div> <nav class="astronav-items astronav-toggle hidden w-full lg:w-auto mt-2 lg:flex lg:mt-0">  <ul class="flex flex-col lg:flex-row lg:gap-3 text-xl"> <li> <a href="/blog" class="flex lg:px-3 py-2 items-center text-gray-600 hover:text-gray-900"> <span> Neuigkeiten</span>  </a> </li><li> <a href="/about" class="flex lg:px-3 py-2 items-center text-gray-600 hover:text-gray-900"> <span> Über uns</span>  </a> </li><li> <a href="/documents" class="flex lg:px-3 py-2 items-center text-gray-600 hover:text-gray-900"> <span> Dokumente &amp; Links</span>  </a> </li><li> <a href="/contact" class="flex lg:px-3 py-2 items-center text-gray-600 hover:text-gray-900"> <span> Kontakt</span>  </a> </li> </ul> <div class="lg:hidden flex items-center mt-3 gap-4"> <!--<Link href="#" style="muted" block size="md">Log in</Link>--> <!--<Link href="#" size="md" block>Sign up</Link>--> </div>  </nav>  <script>(function(){const closeOnClick = false;
+
+["DOMContentLoaded", "astro:after-swap"].forEach((event) => {
+  document.addEventListener(event, addListeners);
+});
+
+// Function to clone and replace elements
+function cloneAndReplace(element) {
+  const clone = element.cloneNode(true);
+  element.parentNode.replaceChild(clone, element);
+}
+
+function addListeners() {
+  // Clean up existing listeners
+  const oldMenuButton = document.getElementById("astronav-menu");
+  if (oldMenuButton) {
+    cloneAndReplace(oldMenuButton);
+  }
+
+  const oldDropdownMenus = document.querySelectorAll(".astronav-dropdown");
+  oldDropdownMenus.forEach((menu) => {
+    cloneAndReplace(menu);
+  });
+
+  // Mobile nav toggle
+  const menuButton = document.getElementById("astronav-menu");
+  menuButton && menuButton.addEventListener("click", toggleMobileNav);
+
+  // Dropdown menus
+  const dropdownMenus = document.querySelectorAll(".astronav-dropdown");
+  dropdownMenus.forEach((menu) => {
+    const button = menu.querySelector("button");
+    button &&
+      button.addEventListener("click", (event) =>
+        toggleDropdownMenu(event, menu, dropdownMenus)
+      );
+
+    // Handle Submenu Dropdowns
+    const dropDownSubmenus = menu.querySelectorAll(
+      ".astronav-dropdown-submenu"
+    );
+
+    dropDownSubmenus.forEach((submenu) => {
+      const submenuButton = submenu.querySelector("button");
+      submenuButton &&
+        submenuButton.addEventListener("click", (event) => {
+          event.stopImmediatePropagation();
+          toggleSubmenuDropdown(event, submenu);
+        });
+    });
+  });
+
+  // Clicking away from dropdown will remove the dropdown class
+  document.addEventListener("click", closeAllDropdowns);
+
+  if (closeOnClick) {
+    handleCloseOnClick();
+  }
+}
+
+function toggleMobileNav() {
+  [...document.querySelectorAll(".astronav-toggle")].forEach((el) => {
+    el.classList.toggle("hidden");
+  });
+}
+
+function toggleDropdownMenu(event, menu, dropdownMenus) {
+  toggleMenu(menu);
+
+  // Close one dropdown when selecting another
+  Array.from(dropdownMenus)
+    .filter((el) => el !== menu && !menu.contains(el))
+    .forEach(closeMenu);
+
+  event.stopPropagation();
+}
+
+function toggleSubmenuDropdown(event, submenu) {
+  event.stopPropagation();
+  toggleMenu(submenu);
+
+  // Close sibling submenus at the same nesting level
+  const siblingSubmenus = submenu
+    .closest(".astronav-dropdown")
+    .querySelectorAll(".astronav-dropdown-submenu");
+  Array.from(siblingSubmenus)
+    .filter((el) => el !== submenu && !submenu.contains(el))
+    .forEach(closeMenu);
+}
+
+function closeAllDropdowns(event) {
+  const dropdownMenus = document.querySelectorAll(".dropdown-toggle");
+  const dropdownParent = document.querySelectorAll(
+    ".astronav-dropdown, .astronav-dropdown-submenu"
+  );
+  const isButtonInsideDropdown = [
+    ...document.querySelectorAll(
+      `.astronav-dropdown button, .astronav-dropdown label, .astronav-dropdown input,
+	  .astronav-dropdown-submenu button, .astronav-dropdown-submenu label, .astronav-dropdown-submenu input,
+	  #astronav-menu`
+    ),
+  ].some((button) => button.contains(event.target));
+  if (!isButtonInsideDropdown) {
+    dropdownMenus.forEach((d) => {
+      // console.log("I ran", d);
+      // if (!d.contains(event.target)) {
+      d.classList.remove("open");
+      d.removeAttribute("open");
+      d.classList.add("hidden");
+      // }
+    });
+    dropdownParent.forEach((d) => {
+      d.classList.remove("open");
+      d.removeAttribute("open");
+      d.setAttribute("aria-expanded", "false");
+    });
+  }
+}
+
+function toggleMenu(menu) {
+  menu.classList.toggle("open");
+  const expanded = menu.getAttribute("aria-expanded") === "true";
+  menu.setAttribute("aria-expanded", expanded ? "false" : "true");
+  menu.hasAttribute("open")
+    ? menu.removeAttribute("open")
+    : menu.setAttribute("open", "");
+
+  const dropdownToggle = menu.querySelector(".dropdown-toggle");
+  const dropdownExpanded = dropdownToggle.getAttribute("aria-expanded");
+  dropdownToggle.classList.toggle("hidden");
+  dropdownToggle.setAttribute(
+    "aria-expanded",
+    dropdownExpanded === "true" ? "false" : "true"
+  );
+}
+
+function closeMenu(menu) {
+  // console.log("closing", menu);
+  menu.classList.remove("open");
+  menu.removeAttribute("open");
+  menu.setAttribute("aria-expanded", "false");
+  const dropdownToggles = menu.querySelectorAll(".dropdown-toggle");
+  dropdownToggles.forEach((toggle) => {
+    toggle.classList.add("hidden");
+    toggle.setAttribute("aria-expanded", "false");
+  });
+}
+
+function handleCloseOnClick() {
+  const navMenuItems = document.querySelector(".astronav-items");
+  const navToggle = document.getElementById("astronav-menu");
+  const navLink = navMenuItems && navMenuItems.querySelectorAll("a");
+
+  const MenuIcons = navToggle.querySelectorAll(".astronav-toggle");
+
+  navLink &&
+    navLink.forEach((item) => {
+      item.addEventListener("click", () => {
+        navMenuItems?.classList.add("hidden");
+        MenuIcons.forEach((el) => {
+          el.classList.toggle("hidden");
+        });
+      });
+    });
+}
+})();</script> <div> <div class="hidden lg:flex items-center gap-4"> <!--<a href="#">Log in</a>--> <!--<Link href="#" size="md">Sign up</Link>--> </div> </div> </header>  </div>  <div class="max-w-screen-xl mx-auto px-5">  <div class="mt-16 text-center"> <h1 class="text-4xl lg:text-5xl font-bold lg:tracking-tight"> Der Vorstand </h1> <p class="text-lg mt-4 text-slate-600">  </p> </div> <div class="flex flex-col gap-3 mx-auto max-w-4xl mt-16"> <h2 class="font-bold text-3xl text-gray-800">
+Der Vorstand stellt sich vor.
+</h2> <p class="text-lg leading-relaxed text-slate-500">
+Wir treffen uns regelmäßig, um im Team die vielen kleinen und größeren Aufgaben rund um unseren Kleingartenverein ehrenamtlich zu erledigen. Dazu gehören zum Beispiel die Aufnahme von neuen Mitgliedern, die Organisation der Mitgliederversammlung, die Jahresabrechnungen, der Kontakt zum Stadt- und Bezirksverband oder die Aushänge im Schaukasten.  Ihr erreicht uns alle zusammen über die E-Mailadresse: mail@imauenviertel.de </p> </div> <div class="grid md:grid-cols-3 gap-10 mx-auto max-w-4xl mt-12"> <div class="group"> <div class="mt-4 text-center"> <h2 class="text-lg text-gray-800">Bettina Krieglstein</h2> <h3 class="text-sm text-slate-500"> Kassenwartin </h3> </div> </div><div class="group"> <div class="mt-4 text-center"> <h2 class="text-lg text-gray-800">Dr. Christos Moustakis</h2> <h3 class="text-sm text-slate-500"> Erster Vorsitzender </h3> </div> </div><div class="group"> <div class="mt-4 text-center"> <h2 class="text-lg text-gray-800">Uta Forbrig</h2> <h3 class="text-sm text-slate-500"> Stellvertretende Vorsitzende </h3> </div> </div><div class="group"> <div class="mt-4 text-center"> <h2 class="text-lg text-gray-800">Susanne Lang</h2> <h3 class="text-sm text-slate-500"> Schriftführerin </h3> </div> </div> </div>  </div>  <footer class="my-20"> <p class="py-3 text-center text-sm text-slate-500"> <a href="/impressum" class="rounded text-center transition focus-visible:ring-2 ring-offset-2 ring-gray-200 px-5 py-2.5 bg-white hover:bg-gray-100   border-2 border-transparent px-4">Impressum </a> <a href="/datenschutz" class="rounded text-center transition focus-visible:ring-2 ring-offset-2 ring-gray-200 w-full px-5 py-2.5 bg-white hover:bg-gray-100   border-2 border-transparent px-4">Datenschutz </a> <a href="/contact" class="rounded text-center transition focus-visible:ring-2 ring-offset-2 ring-gray-200 w-full px-5 py-2.5 bg-white hover:bg-gray-100   border-2 border-transparent px-4">Kontakt </a> </p> <p class="text-center text-sm text-slate-500 mt-4">
+Copyright © 2025 Im Auenviertel.
+</p> </footer> <script type="module" src="/_astro/Layout.astro_astro_type_script_index_1_lang.DDCNxuYb.js"></script>  </body> </html>

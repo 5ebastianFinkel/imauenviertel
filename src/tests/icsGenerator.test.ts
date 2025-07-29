@@ -2,9 +2,9 @@ import { describe, expect, it } from 'vitest';
 import { generateICSFile, sanitizeFilename } from '../utils/icsGenerator';
 
 describe('ICS Generator', () => {
-  it('should generate valid ICS content', () => {
+  it('should generate valid ICS content for all-day event', () => {
     const title = "Test Event";
-    const date = new Date('2025-06-15T10:00:00Z');
+    const date = new Date(2025, 5, 15); // June 15, 2025 (local time)
     const description = "Test Description";
 
     const icsContent = generateICSFile(title, date, description);
@@ -19,12 +19,31 @@ describe('ICS Generator', () => {
     // Check event details
     expect(icsContent).toContain(`SUMMARY:${title}`);
     expect(icsContent).toContain(`DESCRIPTION:${description}`);
-    expect(icsContent).toContain('DTSTART:20250615T100000Z');
+    expect(icsContent).toContain('DTSTART;VALUE=DATE:20250615');
+    expect(icsContent).toContain('DTEND;VALUE=DATE:20250616'); // All-day events end date is exclusive
+  });
+
+  it('should generate valid ICS content for timed event', () => {
+    const title = "Test Event";
+    const date = new Date(2025, 5, 15); // June 15, 2025
+    const description = "Test Description";
+    const startTime = "10:00";
+    const endTime = "11:00";
+
+    const icsContent = generateICSFile(title, date, description, 1, startTime, endTime);
+
+    // Check event details
+    expect(icsContent).toContain(`SUMMARY:${title}`);
+    expect(icsContent).toContain(`DESCRIPTION:${description}`);
+    expect(icsContent).toContain('DTSTART;TZID=Europe/Berlin:20250615T100000');
+    expect(icsContent).toContain('DTEND;TZID=Europe/Berlin:20250615T110000');
+    expect(icsContent).toContain('BEGIN:VTIMEZONE');
+    expect(icsContent).toContain('TZID:Europe/Berlin');
   });
 
   it('should handle events without description', () => {
     const title = "Test Event";
-    const date = new Date('2025-06-15T10:00:00Z');
+    const date = new Date(2025, 5, 15); // June 15, 2025
 
     const icsContent = generateICSFile(title, date);
 
@@ -32,30 +51,32 @@ describe('ICS Generator', () => {
     expect(icsContent).not.toContain('DESCRIPTION:');
   });
 
-  it('should set end time to 1 hour after start time by default', () => {
+  it('should set end time based on duration when only start time is provided', () => {
     const title = "Test Event";
-    const date = new Date('2025-06-15T10:00:00Z');
+    const date = new Date(2025, 5, 15); // June 15, 2025
+    const startTime = "10:00";
 
-    const icsContent = generateICSFile(title, date);
+    const icsContent = generateICSFile(title, date, undefined, 1, startTime);
 
-    expect(icsContent).toContain('DTSTART:20250615T100000Z');
-    expect(icsContent).toContain('DTEND:20250615T110000Z');
+    expect(icsContent).toContain('DTSTART;TZID=Europe/Berlin:20250615T100000');
+    expect(icsContent).toContain('DTEND;TZID=Europe/Berlin:20250615T110000');
   });
 
   it('should handle custom duration', () => {
     const title = "Test Event";
-    const date = new Date('2025-06-15T10:00:00Z');
+    const date = new Date(2025, 5, 15); // June 15, 2025
+    const startTime = "10:00";
     const duration = 3; // 3 hours
 
-    const icsContent = generateICSFile(title, date, undefined, duration);
+    const icsContent = generateICSFile(title, date, undefined, duration, startTime);
 
-    expect(icsContent).toContain('DTSTART:20250615T100000Z');
-    expect(icsContent).toContain('DTEND:20250615T130000Z');
+    expect(icsContent).toContain('DTSTART;TZID=Europe/Berlin:20250615T100000');
+    expect(icsContent).toContain('DTEND;TZID=Europe/Berlin:20250615T130000');
   });
 
   it('should sanitize special characters in title and description', () => {
     const title = "Test;Event\\with,special\nchars";
-    const date = new Date('2025-06-15T10:00:00Z');
+    const date = new Date(2025, 5, 15); // June 15, 2025
     const description = "Description;with\\backslash,comma\nand newline";
 
     const icsContent = generateICSFile(title, date, description);
@@ -67,7 +88,7 @@ describe('ICS Generator', () => {
 
   it('should include additional ICS fields', () => {
     const title = "Test Event";
-    const date = new Date('2025-06-15T10:00:00Z');
+    const date = new Date(2025, 5, 15); // June 15, 2025
 
     const icsContent = generateICSFile(title, date);
 

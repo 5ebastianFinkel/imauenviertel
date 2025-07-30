@@ -41,7 +41,7 @@ describe('Decap CMS Configuration', () => {
     
     const collectionNames = config.collections.map((c: any) => c.name);
     expect(collectionNames).toContain('blog');
-    expect(collectionNames).toContain('dates');
+    expect(collectionNames).toContain('events');
     expect(collectionNames).toContain('team');
     expect(collectionNames).toContain('documents');
     expect(collectionNames).toContain('links');

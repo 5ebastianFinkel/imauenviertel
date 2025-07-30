@@ -5,12 +5,12 @@ import Sectionhead from "../components/sectionhead.astro";
 import CalendarButton from "../components/ui/CalendarButton.astro";
 import { getCollection } from "astro:content";
 
-const dates = await getCollection("dates", ({ data }) => {
+const events = await getCollection("events", ({ data }) => {
   return !data.draft && data.date > new Date();
 });
 
-// Sort dates by date
-const sortedDates = dates.sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+// Sort events by date
+const sortedEvents = events.sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
 ---
 
 <Layout title="Termine">
@@ -23,63 +23,62 @@ const sortedDates = dates.sort((a, b) => a.data.date.getTime() - b.data.date.get
         </Sectionhead>
         <main class="mt-16">
             <div class="space-y-8" role="feed" aria-label="Liste der kommenden Termine">
-                {sortedDates.map((date) => (
+                {sortedEvents.map((event) => (
                     <article 
                         class="flex flex-col md:flex-row justify-between items-start md:items-center p-6 rounded-lg border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
                         role="article"
-                        aria-labelledby={`event-title-${date.id}`}>
+                        aria-labelledby={`event-title-${event.id}`}>
                         <div class="flex-1">
                             <h3 
-                                id={`event-title-${date.id}`}
+                                id={`event-title-${event.id}`}
                                 class="text-xl font-semibold text-gray-900">
-                                {date.data.title}
+                                {event.data.title}
                             </h3>
                             <p 
                                 class="text-gray-600 mt-2"
-                                aria-label={`Termin am ${date.data.date.toLocaleDateString('de-DE', {
+                                aria-label={`Termin am ${event.data.date.toLocaleDateString('de-DE', {
                                     weekday: 'long',
                                     year: 'numeric',
                                     month: 'long',
                                     day: 'numeric',
                                 })}`}>
-                                {date.data.date.toLocaleDateString('de-DE', {
+                                {event.data.date.toLocaleDateString('de-DE', {
                                     weekday: 'long',
                                     year: 'numeric',
                                     month: 'long',
                                     day: 'numeric',
                                 })}
-                                {date.data.startTime && (
+                                {event.data.startTime && (
                                     <span class="ml-2 font-medium">
-                                        {date.data.startTime} Uhr
-                                        {date.data.endTime && ` - ${date.data.endTime} Uhr`}
+                                        {event.data.startTime} Uhr
+                                        {event.data.endTime && ` - ${event.data.endTime} Uhr`}
                                     </span>
                                 )}
-                                {!date.data.startTime && (
+                                {!event.data.startTime && (
                                     <span class="ml-2 text-gray-500 italic">Ganztägig</span>
                                 )}
                             </p>
-                            {date.data.description && (
+                            {event.data.description && (
                                 <p 
                                     class="text-gray-600 mt-2"
                                     aria-label="Beschreibung">
-                                    {date.data.description}
+                                    {event.data.description}
                                 </p>
                             )}
                         </div>
                         <div class="mt-4 md:mt-0">
                             <CalendarButton 
-                                title={date.data.title}
-                                date={date.data.date}
-                                description={date.data.description}
-                                duration={date.data.duration}
-                                startTime={date.data.startTime}
-                                endTime={date.data.endTime}
+                                title={event.data.title}
+                                date={event.data.date}
+                                description={event.data.description}
+                                startTime={event.data.startTime}
+                                endTime={event.data.endTime}
                             />
                         </div>
                     </article>
                 ))}
             </div>
-            {sortedDates.length === 0 && (
+            {sortedEvents.length === 0 && (
                 <p 
                     class="text-center text-gray-600"
                     role="status"

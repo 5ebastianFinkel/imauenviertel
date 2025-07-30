@@ -30,7 +30,7 @@ const teamCollection = defineCollection({
   }),
 });
 
-const dateCollection = defineCollection({
+const eventsCollection = defineCollection({
   schema: z.object({
     draft: z.boolean(),
     title: z.string(),
@@ -69,7 +69,7 @@ const linksCollection = defineCollection({
 export const collections = {
   'blog': blogCollection,
   'team': teamCollection,
-  'dates': dateCollection,
+  'events': eventsCollection,
   'documents': documentsCollection,
   'links': linksCollection,
 };

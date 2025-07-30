@@ -3,6 +3,15 @@ import Layout from "@layouts/Layout.astro";
 import Container from "@components/container.astro";
 import Sectionhead from "@components/sectionhead.astro";
 import {Icon} from "astro-icon/components";
+import { getCollection } from "astro:content";
+
+// Get all documents and links from content collections
+const documents = await getCollection("documents");
+const links = await getCollection("links");
+
+// Sort by order field
+const sortedDocuments = documents.sort((a, b) => a.data.order - b.data.order);
+const sortedLinks = links.sort((a, b) => a.data.order - b.data.order);
 ---
 
 <Layout title="Dokumente & Links">
@@ -17,26 +26,21 @@ import {Icon} from "astro-icon/components";
         <main class="flex flex-col gap-3 mx-auto max-w-4xl mt-16">
             <h2 class="font-medium text-2xl text-gray-800 mt-8">Dokumente</h2>
             <div class="grid md:grid-cols-3 gap-10 mx-auto max-w-screen-lg mt-12">
-                    <a class="flex mt-2 space-x-2 text-gray-600 hover:text-green-600" href="/downloads/Gartenlauben_2025.pdf" download>
+                {sortedDocuments.map((document) => (
+                    <a class="flex mt-2 space-x-2 text-gray-600 hover:text-green-600" href={document.data.file} download>
                         <Icon class="w-6 h-6" name="uil:file-download"/>
-                        <span> Richtlinie für Gartenlauben 2025 </span>
+                        <span>{document.data.title}</span>
                     </a>
-                    <a class="flex mt-2 space-x-2 text-gray-600 hover:text-green-600" href="/downloads/Gemeinschaftsarbeit_Fragen_Antworten_2025.pdf" download>
-                        <Icon class="w-6 h-6" name="uil:file-download"/>
-                        <span> Gemeinschaftsarbeit Fragen und Antworten </span>
-                    </a>
-                    <a class="flex mt-2 space-x-2 text-gray-600 hover:text-green-600" href="/downloads/KgV_Veranstaltungskalender_2025.pdf" download>
-                        <Icon class="w-6 h-6" name="uil:file-download"/>
-                        <span> Veranstaltungskalender 2025 </span>
-                    </a>
+                ))}
             </div>
 
             <h2 class="font-medium text-2xl text-gray-800 mt-8">Interessante Links</h2>
             <div class="grid md:grid-cols-3 gap-10 mx-auto max-w-screen-lg mt-12">
-                <a class="hover:text-green-600" href="https://www.kleingarten-muenster.de/home/">Stadt- und Bezirksverband Münster der Kleingärtner e.V.</a>
-                <a class="hover:text-green-600" href="https://www.kleingarten.de/">Landesverband Westfalen- und Lippe der Kleingärtner e.V.</a>
-                <a class="hover:text-green-600" href="https://www.kleingarten-bund.de/">Bundesverband der Kleingartenvereine Deutschlands e.V.</a>
-                <a class="hover:text-green-600" href="https://www.gesetze-im-internet.de/bkleingg/">Bundeskleingartengesetz</a>
+                {sortedLinks.map((link) => (
+                    <a class="hover:text-green-600" href={link.data.url} target="_blank" rel="noopener noreferrer">
+                        {link.data.title}
+                    </a>
+                ))}
             </div>
         </main>
     </Container>

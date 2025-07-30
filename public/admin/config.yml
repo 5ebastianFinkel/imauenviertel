@@ -57,14 +57,23 @@ collections:
 
   - name: "documents" # Used in routes
     label: "Dokumente" # Used in the UI
-    folder: "public/downloads" # The path to the folder where the documents are stored
-    media_folder: "" # Store in the same folder
-    public_folder: "/downloads" # Public path
+    folder: "src/content/documents" # The path to the folder where the documents are stored
     create: true # Allow users to create new documents in this collection
     slug: "{{slug}}" # Filename template
-    extension: "pdf"
-    format: "frontmatter"
     fields: # The fields for each document
       - {label: "Titel", name: "title", widget: "string"}
       - {label: "Beschreibung", name: "description", widget: "text"}
-      - {label: "Datei", name: "file", widget: "file", allow_multiple: false}
+      - {label: "PDF Datei", name: "file", widget: "file", allow_multiple: false}
+      - {label: "Reihenfolge", name: "order", widget: "number", default: 0}
+      - {label: "Veröffentlichungsdatum", name: "publishDate", widget: "datetime", format: "YYYY-MM-DD"}
+
+  - name: "links" # Used in routes
+    label: "Links" # Used in the UI
+    folder: "src/content/links" # The path to the folder where the links are stored
+    create: true # Allow users to create new documents in this collection
+    slug: "{{slug}}" # Filename template
+    fields: # The fields for each document
+      - {label: "Titel", name: "title", widget: "string"}
+      - {label: "URL", name: "url", widget: "string"}
+      - {label: "Beschreibung", name: "description", widget: "text", required: false}
+      - {label: "Reihenfolge", name: "order", widget: "number", default: 0}

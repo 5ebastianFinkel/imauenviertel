@@ -46,10 +46,31 @@ const dateCollection = defineCollection({
   })
 })
 
+const documentsCollection = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    file: z.string(), // Path to PDF file in /uploads/
+    order: z.number().default(0), // For sorting documents
+    publishDate: z.string().transform(str => new Date(str)),
+  })
+});
+
+const linksCollection = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    url: z.string().url(),
+    description: z.string().optional(),
+    order: z.number().default(0), // For sorting links
+  })
+});
+
 // 3. Export a single `collections` object to register your collection(s)
 //    This key should match your collection directory name in "src/content"
 export const collections = {
   'blog': blogCollection,
   'team': teamCollection,
   'dates': dateCollection,
+  'documents': documentsCollection,
+  'links': linksCollection,
 };

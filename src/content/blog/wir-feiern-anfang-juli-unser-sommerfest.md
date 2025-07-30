@@ -3,7 +3,7 @@ draft: true
 title: Wir feiern Anfang Juli unser Sommerfest
 image:
   alt: Blick auf das kleine Festzelt
-  src: Hier fehlt eine URL
+  src: /uploads/sommerfest_2025_1_kl.jpg
 publishDate: 2025-07-30
 author: Im Auenviertel
 category: Bericht

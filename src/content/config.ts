@@ -42,7 +42,6 @@ const dateCollection = defineCollection({
     startTime: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/).optional(), // HH:MM format
     endTime: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/).optional(), // HH:MM format
     description: z.string().optional(),
-    duration: z.number().default(1), // Duration in hours, defaults to 1 (used when endTime is not specified)
   })
 })
 

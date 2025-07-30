@@ -18,7 +18,7 @@ collections:
         name: "image"
         widget: "object"
         fields:
-          - {label: "Bild URL", name: "src", widget: "string"}
+          - {label: "Bild", name: "src", widget: "image"}
           - {label: "Bild Beschreibung", name: "alt", widget: "string"}
       - {label: "Veröffentlichungsdatum", name: "publishDate", widget: "datetime", format: "YYYY-MM-DD"}
       - {label: "Autor", name: "author", widget: "string", default: "Im Auenviertel"}

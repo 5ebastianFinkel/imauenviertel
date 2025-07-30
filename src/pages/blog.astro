@@ -58,7 +58,11 @@ publishedBlogEntries.sort(function (a, b) {
                       <time
                         class="text-gray-400"
                         datetime={blogPostEntry.data.publishDate.toISOString()}>
-                        {blogPostEntry.data.publishDate.toDateString()}
+                        {blogPostEntry.data.publishDate.toLocaleDateString("de", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
                       </time>
                     </div>
                   </div>

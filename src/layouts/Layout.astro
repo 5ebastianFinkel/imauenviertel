@@ -1,5 +1,5 @@
 ---
-import { SEO } from "astro-seo";
+import {SEO} from "astro-seo";
 import Footer from "@components/footer.astro";
 import Navbar from "@components/navbar/navbar.astro";
 import "@fontsource-variable/inter/index.css";
@@ -9,85 +9,119 @@ import "../styles/globals.css";
 
 
 export interface Props {
-  title: string;
+    title: string;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
 
 const resolvedImageWithDomain = new URL(
-  "/opengraph.png",
-  Astro.site
+    "/opengraph.png",
+    Astro.site
 ).toString();
 
-const { title } = Astro.props;
+const {title} = Astro.props;
 
 const makeTitle = title
-  ? title + " | " + "Im Auenviertel"
-  : "Im Auenviertel - Kleingartenverein";
+    ? title + " | " + "Im Auenviertel"
+    : "Im Auenviertel - Kleingartenverein";
 ---
 
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-
-    <!-- <link rel="preload" as="image" href={src} alt="Hero" /> -->
+<html lang="de">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+    <meta name="generator" content={Astro.generator}/>
+    <meta name="theme-color" content="#10b981"/>
+    <meta name="robots" content="index, follow"/>
+    <meta name="author" content="Im Auenviertel"/>
     <SEO
-      title={makeTitle}
-      description="Kleingartenverein in Münster Gievenbeck - Gemeinschaft, Natur und Erholung in unserem Kleingartenverein Im Auenviertel"
-      canonical={canonicalURL}
-      openGraph={{
-        basic: {
-          url: canonicalURL,
-          type: "website",
-          title: `Im Auenviertel - Kleingartenverein`,
-          image: resolvedImageWithDomain,
-        },
-        image: {
-          alt: "Im Auenviertel - Kleingartenverein",
-        },
-        optional: {
-          siteName: "Im Auenviertel",
-          locale: "de_DE",
-        },
-      }}
-      twitter={{
-        card: "summary_large_image",
-        site: "@imauenviertel",
-      }}
+            title={makeTitle}
+            description="Kleingartenverein in Münster Gievenbeck - Gemeinschaft, Natur und Erholung in unserem Kleingartenverein Im Auenviertel"
+            canonical={canonicalURL}
+            openGraph={{
+                basic: {
+                    url: canonicalURL,
+                    type: "website",
+                    title: `Im Auenviertel - Kleingartenverein`,
+                    image: resolvedImageWithDomain,
+                },
+                image: {
+                    alt: "Im Auenviertel - Kleingartenverein",
+                },
+                optional: {
+                    siteName: "Im Auenviertel",
+                    locale: "de_DE",
+                },
+            }}
+            twitter={{
+                card: "summary_large_image",
+                site: "@imauenviertel",
+            }}
     />
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  </head>
-  <body>
-    <Navbar />
-    <slot />
-    <Footer />
-    <script>
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", user => {
-          if (!user) {
-            window.netlifyIdentity.on("login", () => {
-              document.location.href = "/admin/";
-            });
-          }
-        });
-      }
-    </script>
-    <style is:global>
-      /* Improve Page speed */
-      /* https://css-tricks.com/almanac/properties/c/content-visibility/ */
-      img {
+</head>
+<body>
+<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-green-600 text-white
+px-4 py-2 rounded">Zum Hauptinhalt springen</a>
+<Navbar/>
+<main id="main-content">
+    <slot/>
+</main>
+<Footer/>
+<script>
+    // Wait for DOM content to be loaded
+    document.addEventListener('DOMContentLoaded', () => {
+        try {
+            if (window.netlifyIdentity) {
+                window.netlifyIdentity.on("init", user => {
+                    if (!user) {
+                        window.netlifyIdentity.on("login", () => {
+                            document.location.href = "/admin/";
+                        });
+                    }
+                });
+            }
+        } catch (error) {
+            console.error('Netlify Identity initialization error:', error);
+        }
+    });
+</script>
+</body>
+<style is:global>
+    /* Screen reader only utility class */
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+    }
+
+    .focus\:not-sr-only:focus {
+        position: absolute;
+        width: auto;
+        height: auto;
+        padding: 0;
+        margin: 0;
+        overflow: visible;
+        clip: auto;
+        white-space: normal;
+    }
+
+    /* Improve performance for below-the-fold images */
+    img[loading="lazy"] {
         content-visibility: auto;
-      }
-      
-      
-      /* Reduce layout shift */
-      .calendar-button {
+    }
+
+    /* Reduce layout shift */
+    .calendar-button {
         contain: layout style paint;
-      }
-    </style>
-  </body>
+    }
+</style>
 </html>

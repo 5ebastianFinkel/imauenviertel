@@ -19,7 +19,6 @@ export function generateICSFile(
   title: string, 
   date: Date, 
   description?: string,
-  duration: number = 1, // Duration in hours
   startTime?: string, // HH:MM format
   endTime?: string // HH:MM format
 ): string {
@@ -71,10 +70,11 @@ export function generateICSFile(
     if (endTime) {
       dtend = `DTEND;TZID=Europe/Berlin:${formatDateTime(date, endTime)}`;
     } else if (startTime) {
-      // Calculate end time based on duration
+      // Default to 1 hour duration when only startTime is provided
+      const defaultDuration = 1;
       const [startHour, startMin] = startTime.split(':').map(Number);
-      const endHour = startHour + Math.floor(duration);
-      const endMin = startMin + Math.round((duration % 1) * 60);
+      const endHour = startHour + Math.floor(defaultDuration);
+      const endMin = startMin + Math.round((defaultDuration % 1) * 60);
       const adjustedEndHour = endHour + Math.floor(endMin / 60);
       const adjustedEndMin = endMin % 60;
       const calculatedEndTime = `${String(adjustedEndHour).padStart(2, '0')}:${String(adjustedEndMin).padStart(2, '0')}`;
@@ -135,11 +135,10 @@ export function downloadICS(
   title: string, 
   date: Date, 
   description?: string,
-  duration: number = 1,
   startTime?: string,
   endTime?: string
 ) {
-  const icsContent = generateICSFile(title, date, description, duration, startTime, endTime);
+  const icsContent = generateICSFile(title, date, description, startTime, endTime);
   const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
   const link = document.createElement('a');
   link.href = URL.createObjectURL(blob);

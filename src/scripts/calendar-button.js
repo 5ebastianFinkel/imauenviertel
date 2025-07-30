@@ -1,8 +1,8 @@
 // Calendar button functionality
 import { generateICSFile, sanitizeFilename } from '../utils/icsGenerator';
 
-function downloadICS(title, date, description, duration = 1, startTime, endTime) {
-  const icsContent = generateICSFile(title, date, description, duration, startTime, endTime);
+function downloadICS(title, date, description, startTime, endTime) {
+  const icsContent = generateICSFile(title, date, description, startTime, endTime);
   const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -25,7 +25,6 @@ export function initializeCalendarButtons() {
         const title = btn.dataset.title;
         const dateString = btn.dataset.date;
         const description = btn.dataset.description;
-        let duration = parseFloat(btn.dataset.duration) || 1;
         const startTime = btn.dataset.startTime;
         const endTime = btn.dataset.endTime;
 
@@ -50,14 +49,8 @@ export function initializeCalendarButtons() {
           return;
         }
 
-        // Validate duration
-        if (isNaN(duration) || duration <= 0) {
-          console.warn('CalendarButton: Invalid duration, using default 1 hour');
-          duration = 1;
-        }
-
         // Download ICS file
-        downloadICS(title.trim(), date, description, duration, startTime, endTime);
+        downloadICS(title.trim(), date, description, startTime, endTime);
       } catch (error) {
         console.error('CalendarButton: Error generating calendar file:', error);
         alert('Fehler beim Erstellen der Kalenderdatei. Bitte versuchen Sie es erneut.');

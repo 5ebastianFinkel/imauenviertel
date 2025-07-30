@@ -37,13 +37,14 @@ describe('Decap CMS Configuration', () => {
     const config = yaml.load(configContent) as any;
     
     expect(config.collections).toBeDefined();
-    expect(config.collections).toHaveLength(4);
+    expect(config.collections).toHaveLength(5);
     
     const collectionNames = config.collections.map((c: any) => c.name);
     expect(collectionNames).toContain('blog');
-    expect(collectionNames).toContain('dates');
+    expect(collectionNames).toContain('events');
     expect(collectionNames).toContain('team');
     expect(collectionNames).toContain('documents');
+    expect(collectionNames).toContain('links');
   });
 
   it('should have correct media folder configuration', () => {

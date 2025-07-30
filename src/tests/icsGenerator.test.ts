@@ -30,7 +30,7 @@ describe('ICS Generator', () => {
     const startTime = "10:00";
     const endTime = "11:00";
 
-    const icsContent = generateICSFile(title, date, description, 1, startTime, endTime);
+    const icsContent = generateICSFile(title, date, description, startTime, endTime);
 
     // Check event details
     expect(icsContent).toContain(`SUMMARY:${title}`);
@@ -56,22 +56,21 @@ describe('ICS Generator', () => {
     const date = new Date(2025, 5, 15); // June 15, 2025
     const startTime = "10:00";
 
-    const icsContent = generateICSFile(title, date, undefined, 1, startTime);
+    const icsContent = generateICSFile(title, date, undefined, startTime);
 
     expect(icsContent).toContain('DTSTART;TZID=Europe/Berlin:20250615T100000');
     expect(icsContent).toContain('DTEND;TZID=Europe/Berlin:20250615T110000');
   });
 
-  it('should handle custom duration', () => {
+  it('should default to 1 hour duration when only startTime provided', () => {
     const title = "Test Event";
     const date = new Date(2025, 5, 15); // June 15, 2025
     const startTime = "10:00";
-    const duration = 3; // 3 hours
 
-    const icsContent = generateICSFile(title, date, undefined, duration, startTime);
+    const icsContent = generateICSFile(title, date, undefined, startTime);
 
     expect(icsContent).toContain('DTSTART;TZID=Europe/Berlin:20250615T100000');
-    expect(icsContent).toContain('DTEND;TZID=Europe/Berlin:20250615T130000');
+    expect(icsContent).toContain('DTEND;TZID=Europe/Berlin:20250615T110000'); // Default 1 hour duration
   });
 
   it('should sanitize special characters in title and description', () => {

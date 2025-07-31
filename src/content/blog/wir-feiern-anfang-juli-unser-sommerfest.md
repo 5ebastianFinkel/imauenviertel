@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 title: Wir feiern Anfang Juli unser Sommerfest
 image:
   alt: Blick auf das kleine Festzelt

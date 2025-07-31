@@ -1,6 +1,6 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/01b8dcc7-da91-408e-b351-3621303bb4e9/deploy-status)](https://app.netlify.com/sites/imauenviertel/deploys)
 [![CI](https://github.com/5ebastianFinkel/imauenviertel/actions/workflows/ci.yml/badge.svg)](https://github.com/5ebastianFinkel/imauenviertel/actions/workflows/ci.yml)
-![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/5ebastianFinkel/imauenviertel)
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/5ebastianFinkel/imauenviertel?utm_source=oss&utm_medium=github&utm_campaign=5ebastianFinkel%2Fimauenviertel&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
 
 
 # Im Auenviertel - Kleingartenverein

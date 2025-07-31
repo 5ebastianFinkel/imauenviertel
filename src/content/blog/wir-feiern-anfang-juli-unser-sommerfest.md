@@ -1,6 +1,6 @@
 ---
 draft: false
-title: Wir feiern Anfang Juli unser Sommerfest
+title: Wir haben Anfang Juli unser Sommerfest gefeiert
 image:
   alt: Blick auf das kleine Festzelt
   src: /uploads/sommerfest_2025_1_kl.jpg

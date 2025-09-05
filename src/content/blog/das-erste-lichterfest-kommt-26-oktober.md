@@ -2,8 +2,8 @@
 draft: false
 title: "Das erste Lichterfest kommt: 26. Oktober"
 image:
-  src: /uploads/pexels-esrakorkmaz-18777725.jpg
-  alt: "Kerze in einem Glas. Foto: Pexels/Esra Korkmaz"
+  src: /uploads/pexels-jayoke-1146562.jpg
+  alt: "Kerze in einem Glas. Foto: Pexels/Jason Villanueva"
 publishDate: 2025-09-05
 author: Im Auenviertel
 category: Ankündigung

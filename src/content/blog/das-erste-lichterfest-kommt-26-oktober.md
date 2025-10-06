@@ -5,7 +5,7 @@ image:
   src: /uploads/flyer-lichterfest.jpeg
   alt: Orangefarbenes Plakat, das einen gezeichneten Kleingarten zeigt, der
     beleuchtet ist
-publishDate: 2025-09-05
+publishDate: 2025-10-06
 author: Im Auenviertel
 category: Ankündigung
 tags:

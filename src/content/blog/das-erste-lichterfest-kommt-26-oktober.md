@@ -5,7 +5,7 @@ image:
   src: /uploads/lichterfest_5.jpg
   alt: Teelichter im Glas auf dem Weg im Kleingarten. Dahinter stehen Pavillons
     und Menschen.
-publishDate: 2025-10-06
+publishDate: 2025-10-28
 author: Im Auenviertel
 category: Bericht
 tags:

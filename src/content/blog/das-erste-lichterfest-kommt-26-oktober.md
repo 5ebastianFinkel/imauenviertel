@@ -1,16 +1,14 @@
 ---
 draft: false
-title: "Das erste Lichterfest kommt: 26. Oktober"
+title: Wir haben unser erstes Lichterfest gefeiert
 image:
-  src: /uploads/flyer-lichterfest.jpeg
-  alt: Orangefarbenes Plakat, das einen gezeichneten Kleingarten zeigt, der
-    beleuchtet ist
+  src: /uploads/lichterfest_5.jpg
+  alt: Teelichter im Glas auf dem Weg im Kleingarten. Dahinter stehen Pavillons
+    und Menschen.
 publishDate: 2025-10-06
 author: Im Auenviertel
-category: Ankündigung
+category: Bericht
 tags:
   - Veranstaltungen
 ---
-Am 26. Oktober feiert unser Verein erstmals ein Lichterfest von 16 bis 19 Uhr. Das haben Veronika, Markus, Sieglinde und Andrea vorbereitet. Vielen Dank dafür! 
-
-Beleuchtete Wege laden Gärtner\*innen und Gäste zum Spazieren ein. Gärtner\*innen die mögen, können ihre Gartentür öffnen und auch eigene Produkte (z. B. Marmelade, Stauden usw.) im Garten anbieten. Buffet und Bratwurst mit Getränken (Punsch, Kaffee) gibt es für alle im Gemeinschaftsbereich am Parkplatz/Gemeinschaftshütte. Kuchen- und Salatspenden sind sehr willkommen. Der Erlös des Gartenbüffets und der Getränke geht in die Vereinskasse, Würstchen werden von Alex Kreuzheck angeboten.
+Mit vielen Mitgliedern, Freunden und Gästen haben wir am 26. Oktober von 16 bis 19 Uhr unser erstes Lichterfest gefeiert. Es war stürmisch und etwas regnerisch. Aber dennoch haben die Lichterketten und die Teelichter in den Gärten und an den Wegen ihre Wirkung nicht verfehlt. Unsere Anlage erstrahlte. Bei Glühwein, Kaffee, Würstchen und Kuchen kamen wir ins Gespräch, tauschten Stauden und Marmeladen. Herzlichen Dank an Veronika, Markus, Sieglinde und Andrea, die das Fest vorbereitet haben.

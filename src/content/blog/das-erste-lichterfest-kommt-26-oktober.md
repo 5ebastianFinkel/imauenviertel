@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 title: Wir haben unser erstes Lichterfest gefeiert
 image:
   src: /uploads/lichterfest_5.jpg

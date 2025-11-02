@@ -57,7 +57,10 @@ const documentsCollection = defineCollection({
     description: z.string(),
     file: z.string(), // Path to PDF file in /uploads/
     order: z.number().default(0), // For sorting documents
-    publishDate: z.string().transform(str => new Date(str)),
+    publishDate: z.union([
+      z.string().transform(str => new Date(str)),
+      z.date()
+    ]),
   })
 });
 

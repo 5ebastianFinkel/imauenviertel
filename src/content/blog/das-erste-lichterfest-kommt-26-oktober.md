@@ -21,4 +21,4 @@ Mit vielen Mitgliedern, Freunden und Gästen haben wir am 26. Oktober von 16 bis
 
 ![](/uploads/lichterfest_4.jpg)
 
-![](public/uploads/lichterfest_6.jpg)
+![](/uploads/lichterfest_6.jpg)

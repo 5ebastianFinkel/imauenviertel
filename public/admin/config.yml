@@ -4,6 +4,16 @@ backend:
 
 media_folder: "public/uploads" # Media files will be stored here
 public_folder: "/uploads" # The src attribute for uploaded media
+# IMPORTANT: Always use /uploads/ (not public/uploads/) in markdown and file paths!
+# Decap CMS may generate paths with "public/uploads/" - these must be corrected to "/uploads/"
+
+media_library:
+  name: cloudinary
+  config:
+    cloud_name: dv4fz7dhy
+    api_key: 664844567889548
+    upload_preset: decap_cms_uploads  # No api_key needed!
+    multiple: true
 
 collections:
   - name: "blog" # Used in routes
@@ -24,6 +34,7 @@ collections:
       - {label: "Autor", name: "author", widget: "string", default: "Im Auenviertel"}
       - {label: "Kategorie", name: "category", widget: "select", options: ["Bericht", "Ankündigung", "Information"]}
       - {label: "Tags", name: "tags", widget: "list", default: ["Gemeinschaftsarbeit"]}
+      # Note: When inserting images in markdown body, always use /uploads/ (not public/uploads/)
       - {label: "Inhalt", name: "body", widget: "markdown"}
 
   - name: "events" # Used in routes

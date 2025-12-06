@@ -55,7 +55,11 @@ const documentsCollection = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    file: z.string(), // Path to PDF file in /uploads/
+    // CMS sometimes saves file as array, normalize to string
+    file: z.union([
+      z.string(),
+      z.array(z.string()).transform(arr => arr[0])
+    ]),
     order: z.number().default(0), // For sorting documents
     publishDate: z.union([
       z.string().transform(str => new Date(str)),

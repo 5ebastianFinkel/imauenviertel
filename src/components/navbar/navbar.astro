@@ -37,7 +37,15 @@ const menuitems = [
 ---
 
 <Container>
-    <header class="flex flex-col lg:flex-row justify-between items-center my-5">
+    <header class="relative flex flex-col lg:flex-row justify-between items-center my-5">
+        <!-- Subtle Christmas sparkles -->
+        <div class="sparkles-container" aria-hidden="true">
+            <div class="sparkle sparkle-1"></div>
+            <div class="sparkle sparkle-2"></div>
+            <div class="sparkle sparkle-3"></div>
+            <div class="sparkle sparkle-4"></div>
+            <div class="sparkle sparkle-5"></div>
+        </div>
         <Astronav>
             <div class="flex w-full lg:w-auto items-center justify-between">
                 <a href="/" class="text-lg" aria-label="Zur Startseite">
@@ -102,3 +110,92 @@ const menuitems = [
         </div>
     </header>
 </Container>
+
+<style>
+    .sparkles-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 0;
+    }
+
+    .sparkle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: radial-gradient(circle, #ffd700 0%, #ffb800 50%, transparent 70%);
+        opacity: 0;
+        box-shadow: 0 0 6px 2px rgba(255, 215, 0, 0.4);
+    }
+
+    /* Larger sparkles on desktop */
+    @media (min-width: 1024px) {
+        .sparkle {
+            width: 6px;
+            height: 6px;
+            box-shadow: 0 0 8px 3px rgba(255, 215, 0, 0.5);
+        }
+    }
+
+    .sparkle-1 {
+        left: 15%;
+        top: 30%;
+        animation: sparkle-fade 4s ease-in-out infinite;
+        animation-delay: 0s;
+    }
+
+    .sparkle-2 {
+        left: 35%;
+        top: 60%;
+        animation: sparkle-fade 5s ease-in-out infinite;
+        animation-delay: 1.5s;
+    }
+
+    .sparkle-3 {
+        left: 55%;
+        top: 25%;
+        animation: sparkle-fade 4.5s ease-in-out infinite;
+        animation-delay: 3s;
+    }
+
+    .sparkle-4 {
+        left: 75%;
+        top: 50%;
+        animation: sparkle-fade 5.5s ease-in-out infinite;
+        animation-delay: 2s;
+    }
+
+    .sparkle-5 {
+        left: 90%;
+        top: 35%;
+        animation: sparkle-fade 4s ease-in-out infinite;
+        animation-delay: 4s;
+    }
+
+    @keyframes sparkle-fade {
+        0%, 100% {
+            opacity: 0;
+            transform: scale(0.5);
+        }
+        15% {
+            opacity: 0.8;
+            transform: scale(1);
+        }
+        30% {
+            opacity: 0;
+            transform: scale(0.5);
+        }
+    }
+
+    /* Reduce motion for accessibility */
+    @media (prefers-reduced-motion: reduce) {
+        .sparkle {
+            animation: none;
+        }
+    }
+</style>

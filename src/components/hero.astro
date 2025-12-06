@@ -1,52 +1,324 @@
 ---
 import { Picture } from "astro:assets";
-import heroImage from "assets/hero-alternative.avif";
+import heroImage from "@assets/hero_christmas.png";
 import Link from "@components/ui/link.astro";
-import { Icon } from "astro-icon/components";
 ---
 
-<main
-  class="grid lg:grid-cols-2 place-items-center pt-16 pb-8 md:pt-12 md:pb-24">
-  <div class="py-6 md:order-1 hidden md:block">
-    <Picture
-      src={heroImage}
-      alt="Astronaut in the air"
-      widths={[200, 400, 600]}
-      sizes="(max-width: 800px) 100vw, 620px"
-      loading="eager"
-      format="avif"
-    />
-  </div>
-  <div>
-    <h1
-      class="text-5xl lg:text-6xl xl:text-7xl font-bold lg:tracking-tight xl:tracking-tighter">
-      Kleingartenverein im Auenviertel
-    </h1>
-    <p class="text-lg mt-4 text-slate-600 max-w-xl">
-      Herzlich willkommen beim Kleingartenverein "Im Auenviertel"! Seit 2010 pflegen wir hier eine grüne Oase der Ruhe und Gemeinschaft, wo Hobbygärtnerinnen und Hobbygärtner ihre Leidenschaft für Natur und Anbau ausleben können. In unseren liebevoll gestalteten 35 Parzellen wachsen nicht nur Obst, Gemüse und Blumen, sondern auch langjährige Freundschaften zwischen den Gartenfreunden.    </p>
-    <div class="mt-6 flex flex-col sm:flex-row gap-3">
-      <Link
-          href={"/blog"}
-          block
-          style={"outline"}>
-        {"Neuigkeiten"}
-      </Link>
-      <Link
-          href={"/dates"}
-          block
-          style={"primary"}>
-        {"Termine"}
-      </Link>
-      <!--<Link-->
-      <!--  size="lg"-->
-      <!--  style="outline"-->
-      <!--  rel="noopener"-->
-      <!--  href="https://github.com/surjithctly/astroship"-->
-      <!--  class="flex gap-1 items-center justify-center"-->
-      <!--  target="_blank">-->
-      <!--  <Icon class="text-black w-4 h-4" name="bx:bxl-github" />-->
-      <!--   GitHub Repo-->
-      <!--</Link>-->
+<section class="christmas-hero relative w-full overflow-hidden">
+  <!-- Gradient Background -->
+  <div class="absolute inset-0 bg-gradient-to-b from-slate-900 via-emerald-950 to-emerald-900"></div>
+
+  <!-- Starry sky effect -->
+  <div class="stars" aria-hidden="true"></div>
+
+  <!-- Northern lights effect -->
+  <div class="aurora" aria-hidden="true"></div>
+
+  <!-- Snow Animation Layers -->
+  <div class="snowfall snowfall-1" aria-hidden="true"></div>
+  <div class="snowfall snowfall-2" aria-hidden="true"></div>
+  <div class="snowfall snowfall-3" aria-hidden="true"></div>
+
+  <!-- Snow ground effect -->
+  <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white/20 to-transparent"></div>
+  <div class="absolute bottom-0 left-0 right-0 h-8 bg-white/30 blur-sm"></div>
+
+  <!-- Main Content -->
+  <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 lg:py-32">
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+
+      <!-- Text Content -->
+      <div class="text-center lg:text-left order-2 lg:order-1">
+        <!-- Christmas greeting banner -->
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600/80 backdrop-blur-sm text-white text-sm font-medium mb-6 shadow-lg">
+          <span class="text-lg">🎄</span>
+          <span>Frohe Weihnachten!</span>
+          <span class="text-lg">🎄</span>
+        </div>
+
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-white mb-6">
+          <span class="block drop-shadow-lg">Kleingartenverein</span>
+          <span class="block text-amber-300 drop-shadow-lg">im Auenviertel</span>
+        </h1>
+
+        <p class="text-lg sm:text-xl text-emerald-100/90 max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed drop-shadow-md">
+          Herzlich willkommen! Wir wünschen allen Gartenfreunden und ihren Familien eine besinnliche Weihnachtszeit und ein frohes neues Jahr!
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+          <Link
+            href={"/blog"}
+            block
+            style={"outline"}
+            class="!bg-white/10 !border-amber-300/70 !text-amber-100 hover:!bg-amber-400 hover:!text-emerald-900 !backdrop-blur-sm transition-all duration-300 hover:scale-105">
+            {"Neuigkeiten"}
+          </Link>
+          <Link
+            href={"/dates"}
+            block
+            style={"primary"}
+            class="!bg-gradient-to-r !from-red-600 !to-red-700 hover:!from-red-500 hover:!to-red-600 !text-white !border-red-700 shadow-lg shadow-red-900/50 transition-all duration-300 hover:scale-105">
+            {"Termine"}
+          </Link>
+        </div>
+      </div>
+
+      <!-- Christmas Image -->
+      <div class="order-1 lg:order-2 flex justify-center">
+        <Picture
+          src={heroImage}
+          alt="Weihnachtliche Gartenfreunde - Festliche Gemüse wünschen frohe Weihnachten"
+          widths={[300, 450, 600]}
+          sizes="(max-width: 640px) 300px, (max-width: 1024px) 450px, 600px"
+          loading="eager"
+          class="w-full max-w-md lg:max-w-lg drop-shadow-2xl animate-float"
+        />
+      </div>
     </div>
   </div>
-</main>
+
+</section>
+
+<style>
+  /* Floating animation for the Christmas image */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-15px);
+    }
+  }
+
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  /* Stars background */
+  .stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60%;
+    pointer-events: none;
+    z-index: 1;
+    background-image:
+      radial-gradient(1px 1px at 10% 10%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(1px 1px at 20% 25%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(2px 2px at 30% 5%, rgba(255,255,255,0.9), transparent),
+      radial-gradient(1px 1px at 45% 15%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 55% 8%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(2px 2px at 65% 20%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 75% 12%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(1px 1px at 85% 5%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(2px 2px at 95% 18%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1px 1px at 5% 30%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 15% 35%, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1px 1px at 40% 28%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(2px 2px at 60% 32%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1px 1px at 80% 25%, rgba(255,255,255,0.6), transparent);
+    animation: twinkle 4s ease-in-out infinite;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  /* Aurora/Northern lights effect */
+  .aurora {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    pointer-events: none;
+    z-index: 2;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(16, 185, 129, 0.1) 20%,
+      rgba(52, 211, 153, 0.05) 40%,
+      transparent 60%
+    );
+    animation: aurora 8s ease-in-out infinite;
+  }
+
+  @keyframes aurora {
+    0%, 100% {
+      opacity: 0.5;
+      transform: translateX(-5%);
+    }
+    50% {
+      opacity: 0.8;
+      transform: translateX(5%);
+    }
+  }
+
+  /* Snowfall layers with different speeds and sizes */
+  .snowfall {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* Large snowflakes - slow */
+  .snowfall-1::before,
+  .snowfall-1::after {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 200%;
+    background-image:
+      radial-gradient(4px 4px at 5% 15%, rgba(255,255,255,0.9), transparent),
+      radial-gradient(3px 3px at 15% 45%, rgba(255,255,255,0.85), transparent),
+      radial-gradient(4px 4px at 25% 75%, rgba(255,255,255,0.9), transparent),
+      radial-gradient(3px 3px at 35% 25%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(4px 4px at 45% 55%, rgba(255,255,255,0.85), transparent),
+      radial-gradient(3px 3px at 55% 85%, rgba(255,255,255,0.9), transparent),
+      radial-gradient(4px 4px at 65% 35%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(3px 3px at 75% 65%, rgba(255,255,255,0.85), transparent),
+      radial-gradient(4px 4px at 85% 15%, rgba(255,255,255,0.9), transparent),
+      radial-gradient(3px 3px at 95% 45%, rgba(255,255,255,0.8), transparent);
+    animation: snowfall-slow 12s linear infinite;
+  }
+
+  .snowfall-1::after {
+    animation-delay: -6s;
+    background-image:
+      radial-gradient(3px 3px at 10% 30%, rgba(255,255,255,0.85), transparent),
+      radial-gradient(4px 4px at 20% 60%, rgba(255,255,255,0.9), transparent),
+      radial-gradient(3px 3px at 30% 10%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(4px 4px at 40% 80%, rgba(255,255,255,0.85), transparent),
+      radial-gradient(3px 3px at 50% 40%, rgba(255,255,255,0.9), transparent),
+      radial-gradient(4px 4px at 60% 70%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(3px 3px at 70% 20%, rgba(255,255,255,0.85), transparent),
+      radial-gradient(4px 4px at 80% 50%, rgba(255,255,255,0.9), transparent),
+      radial-gradient(3px 3px at 90% 80%, rgba(255,255,255,0.8), transparent);
+  }
+
+  /* Medium snowflakes - medium speed */
+  .snowfall-2::before,
+  .snowfall-2::after {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 200%;
+    background-image:
+      radial-gradient(2px 2px at 8% 22%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(2px 2px at 18% 52%, rgba(255,255,255,0.75), transparent),
+      radial-gradient(2px 2px at 28% 82%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(2px 2px at 38% 12%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(2px 2px at 48% 42%, rgba(255,255,255,0.75), transparent),
+      radial-gradient(2px 2px at 58% 72%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(2px 2px at 68% 32%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(2px 2px at 78% 62%, rgba(255,255,255,0.75), transparent),
+      radial-gradient(2px 2px at 88% 92%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(2px 2px at 98% 22%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(2px 2px at 3% 67%, rgba(255,255,255,0.75), transparent),
+      radial-gradient(2px 2px at 23% 37%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(2px 2px at 43% 97%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(2px 2px at 63% 7%, rgba(255,255,255,0.75), transparent),
+      radial-gradient(2px 2px at 83% 47%, rgba(255,255,255,0.8), transparent);
+    animation: snowfall-medium 8s linear infinite;
+  }
+
+  .snowfall-2::after {
+    animation-delay: -4s;
+    background-image:
+      radial-gradient(2px 2px at 12% 35%, rgba(255,255,255,0.75), transparent),
+      radial-gradient(2px 2px at 22% 65%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(2px 2px at 32% 5%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(2px 2px at 42% 75%, rgba(255,255,255,0.75), transparent),
+      radial-gradient(2px 2px at 52% 25%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(2px 2px at 62% 55%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(2px 2px at 72% 85%, rgba(255,255,255,0.75), transparent),
+      radial-gradient(2px 2px at 82% 15%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(2px 2px at 92% 45%, rgba(255,255,255,0.7), transparent);
+  }
+
+  /* Small snowflakes - fast */
+  .snowfall-3::before,
+  .snowfall-3::after {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 200%;
+    opacity: 0.6;
+    background-image:
+      radial-gradient(1px 1px at 7% 18%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1px 1px at 14% 38%, rgba(255,255,255,0.65), transparent),
+      radial-gradient(1px 1px at 21% 58%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1px 1px at 28% 78%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 35% 8%, rgba(255,255,255,0.65), transparent),
+      radial-gradient(1px 1px at 42% 28%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1px 1px at 49% 48%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 56% 68%, rgba(255,255,255,0.65), transparent),
+      radial-gradient(1px 1px at 63% 88%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1px 1px at 70% 18%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 77% 38%, rgba(255,255,255,0.65), transparent),
+      radial-gradient(1px 1px at 84% 58%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1px 1px at 91% 78%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 98% 98%, rgba(255,255,255,0.65), transparent),
+      radial-gradient(1px 1px at 4% 53%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1px 1px at 31% 93%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 58% 3%, rgba(255,255,255,0.65), transparent),
+      radial-gradient(1px 1px at 85% 33%, rgba(255,255,255,0.7), transparent);
+    animation: snowfall-fast 5s linear infinite;
+  }
+
+  .snowfall-3::after {
+    animation-delay: -2.5s;
+    background-image:
+      radial-gradient(1px 1px at 11% 25%, rgba(255,255,255,0.65), transparent),
+      radial-gradient(1px 1px at 22% 45%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1px 1px at 33% 65%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 44% 85%, rgba(255,255,255,0.65), transparent),
+      radial-gradient(1px 1px at 55% 15%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1px 1px at 66% 35%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 77% 55%, rgba(255,255,255,0.65), transparent),
+      radial-gradient(1px 1px at 88% 75%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1px 1px at 99% 5%, rgba(255,255,255,0.6), transparent);
+  }
+
+  @keyframes snowfall-slow {
+    0% { transform: translateY(0) translateX(0); }
+    100% { transform: translateY(100%) translateX(20px); }
+  }
+
+  @keyframes snowfall-medium {
+    0% { transform: translateY(0) translateX(0); }
+    100% { transform: translateY(100%) translateX(-15px); }
+  }
+
+  @keyframes snowfall-fast {
+    0% { transform: translateY(0) translateX(0); }
+    100% { transform: translateY(100%) translateX(10px); }
+  }
+
+  /* Reduce motion for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-float,
+    .snowfall-1::before,
+    .snowfall-1::after,
+    .snowfall-2::before,
+    .snowfall-2::after,
+    .snowfall-3::before,
+    .snowfall-3::after,
+    .stars,
+    .aurora {
+      animation: none;
+    }
+  }
+</style>

@@ -10,7 +10,7 @@ public_folder: "/uploads" # The src attribute for uploaded media
 media_library:
   name: cloudinary
   config:
-    cloud_name: dv4fz7dhy
+    cloud_name: dc6swddrn
     api_key: 664844567889548
     upload_preset: decap_cms_uploads  # No api_key needed!
     multiple: true

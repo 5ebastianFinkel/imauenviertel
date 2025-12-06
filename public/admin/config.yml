@@ -10,8 +10,8 @@ public_folder: "/uploads" # The src attribute for uploaded media
 media_library:
   name: cloudinary
   config:
-    cloud_name: dc6swddrn
-    api_key: 664844567889548
+    cloud_name: dv4fz7dhy
+    api_key: 518612256514236
     upload_preset: decap_cms_uploads  # No api_key needed!
     multiple: true
 
@@ -73,13 +73,10 @@ collections:
     folder: "src/content/documents" # The path to the folder where the documents are stored
     create: true # Allow users to create new documents in this collection
     slug: "{{slug}}" # Filename template
-    # Use git-based storage for PDFs instead of Cloudinary
-    media_folder: "public/uploads/documents"
-    public_folder: "/uploads/documents"
     fields: # The fields for each document
       - {label: "Titel", name: "title", widget: "string"}
       - {label: "Beschreibung", name: "description", widget: "text"}
-      - {label: "PDF Datei", name: "file", widget: "file", allow_multiple: false, media_library: {config: {multiple: false}}}
+      - {label: "PDF Datei", name: "file", widget: "file", allow_multiple: false}
       - {label: "Reihenfolge", name: "order", widget: "number", default: 0}
       - {label: "Veröffentlichungsdatum", name: "publishDate", widget: "datetime", format: "YYYY-MM-DD"}
 

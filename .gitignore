@@ -3,5 +3,7 @@ dist/
 .DS_Store
 .astro/
 public/uploads/
+# Allow PDF documents to be committed for git-based CMS storage
+!public/uploads/**/*.pdf
 pnpm-lock.yaml
 *.log

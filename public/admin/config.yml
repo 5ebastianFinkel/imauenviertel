@@ -73,10 +73,13 @@ collections:
     folder: "src/content/documents" # The path to the folder where the documents are stored
     create: true # Allow users to create new documents in this collection
     slug: "{{slug}}" # Filename template
+    # Use git-based storage for PDFs instead of Cloudinary
+    media_folder: "public/uploads/documents"
+    public_folder: "/uploads/documents"
     fields: # The fields for each document
       - {label: "Titel", name: "title", widget: "string"}
       - {label: "Beschreibung", name: "description", widget: "text"}
-      - {label: "PDF Datei", name: "file", widget: "file", allow_multiple: false}
+      - {label: "PDF Datei", name: "file", widget: "file", allow_multiple: false, media_library: {config: {multiple: false}}}
       - {label: "Reihenfolge", name: "order", widget: "number", default: 0}
       - {label: "Veröffentlichungsdatum", name: "publishDate", widget: "datetime", format: "YYYY-MM-DD"}
 

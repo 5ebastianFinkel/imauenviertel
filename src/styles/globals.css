@@ -2,7 +2,15 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --font-family-sans: Bricolage Grotesque Variable, Inter Variable, Inter, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  --font-family-sans: Plus Jakarta Sans Variable, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  --font-family-display: Fraunces Variable, Georgia, Cambria, Times New Roman, Times, serif;
+  --color-brand-500: #14b8a6;
+  --color-brand-600: #0d9488;
+  --color-brand-700: #0f766e;
+}
+
+.prose :is(h1, h2, h3, h4) {
+  font-family: var(--font-family-display);
 }
 
 html,

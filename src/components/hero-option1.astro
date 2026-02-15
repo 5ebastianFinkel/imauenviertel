@@ -1,0 +1,220 @@
+---
+import { Picture } from "astro:assets";
+import heroImage from "@assets/Blumen.webp";
+import Link from "@components/ui/link.astro";
+---
+
+<!-- Option 1: "Schneeglöckchen" — Soft, delicate, misty awakening -->
+<section class="hero-snowdrop relative w-full overflow-hidden">
+  <!-- Layered gradient background: misty morning in a winter garden -->
+  <div class="absolute inset-0 bg-gradient-to-b from-slate-100 via-emerald-50 to-white"></div>
+
+  <!-- Soft fog/mist layer -->
+  <div class="mist-layer" aria-hidden="true"></div>
+
+  <!-- Dewdrop sparkles -->
+  <div class="dewdrops" aria-hidden="true">
+    <div class="dewdrop dew-1"></div>
+    <div class="dewdrop dew-2"></div>
+    <div class="dewdrop dew-3"></div>
+    <div class="dewdrop dew-4"></div>
+    <div class="dewdrop dew-5"></div>
+    <div class="dewdrop dew-6"></div>
+    <div class="dewdrop dew-7"></div>
+    <div class="dewdrop dew-8"></div>
+  </div>
+
+  <!-- Subtle botanical line art (CSS shapes) -->
+  <div class="botanical-lines" aria-hidden="true">
+    <div class="stem stem-1"></div>
+    <div class="stem stem-2"></div>
+    <div class="stem stem-3"></div>
+  </div>
+
+  <!-- Soft bottom gradient into page -->
+  <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#FEFDF6] to-transparent"></div>
+
+  <!-- Main Content -->
+  <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 lg:py-32">
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+
+      <!-- Text Content -->
+      <div class="text-center lg:text-left order-2 lg:order-1">
+        <!-- Season badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 backdrop-blur-sm text-emerald-700 text-sm font-medium mb-6 shadow-sm border border-emerald-200/50">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Die ersten Blüten erwachen</span>
+        </div>
+
+        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight mb-6">
+          <span class="block text-slate-800 drop-shadow-sm">Kleingartenverein</span>
+          <span class="block text-emerald-600 drop-shadow-sm">im Auenviertel</span>
+        </h1>
+
+        <p class="text-lg sm:text-xl text-slate-600 max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed">
+          Der Frühling kündigt sich an — Schneeglöckchen und Winterlinge recken ihre zarten Köpfe durch den letzten Schnee. Willkommen in unserem Gartenparadies.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+          <Link
+            href="/blog"
+            block
+            style="primary"
+            class="!bg-emerald-600 hover:!bg-emerald-700 !text-white !border-emerald-600 hover:!border-emerald-700 shadow-md shadow-emerald-200 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-300">
+            Neuigkeiten
+          </Link>
+          <Link
+            href="/dates"
+            block
+            style="outline"
+            class="!bg-white/60 !border-emerald-300 !text-emerald-700 hover:!bg-emerald-50 !backdrop-blur-sm transition-all duration-300">
+            Termine
+          </Link>
+        </div>
+      </div>
+
+      <!-- Image -->
+      <div class="order-1 lg:order-2 flex justify-center">
+        <div class="relative">
+          <!-- Soft glow behind image -->
+          <div class="absolute -inset-4 bg-emerald-200/30 rounded-3xl blur-2xl"></div>
+          <Picture
+            src={heroImage}
+            alt="Blühende Blumen im Kleingarten - die ersten Frühlingsboten"
+            widths={[300, 450, 600]}
+            sizes="(max-width: 640px) 300px, (max-width: 1024px) 450px, 600px"
+            loading="eager"
+            class="relative w-full max-w-md lg:max-w-lg rounded-2xl shadow-xl shadow-emerald-200/50 animate-gentle-float"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Gentle floating animation */
+  @keyframes gentle-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  .animate-gentle-float {
+    animation: gentle-float 6s ease-in-out infinite;
+  }
+
+  /* Mist / fog layer */
+  .mist-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      radial-gradient(ellipse 80% 40% at 20% 80%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(ellipse 60% 30% at 70% 90%, rgba(236,253,245,0.5), transparent),
+      radial-gradient(ellipse 90% 20% at 50% 100%, rgba(255,255,255,0.4), transparent);
+    animation: mist-drift 12s ease-in-out infinite;
+  }
+
+  @keyframes mist-drift {
+    0%, 100% { opacity: 0.7; transform: translateX(0); }
+    50% { opacity: 0.9; transform: translateX(2%); }
+  }
+
+  /* Dewdrop sparkles */
+  .dewdrops {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+  }
+
+  .dewdrop {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(167,243,208,0.6) 50%, transparent 70%);
+    box-shadow: 0 0 8px 2px rgba(167,243,208,0.4);
+    opacity: 0;
+  }
+
+  .dew-1 { left: 8%; top: 35%; animation: dew-sparkle 5s ease-in-out infinite 0s; }
+  .dew-2 { left: 22%; top: 55%; animation: dew-sparkle 6s ease-in-out infinite 1s; }
+  .dew-3 { left: 38%; top: 25%; animation: dew-sparkle 4.5s ease-in-out infinite 2s; }
+  .dew-4 { left: 52%; top: 70%; animation: dew-sparkle 5.5s ease-in-out infinite 0.5s; }
+  .dew-5 { left: 68%; top: 40%; animation: dew-sparkle 4s ease-in-out infinite 3s; }
+  .dew-6 { left: 82%; top: 60%; animation: dew-sparkle 6.5s ease-in-out infinite 1.5s; }
+  .dew-7 { left: 15%; top: 75%; animation: dew-sparkle 5s ease-in-out infinite 4s; }
+  .dew-8 { left: 90%; top: 30%; animation: dew-sparkle 4.5s ease-in-out infinite 2.5s; }
+
+  @keyframes dew-sparkle {
+    0%, 100% { opacity: 0; transform: scale(0.5); }
+    20% { opacity: 0.9; transform: scale(1.2); }
+    40% { opacity: 0.3; transform: scale(0.8); }
+    60% { opacity: 0.7; transform: scale(1); }
+    80% { opacity: 0; transform: scale(0.5); }
+  }
+
+  /* Botanical line art stems */
+  .botanical-lines {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .stem {
+    position: absolute;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to top, rgba(16,185,129,0.15), rgba(16,185,129,0.03));
+    border-radius: 1px;
+    transform-origin: bottom center;
+  }
+
+  .stem-1 {
+    left: 5%;
+    height: 40%;
+    animation: stem-sway 8s ease-in-out infinite;
+  }
+
+  .stem-2 {
+    left: 12%;
+    height: 55%;
+    animation: stem-sway 10s ease-in-out infinite 2s;
+  }
+
+  .stem-3 {
+    right: 8%;
+    height: 35%;
+    animation: stem-sway 7s ease-in-out infinite 4s;
+  }
+
+  .stem::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50% 50% 50% 0;
+    background: rgba(16,185,129,0.08);
+    border: 1px solid rgba(16,185,129,0.12);
+  }
+
+  @keyframes stem-sway {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(2deg); }
+    75% { transform: rotate(-2deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-gentle-float,
+    .mist-layer,
+    .dewdrop,
+    .stem {
+      animation: none;
+    }
+  }
+</style>

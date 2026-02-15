@@ -1,0 +1,196 @@
+---
+import { Picture } from "astro:assets";
+import heroImage from "@assets/Blumen.webp";
+import Link from "@components/ui/link.astro";
+---
+
+<!-- Option 2: "Winterblüher" — Rich, warm, botanical elegance -->
+<section class="hero-winterbloom relative w-full overflow-hidden">
+  <!-- Deep botanical gradient -->
+  <div class="absolute inset-0 bg-gradient-to-br from-emerald-950 via-[#1a2e1a] to-[#2d1f3d]"></div>
+
+  <!-- Warm light overlay -->
+  <div class="warm-glow" aria-hidden="true"></div>
+
+  <!-- Floating petals -->
+  <div class="petals-container" aria-hidden="true">
+    <div class="petal petal-1"></div>
+    <div class="petal petal-2"></div>
+    <div class="petal petal-3"></div>
+    <div class="petal petal-4"></div>
+    <div class="petal petal-5"></div>
+    <div class="petal petal-6"></div>
+    <div class="petal petal-7"></div>
+    <div class="petal petal-8"></div>
+    <div class="petal petal-9"></div>
+    <div class="petal petal-10"></div>
+  </div>
+
+  <!-- Organic shape decorations -->
+  <div class="absolute top-0 right-0 w-1/3 h-1/2 opacity-10" aria-hidden="true">
+    <svg viewBox="0 0 400 400" class="w-full h-full">
+      <path d="M300,50 Q350,150 300,250 Q250,350 150,300 Q50,250 100,150 Q150,50 300,50 Z" fill="rgba(217,180,120,0.3)" />
+    </svg>
+  </div>
+  <div class="absolute bottom-0 left-0 w-1/4 h-1/3 opacity-10" aria-hidden="true">
+    <svg viewBox="0 0 300 300" class="w-full h-full">
+      <path d="M50,250 Q100,100 200,150 Q300,200 250,50" stroke="rgba(217,180,120,0.4)" fill="none" stroke-width="1" />
+    </svg>
+  </div>
+
+  <!-- Bottom fade -->
+  <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#FEFDF6] to-transparent z-10"></div>
+
+  <!-- Main Content -->
+  <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 lg:py-32">
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+
+      <!-- Text Content -->
+      <div class="text-center lg:text-left order-2 lg:order-1">
+        <!-- Season badge -->
+        <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-amber-900/40 backdrop-blur-md text-amber-200 text-sm font-medium mb-6 border border-amber-700/30">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" opacity="0"/>
+            <path d="M12 22C6.5 22 2 17.5 2 12S6.5 2 12 2s10 4.5 10 10-4.5 10-10 10zm-2-7a2 2 0 1 0 4 0c0-1.1-.9-2-2-2s-2 .9-2 2z" opacity="0"/>
+            <circle cx="12" cy="12" r="3" fill="rgba(251,191,36,0.6)" />
+            <path d="M12 2v4M12 18v4M2 12h4M18 12h4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" />
+          </svg>
+          <span>Winterblüte — Februar 2026</span>
+        </div>
+
+        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight mb-6">
+          <span class="block text-white/95 drop-shadow-lg">Kleingartenverein</span>
+          <span class="block bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400 bg-clip-text text-transparent drop-shadow-lg">im Auenviertel</span>
+        </h1>
+
+        <p class="text-lg sm:text-xl text-emerald-100/80 max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed">
+          Während der Garten noch ruht, erblühen Christrosen und Winterjasmin in stiller Schönheit. Die Natur bereitet sich auf ein neues Jahr vor.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+          <Link
+            href="/blog"
+            block
+            style="primary"
+            class="!bg-gradient-to-r !from-amber-500 !to-amber-600 hover:!from-amber-400 hover:!to-amber-500 !text-emerald-950 !border-amber-500 !font-semibold shadow-lg shadow-amber-900/30 transition-all duration-300 hover:shadow-xl hover:shadow-amber-800/40 hover:scale-105">
+            Neuigkeiten
+          </Link>
+          <Link
+            href="/dates"
+            block
+            style="outline"
+            class="!bg-white/5 !border-amber-400/40 !text-amber-100 hover:!bg-amber-400/10 hover:!border-amber-300/60 !backdrop-blur-sm transition-all duration-300 hover:scale-105">
+            Termine
+          </Link>
+        </div>
+      </div>
+
+      <!-- Image -->
+      <div class="order-1 lg:order-2 flex justify-center">
+        <div class="relative">
+          <!-- Golden frame glow -->
+          <div class="absolute -inset-1 bg-gradient-to-br from-amber-400/20 via-transparent to-amber-600/20 rounded-2xl blur-sm"></div>
+          <div class="absolute -inset-3 bg-gradient-to-br from-amber-500/10 via-transparent to-emerald-500/10 rounded-3xl blur-xl"></div>
+          <Picture
+            src={heroImage}
+            alt="Winterblühende Blumen im Kleingarten"
+            widths={[300, 450, 600]}
+            sizes="(max-width: 640px) 300px, (max-width: 1024px) 450px, 600px"
+            loading="eager"
+            class="relative w-full max-w-md lg:max-w-lg rounded-2xl shadow-2xl shadow-black/40 border border-amber-400/10 animate-botanical-float"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Botanical floating animation */
+  @keyframes botanical-float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    33% { transform: translateY(-8px) rotate(0.5deg); }
+    66% { transform: translateY(-4px) rotate(-0.3deg); }
+  }
+  .animate-botanical-float {
+    animation: botanical-float 8s ease-in-out infinite;
+  }
+
+  /* Warm golden glow */
+  .warm-glow {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      radial-gradient(ellipse 50% 50% at 30% 50%, rgba(217,180,120,0.08), transparent),
+      radial-gradient(ellipse 40% 60% at 70% 40%, rgba(180,120,60,0.06), transparent),
+      radial-gradient(ellipse 60% 30% at 50% 80%, rgba(16,185,129,0.04), transparent);
+    animation: warm-pulse 10s ease-in-out infinite;
+  }
+
+  @keyframes warm-pulse {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
+  }
+
+  /* Floating petals */
+  .petals-container {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .petal {
+    position: absolute;
+    width: 10px;
+    height: 14px;
+    border-radius: 50% 50% 50% 0;
+    opacity: 0;
+  }
+
+  .petal:nth-child(odd) {
+    background: radial-gradient(ellipse, rgba(200,160,180,0.5) 0%, rgba(200,160,180,0.1) 100%);
+  }
+  .petal:nth-child(even) {
+    background: radial-gradient(ellipse, rgba(255,220,180,0.4) 0%, rgba(255,220,180,0.1) 100%);
+  }
+
+  .petal-1  { left: 5%;  animation: petal-fall 14s linear infinite 0s; }
+  .petal-2  { left: 15%; animation: petal-fall 12s linear infinite 2s; width: 8px; height: 11px; }
+  .petal-3  { left: 25%; animation: petal-fall 16s linear infinite 4s; }
+  .petal-4  { left: 38%; animation: petal-fall 13s linear infinite 1s; width: 7px; height: 10px; }
+  .petal-5  { left: 50%; animation: petal-fall 15s linear infinite 6s; }
+  .petal-6  { left: 62%; animation: petal-fall 11s linear infinite 3s; width: 9px; height: 12px; }
+  .petal-7  { left: 72%; animation: petal-fall 14s linear infinite 5s; }
+  .petal-8  { left: 82%; animation: petal-fall 12s linear infinite 7s; width: 8px; height: 11px; }
+  .petal-9  { left: 90%; animation: petal-fall 16s linear infinite 2s; }
+  .petal-10 { left: 45%; animation: petal-fall 13s linear infinite 8s; width: 6px; height: 9px; }
+
+  @keyframes petal-fall {
+    0% {
+      transform: translateY(-20px) rotate(0deg) translateX(0);
+      opacity: 0;
+    }
+    5% { opacity: 0.6; }
+    50% {
+      transform: translateY(50vh) rotate(180deg) translateX(30px);
+      opacity: 0.4;
+    }
+    95% { opacity: 0; }
+    100% {
+      transform: translateY(100vh) rotate(360deg) translateX(-20px);
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-botanical-float,
+    .warm-glow,
+    .petal {
+      animation: none;
+    }
+    .petal { display: none; }
+  }
+</style>

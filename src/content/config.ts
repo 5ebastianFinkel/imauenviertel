@@ -7,7 +7,11 @@ const blogCollection = defineCollection({
     draft: z.boolean(),
     title: z.string(),
     image: z.object({
-      src: z.string(),
+      // CMS sometimes saves src as array, normalize to string
+      src: z.union([
+        z.string(),
+        z.array(z.string()).nonempty().transform(arr => arr[0])
+      ]),
       alt: z.string(),
     }),
     publishDate: z.union([
@@ -58,7 +62,7 @@ const documentsCollection = defineCollection({
     // CMS sometimes saves file as array, normalize to string
     file: z.union([
       z.string(),
-      z.array(z.string()).transform(arr => arr[0])
+      z.array(z.string()).nonempty().transform(arr => arr[0])
     ]),
     order: z.number().default(0), // For sorting documents
     publishDate: z.union([

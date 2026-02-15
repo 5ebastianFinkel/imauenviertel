@@ -7,7 +7,11 @@ const blogCollection = defineCollection({
     draft: z.boolean(),
     title: z.string(),
     image: z.object({
-      src: z.string(),
+      // CMS sometimes saves src as array, normalize to string
+      src: z.union([
+        z.string(),
+        z.array(z.string()).transform(arr => arr[0])
+      ]),
       alt: z.string(),
     }),
     publishDate: z.union([

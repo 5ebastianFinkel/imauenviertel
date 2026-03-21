@@ -1,13 +1,17 @@
-// 1. Import utilities from `astro:content`
 import { z, defineCollection } from 'astro:content';
+import { glob } from 'astro/loaders';
 
-// 2. Define your collection(s)
 const blogCollection = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/blog" }),
   schema: z.object({
     draft: z.boolean(),
     title: z.string(),
     image: z.object({
-      src: z.string(),
+      // CMS sometimes saves src as array, normalize to string
+      src: z.union([
+        z.string(),
+        z.array(z.string()).transform(arr => arr[0])
+      ]),
       alt: z.string(),
     }),
     publishDate: z.union([
@@ -21,6 +25,7 @@ const blogCollection = defineCollection({
 });
 
 const teamCollection = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/team" }),
   schema: z.object({
     draft: z.boolean(),
     name: z.string(),
@@ -34,6 +39,7 @@ const teamCollection = defineCollection({
 });
 
 const eventsCollection = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/events" }),
   schema: z.object({
     draft: z.boolean(),
     title: z.string(),
@@ -52,6 +58,7 @@ const eventsCollection = defineCollection({
 })
 
 const documentsCollection = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/documents" }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -69,6 +76,7 @@ const documentsCollection = defineCollection({
 });
 
 const linksCollection = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/links" }),
   schema: z.object({
     title: z.string(),
     url: z.string().url(),
@@ -77,8 +85,6 @@ const linksCollection = defineCollection({
   })
 });
 
-// 3. Export a single `collections` object to register your collection(s)
-//    This key should match your collection directory name in "src/content"
 export const collections = {
   'blog': blogCollection,
   'team': teamCollection,

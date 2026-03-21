@@ -1,4 +1,9 @@
 // Mock implementation of astro:content for testing
+export type CollectionEntry<_T extends string> = {
+  id: string;
+  data: Record<string, any>;
+};
+
 export async function getCollection(collectionName: string, filter?: (entry: any) => boolean) {
   const mockData = [
     {

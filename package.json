@@ -40,13 +40,13 @@
     "@iconify-json/simple-icons": "^1.2.75",
     "@iconify-json/uil": "^1.2.3",
     "@tailwindcss/typography": "^0.5.19",
-    "@tailwindcss/vite": "^4.1.18",
+    "@tailwindcss/vite": "^4.2.2",
     "astro": "^6.0.8",
     "astro-icon": "^1.1.5",
     "astro-navbar": "^2.4.0",
     "astro-seo": "^0.8.4",
     "decap-cms-app": "^3.10.0",
     "sharp": "^0.33.5",
-    "tailwindcss": "^4.1.18"
+    "tailwindcss": "^4.2.2"
   }
 }

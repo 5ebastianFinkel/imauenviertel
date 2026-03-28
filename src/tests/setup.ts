@@ -1,13 +1,8 @@
 import { vi } from 'vitest';
 
 // Setup global URL and Blob for browser environment
-Object.defineProperty(window, 'URL', {
-  value: {
-    createObjectURL: vi.fn(() => 'blob:http://localhost/test-blob'),
-    revokeObjectURL: vi.fn(),
-  },
-  writable: true,
-});
+URL.createObjectURL = vi.fn(() => 'blob:http://localhost/test-blob');
+URL.revokeObjectURL = vi.fn();
 
 Object.defineProperty(window, 'Blob', {
   value: class MockBlob {

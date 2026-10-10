@@ -1,32 +1,72 @@
 ---
-import Link from "./ui/link.astro";
+const year = new Date().getFullYear();
 ---
-<footer class="my-20">
-  <div class="flex justify-center gap-1 mb-4">
-    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-    <span class="w-1.5 h-1.5 rounded-full bg-teal-400"></span>
-    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__brand">
+      <p class="site-footer__name">Im Auenviertel <em>e.V.</em></p>
+      <p>Kleingartenverein in Münster-Gievenbeck</p>
+      <svg class="site-footer__leaf" viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M10 54C10 28 26 10 56 8c0 30-18 46-46 46Z" />
+        <path d="M10 54 40 24" />
+      </svg>
+    </div>
+
+    <div>
+      <h2 class="eyebrow">Anlage geöffnet</h2>
+      <p>15. März – 30. September<br />täglich 08–20 Uhr</p>
+    </div>
+
+    <div>
+      <h2 class="eyebrow">Kontakt</h2>
+      <p>
+        <a href="mailto:mail@imauenviertel.de">mail@imauenviertel.de</a><br />
+        <a href="/contact">Zum Kontaktformular</a>
+      </p>
+    </div>
+
+    <div>
+      <h2 class="eyebrow">Rechtliches</h2>
+      <p>
+        <a href="/impressum">Impressum</a><br />
+        <a href="/datenschutz">Datenschutz</a>
+      </p>
+    </div>
   </div>
-  <p class="py-3 text-center text-sm text-slate-500">
-    <Link
-        href={"/impressum"}
-        style={"muted"}>
-      {"Impressum"}
-    </Link>
-    <Link
-        href={"/datenschutz"}
-        block
-        style={"muted"}>
-      {"Datenschutz"}
-    </Link>
-    <Link
-        href={"/contact"}
-        block
-        style={"muted"}>
-      {"Kontakt"}
-    </Link>
-  </p>
-  <p class="text-center text-sm text-slate-500 mt-4">
-    Copyright © {new Date().getFullYear()} Im Auenviertel.
-  </p>
+
+  <p class="site-footer__copy">© {year} Kleingärtnerverein „Im Auenviertel“ e.V.</p>
 </footer>
+
+<style>
+  .site-footer {
+    width: min(1240px, 100% - 2.5rem);
+    margin: clamp(4rem, 8vw, 7rem) auto 0;
+    padding-block: 2.5rem 2rem;
+    border-top: 1px solid var(--color-line);
+    font-size: 0.95rem;
+    color: var(--color-muted);
+  }
+  .site-footer__inner {
+    display: grid;
+    grid-template-columns: 1.6fr repeat(3, 1fr);
+    gap: 2rem;
+  }
+  .site-footer p { margin: 0; line-height: 1.7; }
+  .site-footer h2 { margin: 0 0 0.6rem; font-family: var(--font-sans); }
+  .site-footer a { text-decoration: none; transition: color 0.2s; }
+  .site-footer a:hover { color: var(--color-accent); }
+  .site-footer__brand { position: relative; }
+  .site-footer__name { font-family: var(--font-display); font-size: 1.9rem; line-height: 1.1 !important; color: var(--color-ink); }
+  .site-footer__name em { color: var(--color-accent); }
+  .site-footer__leaf { width: 38px; height: 38px; margin-top: 1rem; fill: rgb(79 138 60 / 0.15); stroke: var(--color-leaf); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .site-footer__copy { margin-top: 2.5rem !important; padding-top: 1.25rem; border-top: 1px solid var(--color-line); font-size: 0.85rem; }
+
+  @media (max-width: 800px) {
+    .site-footer__inner { grid-template-columns: 1fr 1fr; }
+    .site-footer__brand { grid-column: 1 / -1; }
+  }
+  @media (max-width: 460px) {
+    .site-footer__inner { grid-template-columns: 1fr; }
+  }
+</style>

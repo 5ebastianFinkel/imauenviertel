@@ -4,13 +4,12 @@ import Container from "@components/container.astro";
 import Sectionhead from "@components/sectionhead.astro";
 import {Picture} from "astro:assets";
 ---
-<Layout title="Blog">
+<Layout title="Impressum">
     <Container>
-        <Sectionhead>
+        <Sectionhead eyebrow="Rechtliches">
             <Fragment slot="title">Impressum</Fragment>
-            <Fragment slot="desc"></Fragment>
         </Sectionhead>
-        <main class="mt-16">
+        <div class="prose prose-lg max-w-3xl legal">
             <address>
                 <strong>Kleingärtnerverein „Im Auenviertel“ e.V.</strong><br>
                 Holtbeck 43,<br>
@@ -21,7 +20,7 @@ import {Picture} from "astro:assets";
                 E-Mail: <a href="">mail(at)imauenviertel.de</a>
             </address>
             <section class="mt-16">
-                <h2 class="font-medium text-2xl text-gray-800 mt-8">Verbraucherstreitbeteiligung /
+                <h2>Verbraucherstreitbeteiligung /
                     Universalschlichtungsstelle</h2>
                 <p>
                     Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer
@@ -30,7 +29,7 @@ import {Picture} from "astro:assets";
             </section>
 
             <section>
-                <h2 class="font-medium text-2xl text-gray-800 mt-8">Haftung für Inhalte</h2>
+                <h2>Haftung für Inhalte</h2>
                 <p>
                     Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den
                     allgemeinen Gesetzen verantwortlich.
@@ -48,7 +47,7 @@ import {Picture} from "astro:assets";
             </section>
 
             <section>
-                <h2 class="font-medium text-2xl text-gray-800 mt-8">Haftung für Links</h2>
+                <h2>Haftung für Links</h2>
                 <p>
                     Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss
                     haben.
@@ -66,7 +65,7 @@ import {Picture} from "astro:assets";
             </section>
 
             <section>
-                <h2 class="font-medium text-2xl text-gray-800 mt-8">Urheberrecht</h2>
+                <h2>Urheberrecht</h2>
                 <p>
                     Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem
                     deutschen Urheberrecht.
@@ -84,6 +83,6 @@ import {Picture} from "astro:assets";
                     Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.
                 </p>
             </section>
-        </main>
+        </div>
     </Container>
 </Layout>

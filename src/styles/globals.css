@@ -1,19 +1,234 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+/* "Morgengarten" design tokens */
 @theme {
-  --font-sans: Plus Jakarta Sans Variable, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
-  --font-display: Fraunces Variable, Georgia, Cambria, Times New Roman, Times, serif;
-  --color-brand-500: #14b8a6;
-  --color-brand-600: #0d9488;
-  --color-brand-700: #0f766e;
+  --font-sans: "Manrope Variable", ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  --font-display: "Instrument Serif", Georgia, Cambria, "Times New Roman", serif;
+
+  --color-paper: #fbf7ee;
+  --color-surface: #f2ead8;
+  --color-ink: #1f3a2b;
+  --color-muted: #66766a;
+  --color-accent: #b9502a;
+  --color-sun: #f4c247;
+  --color-leaf: #4f8a3c;
+  --color-line: rgb(31 58 43 / 0.14);
+
+  /* Leaf shape: two opposite corners rounded, the other two nearly square */
+  --radius-leaf: 1.4rem 0.3rem;
+  --radius-leaf-flip: 0.3rem 1.4rem;
+  --radius-leaf-sm: 0.85rem 0.2rem;
+  --radius-leaf-sm-flip: 0.2rem 0.85rem;
 }
 
+@layer base {
+  html,
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :where(h1, h2, h3, h4) {
+    font-family: var(--font-display);
+    font-weight: 400;
+    overflow-wrap: break-word;
+  }
+
+  /* On phones, only hyphenate really long words (e.g. "Sondergemeinschaftsarbeit") */
+  @media (max-width: 640px) {
+    :where(h1, h2, h3, h4) {
+      hyphens: auto;
+      hyphenate-limit-chars: 14 6 5;
+    }
+  }
+
+  :where(h1, h2, h3, h4) em {
+    font-style: italic;
+    color: var(--color-accent);
+  }
+
+  ::selection {
+    background: rgb(244 194 71 / 0.45);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  .eyebrow {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    padding: 0.9rem 1.45rem 0.9rem 1.7rem;
+    border: 1.5px solid transparent;
+    border-radius: var(--radius-leaf);
+    background: var(--color-sun);
+    color: var(--color-ink);
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      border-radius 0.45s cubic-bezier(0.3, 0.7, 0.2, 1),
+      transform 0.25s,
+      box-shadow 0.25s,
+      background-color 0.2s;
+  }
+  .btn:hover {
+    border-radius: var(--radius-leaf-flip);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px -8px rgb(214 160 30 / 0.6);
+  }
+  .btn svg {
+    width: 1.05rem;
+    height: 1.05rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform 0.25s;
+  }
+  .btn:hover svg { transform: translateX(3px); }
+  .btn-down:hover svg { transform: translateY(3px); }
+  .btn-outline {
+    border-color: var(--color-ink);
+    background: transparent;
+  }
+  .btn-outline:hover {
+    background: var(--color-ink);
+    color: var(--color-paper);
+    box-shadow: 0 12px 30px -12px rgb(31 58 43 / 0.5);
+  }
+  .btn-block { width: 100%; }
+
+  .btn-sm {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-leaf-sm);
+    background: #fff;
+    color: var(--color-ink);
+    font: 600 0.85rem/1.2 var(--font-sans);
+    cursor: pointer;
+    transition:
+      border-radius 0.4s cubic-bezier(0.3, 0.7, 0.2, 1),
+      border-color 0.2s,
+      background-color 0.2s;
+  }
+  .btn-sm:hover {
+    border-radius: var(--radius-leaf-sm-flip);
+    border-color: var(--color-ink);
+    background: var(--color-sun);
+  }
+
+  .link-arrow {
+    display: inline-flex;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+  .link-arrow span { transition: transform 0.25s; }
+  .link-arrow:hover span { transform: translateX(4px); }
+
+  .badge-leaf {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.35rem 0.85rem;
+    border: 1px dashed rgb(185 80 42 / 0.55);
+    border-radius: var(--radius-leaf-sm);
+    font-size: 0.8rem;
+    color: var(--color-accent);
+  }
+
+  .field {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 1.5px solid var(--color-line);
+    border-radius: var(--radius-leaf-sm);
+    background: #fff;
+    color: var(--color-ink);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .field::placeholder { color: var(--color-muted); }
+  .field:focus {
+    outline: none;
+    border-color: var(--color-leaf);
+    box-shadow: 0 0 0 4px rgb(79 138 60 / 0.15);
+  }
+}
+
+/* Typography for blog posts and legal pages */
+.prose {
+  --tw-prose-body: rgb(31 58 43 / 0.85);
+  --tw-prose-headings: var(--color-ink);
+  --tw-prose-links: var(--color-accent);
+  --tw-prose-bold: var(--color-ink);
+  --tw-prose-counters: var(--color-muted);
+  --tw-prose-bullets: var(--color-leaf);
+  --tw-prose-hr: var(--color-line);
+  --tw-prose-quotes: var(--color-ink);
+  --tw-prose-quote-borders: var(--color-sun);
+  --tw-prose-captions: var(--color-muted);
+  --tw-prose-th-borders: var(--color-line);
+  --tw-prose-td-borders: var(--color-line);
+}
 .prose :is(h1, h2, h3, h4) {
   font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.005em;
+}
+.prose :is(h2) { font-size: 2em; }
+.prose img { border-radius: var(--radius-leaf); }
+.prose address { font-style: normal; }
+
+/* Scroll reveal: progressive enhancement. Content is only hidden when JS is
+   running (html.js) and the visitor has not asked for reduced motion; the
+   fallback animation makes sure nothing stays invisible if the script fails. */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal]:not(.is-visible) {
+    opacity: 0;
+    transform: translateY(24px);
+    animation: reveal-fallback 0s 2.5s forwards;
+  }
+  .js [data-reveal] {
+    transition:
+      opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+}
+@keyframes reveal-fallback {
+  to { opacity: 1; transform: none; }
 }
 
-html,
-body {
-  background-color: #FEFDF6;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

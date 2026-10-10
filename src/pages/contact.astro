@@ -3,57 +3,82 @@ import Contactform from "@components/contactform.astro";
 import Container from "@components/container.astro";
 import Sectionhead from "@components/sectionhead.astro";
 import Layout from "@layouts/Layout.astro";
-import {Icon} from "astro-icon/components";
+import { getSortedDocuments } from "@utils/content";
+
+const documents = await getSortedDocuments();
+const checklist = documents.find((doc) => doc.data.title.startsWith("Checkliste"));
+const application = documents.find((doc) => doc.data.title.startsWith("Bewerbungsbogen"));
 ---
 
 <Layout title="Kontakt">
-    <Container>
-        <Sectionhead>
-            <Fragment slot="title">Kontakt</Fragment>
-            <Fragment slot="desc">Bei Fragen oder Anregungen.</Fragment>
-        </Sectionhead>
-        <div class="flex flex-col gap-3 mx-auto max-w-4xl mt-16">
-            <h2 class="font-medium text-2xl text-gray-800">Für Garteninteressierte</h2>
-            <p class="text-lg leading-relaxed text-slate-500 mt-3">
-                Im Moment ist keine Parzelle frei.
-                <br>
-                <br>
-                Wir führen aber eine Warteliste. Wenn Sie auf die Warteliste aufgenommen werden möchten, lesen Sie sich
-                bitte unsere Checkliste „Bin ich ein Kleingärtner“ durch.
-                <br>
-                Danach füllen Sie bitte den Bewerbungsbogen aus und senden Sie ihn an mail(at)imauenviertel.de
+  <Container>
+    <Sectionhead eyebrow="Kontakt">
+      <Fragment slot="title">Schreib <em>uns.</em></Fragment>
+      <Fragment slot="desc">Bei Fragen, Anregungen oder Interesse an einem Garten.</Fragment>
+    </Sectionhead>
 
-            </p>
-        </div>
-        <div class="grid md:grid-cols-2 gap-10 mx-auto max-w-4xl mt-16">
-            <div>
+    <div class="contact">
+      <div class="contact__info">
+        <section class="card" data-reveal>
+          <h2>Für Garten&shy;interessierte</h2>
+          <p><strong>Im Moment ist keine Parzelle frei.</strong></p>
+          <p>
+            Wir führen aber eine Warteliste. Wenn Sie auf die Warteliste aufgenommen werden möchten,
+            lesen Sie sich bitte unsere Checkliste „Bin ich ein Kleingärtner“ durch. Danach füllen
+            Sie bitte den Bewerbungsbogen aus und senden Sie ihn an
+            <a href="mailto:mail@imauenviertel.de">mail@imauenviertel.de</a>.
+          </p>
+          {
+            (checklist || application) && (
+              <ul class="card__files">
+                {checklist && (
+                  <li>
+                    <a class="btn-sm" href={checklist.data.file} download>{checklist.data.title} ↓</a>
+                  </li>
+                )}
+                {application && (
+                  <li>
+                    <a class="btn-sm" href={application.data.file} download>{application.data.title} ↓</a>
+                  </li>
+                )}
+              </ul>
+            )
+          }
+        </section>
 
-                <h2 class="font-medium text-2xl text-gray-800">Kontakt zum Vorstand</h2>
-                <p class="text-lg leading-relaxed text-slate-500 mt-3">
-                    Haben Sie Fragen? Wir helfen Ihnen gerne weiter. Füllen Sie das Formular aus oder senden Sie uns
-                    eine E-Mail.
-                </p>
-                <div class="mt-5">
-                    <div class="flex items-center mt-2 space-x-2 text-gray-600">
-                        <Icon class="text-gray-400 w-4 h-4" name="uil:map-marker"/>
-                        <span>Ramertsweg 50, 48161 Münster</span>
-                    </div>
-                    <!--<div class="flex items-center mt-2 space-x-2 text-gray-600">-->
-                    <!--  <Icon class="text-gray-400 w-4 h-4" name="uil:envelope" /><a-->
-                    <!--    href="mailto:s.finkel@posteo.de"-->
-                    <!--    >info@imauenviertel.de</a-->
-                    <!--  >-->
-                    <!--</div>-->
-                    <!--<div class="flex items-center mt-2 space-x-2 text-gray-600">-->
-                    <!--  <Icon class="text-gray-400 w-4 h-4" name="uil:phone" /><a-->
-                    <!--    href="tel:+1 (987) 4587 899">+1 (987) 4587 899</a-->
-                    <!--  >-->
-                    <!--</div>-->
-                </div>
-            </div>
-            <div>
-                <Contactform/>
-            </div>
-        </div>
-    </Container>
+        <section class="plain" data-reveal style="--reveal-delay: 100ms">
+          <h2>Kontakt zum Vorstand</h2>
+          <p>
+            Haben Sie Fragen? Wir helfen Ihnen gerne weiter. Füllen Sie das Formular aus oder senden
+            Sie uns eine E-Mail.
+          </p>
+          <p class="address">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z" /><circle cx="12" cy="9.5" r="2.5" /></svg>
+            Ramertsweg 50, 48161 Münster
+          </p>
+        </section>
+      </div>
+
+      <div class="contact__form" data-reveal style="--reveal-delay: 150ms">
+        <Contactform />
+      </div>
+    </div>
+  </Container>
 </Layout>
+
+<style>
+  .contact { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: start; }
+  .contact h2 { margin: 0; font-size: clamp(1.9rem, 3vw, 2.4rem); line-height: 1.05; }
+  .contact p { margin: 0.9rem 0 0; line-height: 1.7; color: rgb(31 58 43 / 0.82); }
+  .contact p strong { color: var(--color-ink); }
+  .contact a:not(.btn-sm) { color: var(--color-accent); font-weight: 600; }
+  .card { padding: 1.8rem; border: 1px solid var(--color-line); border-radius: var(--radius-leaf); background: linear-gradient(160deg, #fff, var(--color-surface)); }
+  .card__files { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1.4rem 0 0; padding: 0; list-style: none; }
+  .plain { margin-top: 2.5rem; padding-inline: 0.2rem; }
+  .address { display: flex; align-items: center; gap: 0.6rem; font-weight: 600; color: var(--color-ink) !important; }
+  .address svg { width: 1.2rem; height: 1.2rem; fill: none; stroke: var(--color-accent); stroke-width: 1.8; }
+  .contact__form { padding: clamp(1.5rem, 3vw, 2.2rem); border: 1px solid var(--color-line); border-radius: var(--radius-leaf); background: #fff; box-shadow: 0 30px 60px -40px rgb(31 58 43 / 0.35); }
+  @media (max-width: 860px) {
+    .contact { grid-template-columns: 1fr; }
+  }
+</style>

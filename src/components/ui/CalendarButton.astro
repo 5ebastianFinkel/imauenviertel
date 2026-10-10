@@ -1,4 +1,6 @@
 ---
+// Calendar download button. scripts/calendar-button.js reads the
+// .calendar-button class and the data-* attributes.
 interface Props {
   title: string;
   date: Date;
@@ -6,28 +8,24 @@ interface Props {
   duration?: number; // Duration in hours, defaults to 1
   startTime?: string; // HH:MM format
   endTime?: string; // HH:MM format
+  class?: string;
 }
 
-const { title, date, description, duration = 1, startTime, endTime } = Astro.props;
+const { title, date, description, duration = 1, startTime, endTime, class: className } = Astro.props;
 ---
 
 <button
-  class="calendar-button inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-teal-600 rounded-lg hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-200 transition-colors"
+  type="button"
+  class:list={["calendar-button btn-sm", className]}
   data-title={title}
   data-date={date.toISOString()}
   data-description={description}
   data-duration={duration}
   data-start-time={startTime}
   data-end-time={endTime}
-  aria-label={`Termin "${title}" zum Kalender hinzufügen`}
-  role="button">
-  <svg
-    class="w-4 h-4 mr-2"
-    fill="currentColor"
-    viewBox="0 0 20 20"
-    xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true">
-    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+  aria-label={`Termin „${title}“ zum Kalender hinzufügen`}>
+  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+    <path d="M7 3v3M17 3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm7 7v5m-2.5-2.5h5"></path>
   </svg>
-  <span>Zum Kalender hinzufügen</span>
+  <span>In den Kalender</span>
 </button>

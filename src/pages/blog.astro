@@ -14,64 +14,71 @@ const publishedBlogEntries = await getCollection("blog", ({ data }) => {
 publishedBlogEntries.sort(function (a, b) {
   return b.data.publishDate.valueOf() - a.data.publishDate.valueOf();
 });
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString("de", { year: "numeric", month: "long", day: "numeric" });
 ---
 
-<Layout title="Blog">
+<Layout title="Neuigkeiten">
   <Container>
-    <Sectionhead>
-      <Fragment slot="title">Neues aus dem Verein</Fragment>
+    <Sectionhead eyebrow="Neuigkeiten">
+      <Fragment slot="title">Neues aus dem <em>Verein</em></Fragment>
       <Fragment slot="desc">
-        Hier findest du aktuelle Meldungen und Berichte über Veranstaltungen.
+        Aktuelle Meldungen und Berichte über Veranstaltungen, Gemeinschaftsarbeit und das Leben in
+        der Anlage.
       </Fragment>
     </Sectionhead>
-    <main class="mt-16">
-      <ul class="grid gap-16 max-w-4xl mx-auto">
-        {
-          publishedBlogEntries.map((blogPostEntry, index) => (
-            <li>
-              <a href={`/blog/${blogPostEntry.id}`}>
-                <div class="grid md:grid-cols-2 gap-5 md:gap-10 items-center">
-                  <Picture
-                    src={blogPostEntry.data.image.src}
-                    alt={blogPostEntry.data.image.alt}
-                    sizes="(max-width: 800px) 100vw, 800px"
-                    width={800}
-                    height={600}
-                    loading={index <= 2 ? "eager" : "lazy"}
-                    decoding={index <= 2 ? "sync" : "async"}
-                    class="w-full rounded-md object-cover object-center bg-white"
-                  />
-                  <div>
-                    <span class="text-teal-500 uppercase tracking-wider text-sm font-medium">
-                      {blogPostEntry.data.category}
-                    </span>
 
-                    <h2 class="font-display text-3xl font-semibold leading-snug tracking-tight mt-1 ">
-                      {blogPostEntry.data.title}
-                    </h2>
-
-                    <div class="flex gap-2 mt-3">
-                      <span class="text-gray-400">
-                        {blogPostEntry.data.author}
-                      </span>
-                      <span class="text-gray-400">• </span>
-                      <time
-                        class="text-gray-400"
-                        datetime={blogPostEntry.data.publishDate.toISOString()}>
-                        {blogPostEntry.data.publishDate.toLocaleDateString("de", {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        })}
-                      </time>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </main>
+    <ul class="posts">
+      {
+        publishedBlogEntries.map((post, index) => (
+          <li class:list={["post", index === 0 && "post--lead"]} data-reveal style={`--reveal-delay: ${(index % 2) * 120}ms`}>
+            <a href={`/blog/${post.id}`}>
+              <div class="post__image">
+                <Picture
+                  src={post.data.image.src}
+                  alt={post.data.image.alt}
+                  sizes={index === 0 ? "(max-width: 900px) 100vw, 60vw" : "(max-width: 900px) 100vw, 50vw"}
+                  width={1200}
+                  height={900}
+                  loading={index <= 1 ? "eager" : "lazy"}
+                  decoding={index <= 1 ? "sync" : "async"}
+                />
+              </div>
+              <div class="post__text">
+                <p class="eyebrow post__category">{post.data.category}</p>
+                <h2>{post.data.title}</h2>
+                <p class="post__meta">
+                  {post.data.author} · <time datetime={post.data.publishDate.toISOString()}>{formatDate(post.data.publishDate)}</time>
+                </p>
+                <span class="link-arrow">Weiterlesen <span aria-hidden="true">→</span></span>
+              </div>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
   </Container>
 </Layout>
+
+<style>
+  .posts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(2.5rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3rem); margin: 0; padding: 0; list-style: none; }
+  .post a { display: flex; flex-direction: column; gap: 1.4rem; height: 100%; text-decoration: none; }
+  .post__image { overflow: hidden; border-radius: var(--radius-leaf); aspect-ratio: 4 / 3; background: var(--color-surface); transition: border-radius 0.5s cubic-bezier(0.3, 0.7, 0.2, 1); }
+  .post__image :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .post a:hover .post__image { border-radius: var(--radius-leaf-flip); }
+  .post a:hover .post__image :global(img) { transform: scale(1.04); }
+  .post__category { margin: 0; color: var(--color-accent); }
+  .post h2 { margin: 0.5rem 0 0; font-size: clamp(1.8rem, 3vw, 2.4rem); line-height: 1.08; }
+  .post a:hover h2 { color: var(--color-accent); }
+  .post__meta { margin: 0.6rem 0 1rem; font-size: 0.92rem; color: var(--color-muted); }
+
+  .post--lead { grid-column: 1 / -1; }
+  .post--lead a { display: grid; grid-template-columns: 1.4fr 1fr; align-items: center; gap: clamp(1.5rem, 4vw, 3.5rem); }
+  .post--lead h2 { font-size: clamp(2.2rem, 4.5vw, 3.6rem); }
+
+  @media (max-width: 760px) {
+    .posts { grid-template-columns: 1fr; }
+    .post--lead a { display: flex; }
+  }
+</style>

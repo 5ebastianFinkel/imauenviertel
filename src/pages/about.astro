@@ -5,38 +5,66 @@ import Container from "@components/container.astro";
 import Sectionhead from "@components/sectionhead.astro";
 
 // Filter team entries with 'draft: false' & date before current date
-const publishedTeamMembers = await getCollection("team", ({ data }) => {
-  return !data.draft && data.publishDate < new Date();
-});
+const publishedTeamMembers = (
+  await getCollection("team", ({ data }) => {
+    return !data.draft && data.publishDate < new Date();
+  })
+).sort((a, b) => a.id.localeCompare(b.id));
+
+const initials = (name: string) =>
+  name
+    .replace(/^Dr\.\s*/, "")
+    .split(/\s+/)
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2);
 ---
 
 <Layout title="Der Vorstand">
   <Container>
-    <Sectionhead>
-      <Fragment slot="title">Der Vorstand</Fragment>
-      <Fragment slot="desc"></Fragment>
+    <Sectionhead eyebrow="Über uns">
+      <Fragment slot="title">Der <em>Vorstand</em></Fragment>
+      <Fragment slot="desc">Ehrenamtlich für die Anlage und alle, die darin gärtnern.</Fragment>
     </Sectionhead>
 
-    <div class="flex flex-col gap-3 mx-auto max-w-4xl mt-16">
-      <h2 class="font-display font-bold text-3xl text-gray-800">
-        Der Vorstand stellt sich vor.
-      </h2>
-      <p class="text-lg leading-relaxed text-slate-500">
-        Wir treffen uns regelmäßig, um im Team die vielen kleinen und größeren Aufgaben rund um unseren Kleingartenverein ehrenamtlich zu erledigen. Dazu gehören zum Beispiel die Aufnahme von neuen Mitgliedern, die Organisation der Mitgliederversammlung, die Jahresabrechnungen, der Kontakt zum Stadt- und Bezirksverband oder die Aushänge im Schaukasten.  Ihr erreicht uns alle zusammen über die E-Mailadresse: mail@imauenviertel.de       </p>
+    <div class="intro" data-reveal>
+      <h2>Der Vorstand stellt sich vor.</h2>
+      <p>
+        Wir treffen uns regelmäßig, um im Team die vielen kleinen und größeren Aufgaben rund um
+        unseren Kleingartenverein ehrenamtlich zu erledigen. Dazu gehören zum Beispiel die Aufnahme
+        von neuen Mitgliedern, die Organisation der Mitgliederversammlung, die Jahresabrechnungen,
+        der Kontakt zum Stadt- und Bezirksverband oder die Aushänge im Schaukasten.
+      </p>
+      <p>
+        Ihr erreicht uns alle zusammen über die E-Mail-Adresse
+        <a href="mailto:mail@imauenviertel.de">mail@imauenviertel.de</a>.
+      </p>
     </div>
-    <div class="grid md:grid-cols-3 gap-10 mx-auto max-w-4xl mt-12">
+
+    <ul class="team">
       {
-        publishedTeamMembers.map((teamMemberEntry) => (
-          <div class="group">
-            <div class="mt-4 text-center">
-              <h2 class="text-lg text-gray-800">{teamMemberEntry.data.name}</h2>
-              <h3 class="text-sm text-slate-500">
-                {teamMemberEntry.data.title}
-              </h3>
-            </div>
-          </div>
+        publishedTeamMembers.map((member, i) => (
+          <li class="member" data-reveal style={`--reveal-delay: ${i * 90}ms`}>
+            <span class="member__mark" aria-hidden="true">{initials(member.data.name)}</span>
+            <h3>{member.data.name}</h3>
+            <p>{member.data.title}</p>
+          </li>
         ))
       }
-    </div>
-  </Container>/re
+    </ul>
+  </Container>
 </Layout>
+
+<style>
+  .intro { max-width: 46rem; }
+  .intro h2 { margin: 0; font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1.05; }
+  .intro p { margin: 1rem 0 0; font-size: 1.1rem; line-height: 1.7; color: rgb(31 58 43 / 0.8); }
+  .intro a { color: var(--color-accent); font-weight: 600; }
+
+  .team { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1.25rem; margin: clamp(3rem, 6vw, 4.5rem) 0 0; padding: 0; list-style: none; }
+  .member { padding: 1.6rem; border: 1px solid var(--color-line); border-radius: var(--radius-leaf); background: linear-gradient(160deg, #fff, var(--color-surface)); transition: border-radius 0.45s cubic-bezier(0.3, 0.7, 0.2, 1), transform 0.3s, box-shadow 0.3s; }
+  .member:hover { border-radius: var(--radius-leaf-flip); transform: translateY(-3px); box-shadow: 0 24px 40px -28px rgb(31 58 43 / 0.45); }
+  .member__mark { display: grid; place-items: center; width: 3.4rem; height: 3.4rem; border-radius: var(--radius-leaf-sm); background: var(--color-sun); font-family: var(--font-display); font-size: 1.5rem; }
+  .member h3 { margin: 1.2rem 0 0; font-size: 1.75rem; line-height: 1.1; }
+  .member p { margin: 0.35rem 0 0; font-weight: 600; color: var(--color-accent); }
+</style>

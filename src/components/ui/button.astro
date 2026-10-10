@@ -15,23 +15,24 @@ const {
   ...rest
 } = Astro.props;
 
+// Mapped onto the shared .btn styles in globals.css
 const sizes = {
-  md: "px-5 py-2.5",
-  lg: "px-6 py-3",
+  md: "",
+  lg: "text-lg",
 };
 
 const styles = {
-  outline: "border-2 border-teal-600 hover:bg-teal-600 text-teal-700 hover:text-white",
-  primary:
-    "bg-teal-600 text-white hover:bg-teal-700 border-2 border-transparent",
+  primary: "btn",
+  outline: "btn btn-outline",
+  inverted: "btn bg-white",
+  muted: "inline-flex px-2 py-1 hover:text-accent transition-colors",
 };
 ---
 
 <button
   {...rest}
   class:list={[
-    "rounded-lg text-center transition focus-visible:ring-2 ring-offset-2 ring-teal-200",
-    block && "w-full",
+    block && "btn-block",
     sizes[size],
     styles[style],
     className,

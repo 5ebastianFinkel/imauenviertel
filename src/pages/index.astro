@@ -1,8 +1,274 @@
 ---
-import Hero from "@components/hero.astro";
+import { Picture } from "astro:assets";
 import Layout from "@layouts/Layout.astro";
+import CalendarButton from "@components/ui/CalendarButton.astro";
+import pathImage from "@assets/Ergebnis_Heckenschnitt.webp";
+import gateImage from "@assets/Gartentor.webp";
+import flowerImage from "@assets/Blumen.webp";
+import {
+  getUpcomingEvents,
+  getSortedDocuments,
+  getSortedLinks,
+  formatTime,
+  day,
+  monthShort,
+  weekday,
+} from "@utils/content";
+
+const events = await getUpcomingEvents(3);
+const allDocuments = await getSortedDocuments();
+const documents = allDocuments.slice(0, 5);
+const links = await getSortedLinks();
+const eventCalendar = allDocuments.find((doc) => doc.data.title.startsWith("Veranstaltungskalender"));
 ---
 
-<Layout title="">
-  <Hero />
+<Layout title="" overlayHeader>
+  <div class="home">
+    <section class="hero" aria-labelledby="hero-title">
+      <Picture
+        src={pathImage}
+        alt=""
+        widths={[800, 1280, 1920, 2560]}
+        sizes="100vw"
+        loading="eager"
+        class="hero__bg"
+      />
+      <div class="hero__shade" aria-hidden="true"></div>
+
+      <div class="hero__content wrap">
+        <p class="eyebrow fade" style="--d: 100ms">Kleingartenverein · Münster-Gievenbeck</p>
+        <h1 id="hero-title" class="fade" style="--d: 200ms">
+          Wo der Feierabend<br /><em>Wurzeln schlägt.</em>
+        </h1>
+        <p class="lede fade" style="--d: 320ms">
+          Gemeinschaft, Natur und Erholung – mitten im Auenviertel. Komm vorbei, pack mit an und
+          bleib auf ein Gespräch am Gartenzaun.
+        </p>
+        <div class="hero__row fade" style="--d: 440ms">
+          <a class="btn btn-down" href="#termine">
+            Kommende Termine
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14m-6-6 6 6 6-6"></path></svg>
+          </a>
+          <div class="hours">
+            <span class="hours__dot" aria-hidden="true"></span>
+            <span>Anlage geöffnet <strong>15.03.–30.09.</strong>, täglich <strong>08–20 Uhr</strong></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="termine" class="wrap section" aria-labelledby="events-title">
+      <div class="section__head" data-reveal>
+        <span class="section__num">01</span>
+        <h2 id="events-title">Termine im <em>Gartenjahr</em></h2>
+      </div>
+
+      {
+        events.length > 0 ? (
+          <ol class="timeline">
+            {events.map((event, i) => (
+              <li class="moment" data-reveal style={`--reveal-delay: ${i * 110}ms`}>
+                <span class="moment__dot" aria-hidden="true" />
+                <p class="moment__date">
+                  <span class="moment__day">{day(event.data.date)}</span>
+                  <span>{monthShort(event.data.date)}</span>
+                </p>
+                <h3>{event.data.title}</h3>
+                <p class="moment__time">
+                  {weekday(event.data.date)}, {formatTime(event.data)}
+                </p>
+                {event.data.description && <p class="moment__desc">{event.data.description}</p>}
+                <div class="moment__action">
+                  <CalendarButton
+                    title={event.data.title}
+                    date={event.data.date}
+                    description={event.data.description}
+                    startTime={event.data.startTime}
+                    endTime={event.data.endTime}
+                  />
+                </div>
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <div class="empty" data-reveal>
+            <p class="empty__title">Die Termine der neuen Saison folgen in Kürze.</p>
+            {eventCalendar && (
+              <p>
+                Bis dahin findest du alle geplanten Veranstaltungen im{" "}
+                <a href={eventCalendar.data.file} download>
+                  {eventCalendar.data.title} (PDF)
+                </a>
+                .
+              </p>
+            )}
+          </div>
+        )
+      }
+      <a class="link-arrow" href="/dates" data-reveal>Alle Termine <span aria-hidden="true">→</span></a>
+    </section>
+
+    <section class="wrap section" aria-labelledby="docs-title">
+      <div class="section__head" data-reveal>
+        <span class="section__num">02</span>
+        <h2 id="docs-title">Dokumente <em>&amp; Links</em></h2>
+      </div>
+      <div class="lists">
+        <div>
+          <ul class="rows">
+            {documents.map((doc, i) => (
+              <li data-reveal style={`--reveal-delay: ${i * 70}ms`}>
+                <a href={doc.data.file} download>
+                  <span class="rows__num">{String(i + 1).padStart(2, "0")}</span>
+                  <span class="rows__title">{doc.data.title}</span>
+                  <span class="rows__meta">PDF ↓</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <a class="link-arrow rows__more" href="/documents" data-reveal>Alle Dokumente <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="side" data-reveal style="--reveal-delay: 150ms">
+          <figure class="side__photo">
+            <Picture src={flowerImage} alt="Lila Iris und blaue Krokusse im Frühlingsgarten" widths={[360, 560]} sizes="(max-width: 900px) 90vw, 28vw" />
+          </figure>
+          <h3>Verbände &amp; Gesetz</h3>
+          <ul class="side__links">
+            {links.map((link) => (
+              <li>
+                <a href={link.data.url} target="_blank" rel="noopener noreferrer">
+                  {link.data.title} <span aria-hidden="true">↗</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap join" aria-labelledby="join-title" data-reveal>
+      <figure class="join__photo">
+        <Picture src={gateImage} alt="Das Gartentor mit dem Schild des Vereins und den Öffnungszeiten" widths={[480, 800]} sizes="(max-width: 900px) 90vw, 45vw" />
+      </figure>
+      <div class="join__text">
+        <h2 id="join-title">Ein eigener Garten? <em>Sprich uns an.</em></h2>
+        <p>Der Vorstand beantwortet gern deine Fragen zu freien Parzellen, Wartezeiten und dem Vereinsleben.</p>
+        <div class="join__actions">
+          <a class="btn" href="/contact">
+            Kontakt aufnehmen
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"></path></svg>
+          </a>
+          <a class="link-arrow" href="/documents">Bewerbungsbogen <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+  </div>
 </Layout>
+
+<script>
+  import "../scripts/calendar-button.js";
+</script>
+
+<style>
+  .home {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    background:
+      radial-gradient(60rem 40rem at 90% 55%, rgb(244 194 71 / 0.16), transparent 70%),
+      radial-gradient(50rem 40rem at 0% 100%, rgb(79 138 60 / 0.1), transparent 70%);
+  }
+  .wrap { width: min(1240px, 100% - 2.5rem); margin-inline: auto; }
+  h1, h2, h3 { margin: 0; line-height: 1; }
+  p { margin: 0; }
+
+  /* Hero */
+  .hero { position: relative; min-height: min(100svh, 920px); display: flex; flex-direction: column; isolation: isolate; overflow: hidden; }
+  .hero :global(.hero__bg) { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; animation: drift 18s ease-out both; }
+  .hero__shade {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(180deg, rgb(251 247 238 / 0.85) 0%, rgb(251 247 238 / 0) 22%, rgb(251 247 238 / 0) 70%, var(--color-paper) 100%),
+      linear-gradient(90deg, rgb(251 247 238 / 0.96) 0%, rgb(251 247 238 / 0.82) 38%, rgb(251 247 238 / 0) 68%);
+  }
+  .hero__content { margin-top: auto; padding-block: 8rem clamp(3rem, 8vw, 6rem); }
+  .hero h1 { margin-top: 1.2rem; font-size: clamp(3.2rem, 9vw, 8.5rem); letter-spacing: -0.015em; line-height: 0.92; }
+  .lede { max-width: 36rem; margin-top: 1.6rem; font-size: 1.2rem; color: rgb(31 58 43 / 0.82); }
+  .hero__row { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.6rem; margin-top: 2.4rem; }
+  .hours { display: inline-flex; align-items: center; gap: 0.7rem; padding: 0.7rem 1.1rem; border: 1px solid var(--color-line); border-radius: var(--radius-leaf); background: rgb(255 255 255 / 0.7); backdrop-filter: blur(10px); font-size: 0.92rem; }
+  .hours strong { font-weight: 700; white-space: nowrap; }
+  .hours__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-leaf); box-shadow: 0 0 0 0 rgb(79 138 60 / 0.5); animation: pulse 2.4s infinite; }
+
+  /* Sections */
+  .section { padding-top: clamp(4rem, 8vw, 7rem); }
+  .section__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.6rem 1.4rem; margin-bottom: 3rem; padding-bottom: 1.4rem; border-bottom: 1px solid var(--color-line); }
+  .section__num { font-size: 0.85rem; font-weight: 700; color: var(--color-accent); letter-spacing: 0.1em; }
+  .section__head h2 { font-size: clamp(2.4rem, 5.5vw, 4.4rem); margin-right: auto; }
+
+  /* Timeline: three columns so long titles fit without breaking */
+  .timeline { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; margin: 0 0 2.5rem; padding: 0; list-style: none; }
+  .timeline::before { content: ""; position: absolute; top: 6px; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--color-sun), var(--color-line) 80%); }
+  .moment { position: relative; display: flex; flex-direction: column; align-items: flex-start; padding-top: 2.2rem; }
+  .moment__dot { position: absolute; top: 0; left: 0; width: 13px; height: 13px; border-radius: 50%; background: var(--color-paper); border: 2px solid var(--color-accent); transition: background-color 0.25s, transform 0.25s; }
+  .moment:hover .moment__dot { background: var(--color-sun); border-color: var(--color-sun); transform: scale(1.3); }
+  .moment__date { display: flex; align-items: baseline; gap: 0.5rem; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.8rem; font-weight: 600; }
+  .moment__day { font-family: var(--font-display); font-size: 3.4rem; line-height: 1; letter-spacing: 0; color: var(--color-ink); }
+  .moment h3 { margin-top: 0.8rem; font-size: clamp(1.6rem, 2.2vw, 1.85rem); line-height: 1.1; hyphens: manual; }
+  .moment__time { margin-top: 0.4rem; font-size: 0.92rem; color: var(--color-muted); }
+  .moment__desc { margin-top: 0.6rem; font-size: 0.92rem; color: rgb(31 58 43 / 0.72); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  /* Push the calendar buttons to the bottom so they line up across columns */
+  .moment__action { margin-top: auto; padding-top: 1.2rem; }
+
+  .empty { max-width: 44rem; margin-bottom: 2.5rem; padding: 1.6rem 1.8rem; border: 1px dashed rgb(31 58 43 / 0.25); border-radius: var(--radius-leaf); background: rgb(255 255 255 / 0.55); color: rgb(31 58 43 / 0.8); }
+  .empty__title { margin-bottom: 0.4rem !important; font-family: var(--font-display); font-size: 1.8rem; line-height: 1.15; color: var(--color-ink); }
+  .empty a { color: var(--color-accent); font-weight: 600; }
+
+  /* Docs & links */
+  .lists { display: grid; grid-template-columns: 1.6fr 1fr; gap: clamp(2rem, 5vw, 5rem); }
+  .rows { margin: 0; padding: 0; list-style: none; }
+  .rows a { position: relative; display: grid; grid-template-columns: 3.5rem 1fr auto; align-items: baseline; gap: 1rem; padding: 1.4rem 0.4rem; border-bottom: 1px solid var(--color-line); text-decoration: none; isolation: isolate; }
+  .rows a::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--color-surface); transform: scaleY(0); transform-origin: bottom; transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .rows a:hover::before { transform: scaleY(1); }
+  .rows__num { font-size: 0.85rem; font-weight: 700; color: var(--color-muted); }
+  .rows__title { font-family: var(--font-display); font-size: clamp(1.5rem, 2.6vw, 2.1rem); line-height: 1.1; transition: transform 0.3s; }
+  .rows a:hover .rows__title { transform: translateX(8px); color: var(--color-accent); }
+  .rows__meta { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; color: var(--color-muted); }
+  .rows__more { margin-top: 1.6rem; }
+  .side h3 { margin-top: 1.8rem; font-size: 1.8rem; }
+  .side__photo { margin: 0; overflow: hidden; border-radius: 200px 200px 16px 16px; aspect-ratio: 4 / 3.4; }
+  .side__photo :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .side__links { margin: 0.8rem 0 0; padding: 0; list-style: none; }
+  .side__links a { display: block; padding: 0.7rem 0; border-bottom: 1px solid var(--color-line); font-size: 0.95rem; text-decoration: none; color: rgb(31 58 43 / 0.85); }
+  .side__links a:hover { color: var(--color-accent); }
+
+  /* Join */
+  .join { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: clamp(2rem, 5vw, 5rem); margin-top: clamp(4rem, 8vw, 7rem); padding: clamp(1.5rem, 3vw, 2.5rem); border: 1px solid var(--color-line); border-radius: 28px; background: linear-gradient(135deg, #fff, var(--color-surface)); box-shadow: 0 30px 60px -40px rgb(31 58 43 / 0.35); }
+  .join__photo { margin: 0; overflow: hidden; border-radius: 18px; aspect-ratio: 4 / 3; }
+  .join__photo :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .join h2 { font-size: clamp(2.2rem, 4.5vw, 3.6rem); }
+  .join p { margin-top: 1rem; max-width: 30rem; color: rgb(31 58 43 / 0.8); }
+  .join__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.6rem; margin-top: 1.8rem; }
+
+  /* Motion */
+  .fade { animation: fade 1s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: var(--d, 0ms); }
+  @keyframes fade { from { opacity: 0; transform: translateY(16px); filter: blur(4px); } }
+  @keyframes drift { from { transform: scale(1.08); } }
+  @keyframes pulse { 70% { box-shadow: 0 0 0 10px rgb(79 138 60 / 0); } 100% { box-shadow: 0 0 0 0 rgb(79 138 60 / 0); } }
+
+  @media (max-width: 1000px) {
+    .timeline { grid-template-columns: repeat(2, 1fr); row-gap: 3rem; }
+    .timeline::before { display: none; }
+    .moment { border-top: 1px solid var(--color-line); }
+    .moment__dot { top: -7px; }
+    .lists, .join { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 760px) {
+    .hero__shade { background: linear-gradient(180deg, rgb(251 247 238 / 0.9) 0%, rgb(251 247 238 / 0.55) 30%, rgb(251 247 238 / 0.88) 62%, var(--color-paper) 100%); }
+  }
+  @media (max-width: 600px) {
+    .timeline { grid-template-columns: 1fr; }
+    .rows a { grid-template-columns: 2.4rem 1fr; }
+    .rows__meta { display: none; }
+  }
+</style>

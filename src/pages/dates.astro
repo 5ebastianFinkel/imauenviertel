@@ -1,95 +1,104 @@
 ---
-import Container from "../components/container.astro";
-import Layout from "../layouts/Layout.astro";
-import Sectionhead from "../components/sectionhead.astro";
-import CalendarButton from "../components/ui/CalendarButton.astro";
-import { getCollection } from "astro:content";
+import Container from "@components/container.astro";
+import Layout from "@layouts/Layout.astro";
+import Sectionhead from "@components/sectionhead.astro";
+import CalendarButton from "@components/ui/CalendarButton.astro";
+import { getUpcomingEvents, getSortedDocuments, formatTime, day, monthShort, weekday } from "@utils/content";
 
-const events = await getCollection("events", ({ data }) => {
-  return !data.draft && data.date > new Date();
-});
-
-// Sort events by date
-const sortedEvents = events.sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+const events = await getUpcomingEvents();
+const eventCalendar = (await getSortedDocuments()).find((doc) =>
+  doc.data.title.startsWith("Veranstaltungskalender")
+);
 ---
 
 <Layout title="Termine">
-    <Container>
-        <Sectionhead>
-            <Fragment slot="title">Termine</Fragment>
-            <Fragment slot="desc">
-                Hier findest du alle wichtigen Termine im Überblick.
-            </Fragment>
-        </Sectionhead>
-        <main class="mt-16">
-            <div class="space-y-8" role="feed" aria-label="Liste der kommenden Termine">
-                {sortedEvents.map((event) => (
-                    <article 
-                        class="flex flex-col md:flex-row justify-between items-start md:items-center p-6 rounded-lg border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
-                        role="article"
-                        aria-labelledby={`event-title-${event.id}`}>
-                        <div class="flex-1">
-                            <h3 
-                                id={`event-title-${event.id}`}
-                                class="text-xl font-semibold text-gray-900">
-                                {event.data.title}
-                            </h3>
-                            <p 
-                                class="text-gray-600 mt-2"
-                                aria-label={`Termin am ${event.data.date.toLocaleDateString('de-DE', {
-                                    weekday: 'long',
-                                    year: 'numeric',
-                                    month: 'long',
-                                    day: 'numeric',
-                                })}`}>
-                                {event.data.date.toLocaleDateString('de-DE', {
-                                    weekday: 'long',
-                                    year: 'numeric',
-                                    month: 'long',
-                                    day: 'numeric',
-                                })}
-                                {event.data.startTime && (
-                                    <span class="ml-2 font-medium">
-                                        {event.data.startTime} Uhr
-                                        {event.data.endTime && ` - ${event.data.endTime} Uhr`}
-                                    </span>
-                                )}
-                                {!event.data.startTime && (
-                                    <span class="ml-2 text-gray-500 italic">Ganztägig</span>
-                                )}
-                            </p>
-                            {event.data.description && (
-                                <p 
-                                    class="text-gray-600 mt-2"
-                                    aria-label="Beschreibung">
-                                    {event.data.description}
-                                </p>
-                            )}
-                        </div>
-                        <div class="mt-4 md:mt-0">
-                            <CalendarButton 
-                                title={event.data.title}
-                                date={event.data.date}
-                                description={event.data.description}
-                                startTime={event.data.startTime}
-                                endTime={event.data.endTime}
-                            />
-                        </div>
-                    </article>
-                ))}
-            </div>
-            {sortedEvents.length === 0 && (
-                <p 
-                    class="text-center text-gray-600"
-                    role="status"
-                    aria-label="Keine Termine verfügbar">
-                    Aktuell sind keine Termine eingetragen.
+  <Container>
+    <Sectionhead eyebrow="Gartenkalender">
+      <Fragment slot="title">Termine im <em>Gartenjahr</em></Fragment>
+      <Fragment slot="desc">
+        Gemeinschaftsarbeit, Feste und Versammlungen – hier findest du alle kommenden Termine im
+        Überblick.
+      </Fragment>
+    </Sectionhead>
+
+    {
+      events.length > 0 ? (
+        <ol class="agenda" aria-label="Liste der kommenden Termine">
+          {events.map((event) => (
+            <li class="agenda__item" data-reveal aria-labelledby={`event-title-${event.id}`}>
+              <p class="agenda__date">
+                <span class="agenda__day">{day(event.data.date)}</span>
+                <span class="agenda__month">{monthShort(event.data.date)} {event.data.date.getFullYear()}</span>
+              </p>
+              <div class="agenda__body">
+                <h2 id={`event-title-${event.id}`}>{event.data.title}</h2>
+                <p class="agenda__time">
+                  {weekday(event.data.date)} · {formatTime(event.data)}
                 </p>
+                {event.data.description && <p class="agenda__desc">{event.data.description}</p>}
+              </div>
+              <div class="agenda__action">
+                <CalendarButton
+                  title={event.data.title}
+                  date={event.data.date}
+                  description={event.data.description}
+                  startTime={event.data.startTime}
+                  endTime={event.data.endTime}
+                />
+              </div>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <div class="empty" role="status">
+          <p class="empty__title">Aktuell sind keine Termine eingetragen.</p>
+          <p>
+            Die Termine der neuen Saison folgen in Kürze.
+            {eventCalendar && (
+              <>
+                {" "}Bis dahin findest du die geplanten Veranstaltungen im{" "}
+                <a href={eventCalendar.data.file} download>{eventCalendar.data.title} (PDF)</a>.
+              </>
             )}
-        </main>
-    </Container>
+          </p>
+        </div>
+      )
+    }
+  </Container>
 </Layout>
 
 <script>
-    import '../scripts/calendar-button.js';
+  import "../scripts/calendar-button.js";
 </script>
+
+<style>
+  .agenda { margin: 0; padding: 0; list-style: none; }
+  .agenda__item {
+    display: grid;
+    grid-template-columns: 9rem minmax(0, 1fr) auto;
+    gap: 1.25rem 2.5rem;
+    align-items: start;
+    padding: 2rem 0.5rem;
+    border-bottom: 1px solid var(--color-line);
+    transition: background-color 0.3s;
+  }
+  .agenda__item:hover { background: rgb(255 255 255 / 0.5); }
+  .agenda__date { display: flex; flex-direction: column; margin: 0; }
+  .agenda__day { font-family: var(--font-display); font-size: 4rem; line-height: 0.9; }
+  .agenda__month { margin-top: 0.4rem; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-muted); }
+  .agenda__body h2 { margin: 0; font-size: clamp(1.8rem, 3vw, 2.3rem); line-height: 1.05; }
+  .agenda__time { margin: 0.4rem 0 0; font-weight: 600; color: var(--color-accent); }
+  .agenda__desc { max-width: 42rem; margin: 0.5rem 0 0; color: rgb(31 58 43 / 0.78); }
+  .agenda__action { padding-top: 0.6rem; }
+
+  .empty { max-width: 44rem; padding: 1.6rem 1.8rem; border: 1px dashed rgb(31 58 43 / 0.25); border-radius: var(--radius-leaf); background: rgb(255 255 255 / 0.55); color: rgb(31 58 43 / 0.8); }
+  .empty p { margin: 0; }
+  .empty__title { margin-bottom: 0.4rem !important; font-family: var(--font-display); font-size: 1.8rem; line-height: 1.15; color: var(--color-ink); }
+  .empty a { color: var(--color-accent); font-weight: 600; }
+
+  @media (max-width: 760px) {
+    .agenda__item { grid-template-columns: 5rem minmax(0, 1fr); gap: 1rem 1.25rem; }
+    .agenda__day { font-size: 3rem; }
+    .agenda__action { grid-column: 2; padding-top: 0; }
+  }
+</style>

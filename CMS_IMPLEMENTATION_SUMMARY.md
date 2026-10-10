@@ -3,7 +3,7 @@
 ## What Was Implemented
 
 ### 1. **Decap CMS Integration**
-- Installed `decap-cms-app@3.8.2` package
+- Loads `decap-cms` from unpkg (pinned version + SRI hash, see `DECAP_CMS_GUIDE.md`); the `decap-cms-app` npm package is no longer installed
 - Created admin interface at `/public/admin/index.html`
 - Configured collections in `/public/admin/config.yml`
 

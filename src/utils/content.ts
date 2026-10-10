@@ -1,8 +1,11 @@
 // Collection helpers shared by the start page, dates and documents pages
 import { getCollection } from 'astro:content';
 
+// Events are stored as local midnight, so compare against the start of today
+// to keep today's events listed.
 export async function getUpcomingEvents(limit?: number, now = new Date()) {
-  const events = await getCollection('events', ({ data }) => !data.draft && data.date > now);
+  const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const events = await getCollection('events', ({ data }) => !data.draft && data.date >= startOfToday);
   const sorted = events.sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
   return limit === undefined ? sorted : sorted.slice(0, limit);
 }

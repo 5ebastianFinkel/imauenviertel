@@ -1,0 +1,343 @@
+---
+// Mockup 3 — "Abendgarten": warm natural tones on a dark, photo-led layout
+import "@fontsource/instrument-serif";
+import "@fontsource/instrument-serif/400-italic.css";
+import "@fontsource-variable/manrope";
+import { Picture } from "astro:assets";
+import RedesignLayout from "@layouts/RedesignLayout.astro";
+import EventCalendarButton from "@components/redesign/EventCalendarButton.astro";
+import pathImage from "@assets/Ergebnis_Heckenschnitt.webp";
+import gateImage from "@assets/Gartentor.webp";
+import flowerImage from "@assets/Blumen.webp";
+import logo from "@assets/logo.avif";
+import {
+  getHomeEvents,
+  getHomeDocuments,
+  getHomeLinks,
+  formatTime,
+  day,
+  monthShort,
+  weekday,
+} from "@utils/homeData";
+
+const { events, isSample } = await getHomeEvents(4);
+const documents = await getHomeDocuments(5);
+const links = await getHomeLinks(4);
+
+const nav = [
+  { title: "Neuigkeiten", path: "/blog" },
+  { title: "Termine", path: "/dates" },
+  { title: "Über uns", path: "/about" },
+  { title: "Dokumente", path: "/documents" },
+  { title: "Kontakt", path: "/contact" },
+];
+---
+
+<RedesignLayout title="Abendgarten" themeColor="#0f1d16" current={3}>
+  <div class="evening">
+    <section class="hero" aria-labelledby="hero-title">
+      <Picture
+        src={pathImage}
+        alt=""
+        widths={[800, 1280, 1920, 2560]}
+        sizes="100vw"
+        loading="eager"
+        class="hero__bg"
+      />
+      <div class="hero__shade" aria-hidden="true"></div>
+
+      <header class="top wrap">
+        <a href="/redesign/3" class="brand" aria-label="Im Auenviertel – Startseite">
+          <span class="brand__mark"><Picture src={logo} alt="" widths={[48, 96]} sizes="36px" /></span>
+          <span>Im Auenviertel</span>
+        </a>
+        <nav aria-label="Hauptnavigation">
+          <ul class="nav">
+            {nav.map((item) => <li><a href={item.path}>{item.title}</a></li>)}
+          </ul>
+        </nav>
+      </header>
+
+      <div class="hero__content wrap">
+        <p class="eyebrow fade" style="--d: 100ms">Kleingartenverein · Münster-Gievenbeck</p>
+        <h1 id="hero-title" class="fade" style="--d: 200ms">
+          Wo der Feierabend<br /><em>Wurzeln schlägt.</em>
+        </h1>
+        <p class="lede fade" style="--d: 320ms">
+          Gemeinschaft, Natur und Erholung – mitten im Auenviertel. Komm vorbei, pack mit an und
+          bleib auf ein Gespräch am Gartenzaun.
+        </p>
+        <div class="hero__row fade" style="--d: 440ms">
+          <a class="btn btn--down" href="#termine">
+            Kommende Termine
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14m-6-6 6 6 6-6" /></svg>
+          </a>
+          <div class="hours">
+            <span class="hours__dot" aria-hidden="true"></span>
+            <span>Anlage geöffnet <strong>15.03.–30.09.</strong>, täglich <strong>08–20 Uhr</strong></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main id="main-content">
+      <section id="termine" class="wrap section" aria-labelledby="events-title">
+        <div class="section__head">
+          <span class="section__num">01</span>
+          <h2 id="events-title">Termine im <em>Gartenjahr</em></h2>
+          {isSample && <span class="sample">Beispieldaten – die neue Saison ist noch nicht eingetragen</span>}
+        </div>
+
+        {
+          events.length > 0 ? (
+            <ol class="timeline">
+              {events.map((event) => (
+                <li class="moment">
+                  <span class="moment__dot" aria-hidden="true"></span>
+                  <p class="moment__date">
+                    <span class="moment__day">{day(event.date)}</span>
+                    <span>{monthShort(event.date)}</span>
+                  </p>
+                  <h3>{event.title}</h3>
+                  <p class="moment__time">{weekday(event.date)}, {formatTime(event)}</p>
+                  {event.description && <p class="moment__desc">{event.description}</p>}
+                  <EventCalendarButton event={event} isSample={isSample} class="moment__cal">
+                    In den Kalender <span aria-hidden="true">+</span>
+                  </EventCalendarButton>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p class="empty">Gerade ruht der Garten – neue Termine folgen bald.</p>
+          )
+        }
+        <a class="link-arrow" href="/dates">Alle Termine <span aria-hidden="true">→</span></a>
+      </section>
+
+      <section class="wrap section" aria-labelledby="docs-title">
+        <div class="section__head">
+          <span class="section__num">02</span>
+          <h2 id="docs-title">Dokumente <em>&amp; Links</em></h2>
+        </div>
+        <div class="lists">
+          <ul class="rows">
+            {documents.map((doc, i) => (
+              <li>
+                <a href={doc.data.file} download>
+                  <span class="rows__num">{String(i + 1).padStart(2, "0")}</span>
+                  <span class="rows__title">{doc.data.title}</span>
+                  <span class="rows__meta">PDF ↓</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <div class="side">
+            <figure class="side__photo">
+              <Picture src={flowerImage} alt="Lila Iris und blaue Krokusse im Frühlingsgarten" widths={[360, 560]} sizes="(max-width: 900px) 90vw, 28vw" />
+            </figure>
+            <h3>Verbände &amp; Gesetz</h3>
+            <ul class="side__links">
+              {links.map((link) => (
+                <li>
+                  <a href={link.data.url} target="_blank" rel="noopener noreferrer">
+                    {link.data.title} <span aria-hidden="true">↗</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="wrap join" aria-labelledby="join-title">
+        <figure class="join__photo">
+          <Picture src={gateImage} alt="Das Gartentor mit dem Schild des Vereins" widths={[480, 800]} sizes="(max-width: 900px) 90vw, 45vw" />
+        </figure>
+        <div class="join__text">
+          <h2 id="join-title">Ein eigener Garten? <em>Sprich uns an.</em></h2>
+          <p>Der Vorstand beantwortet gern deine Fragen zu freien Parzellen, Wartezeiten und dem Vereinsleben.</p>
+          <div class="join__actions">
+            <a class="btn" href="/contact">
+              Kontakt aufnehmen
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>
+            </a>
+            <a class="link-arrow" href="/documents">Bewerbungsbogen <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="wrap footer">
+      <p class="footer__brand">Im Auenviertel <em>e.V.</em></p>
+      <a href="mailto:mail@imauenviertel.de">mail@imauenviertel.de</a>
+      <ul>
+        <li><a href="/impressum">Impressum</a></li>
+        <li><a href="/datenschutz">Datenschutz</a></li>
+      </ul>
+    </footer>
+  </div>
+</RedesignLayout>
+
+<script>
+  import "../../scripts/calendar-button.js";
+</script>
+
+<style>
+  .evening {
+    --radius-leaf: 1.4rem 0.3rem;
+    --radius-leaf-flip: 0.3rem 1.4rem;
+    --radius-leaf-sm: 0.85rem 0.2rem;
+    --radius-leaf-sm-flip: 0.2rem 0.85rem;
+    --night: #0f1d16;
+    --night-2: #16281f;
+    --cream: #f1ead8;
+    --muted: #a9b5a3;
+    --sun: #f2c14e;
+    --line: rgb(241 234 216 / 0.14);
+    --serif: "Instrument Serif", Georgia, serif;
+    --sans: "Manrope Variable", ui-sans-serif, system-ui, sans-serif;
+
+    min-height: 100vh;
+    padding-bottom: 7rem;
+    color: var(--cream);
+    font-family: var(--sans);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    background:
+      radial-gradient(60rem 40rem at 85% 60%, rgb(242 193 78 / 0.06), transparent 70%),
+      radial-gradient(50rem 40rem at 0% 100%, rgb(110 150 100 / 0.12), transparent 70%),
+      var(--night);
+  }
+
+  .wrap { width: min(1240px, 100% - 2.5rem); margin-inline: auto; }
+  a { color: inherit; }
+  h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; line-height: 1; hyphens: auto; overflow-wrap: break-word; }
+  em { font-style: italic; color: var(--sun); }
+  p { margin: 0; }
+
+  .eyebrow { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.95rem 1.45rem 0.95rem 1.7rem;
+    border-radius: var(--radius-leaf);
+    background: var(--sun);
+    color: var(--night);
+    font-weight: 700;
+    text-decoration: none;
+    transition: border-radius 0.45s cubic-bezier(0.3, 0.7, 0.2, 1), transform 0.25s, box-shadow 0.25s;
+  }
+  .btn svg { width: 1.05rem; height: 1.05rem; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.25s; }
+  .btn:hover svg { transform: translateX(3px); }
+  .btn--down:hover svg { transform: translateY(3px); }
+  .btn:hover { border-radius: var(--radius-leaf-flip); transform: translateY(-2px); box-shadow: 0 12px 30px -8px rgb(242 193 78 / 0.55); }
+  .link-arrow { display: inline-flex; gap: 0.5rem; font-weight: 600; text-decoration: none; color: var(--sun); }
+  .link-arrow span { transition: transform 0.25s; }
+  .link-arrow:hover span { transform: translateX(4px); }
+
+  /* Hero */
+  .hero { position: relative; min-height: min(100svh, 920px); display: flex; flex-direction: column; isolation: isolate; overflow: hidden; }
+  .hero :global(.hero__bg) { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; animation: drift 18s ease-out both; }
+  .hero__shade {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(180deg, rgb(15 29 22 / 0.75) 0%, rgb(15 29 22 / 0.2) 30%, rgb(15 29 22 / 0.55) 60%, var(--night) 100%),
+      linear-gradient(90deg, rgb(15 29 22 / 0.65), transparent 70%);
+  }
+  .top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem 2rem; padding-block: 1.5rem; }
+  .brand { display: flex; align-items: center; gap: 0.75rem; font-family: var(--serif); font-size: 1.6rem; text-decoration: none; }
+  .brand__mark { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: #fff; }
+  .brand__mark { overflow: hidden; }
+  .brand__mark :global(picture) { display: block; }
+  .brand__mark :global(img) { display: block; width: auto; height: 30px; }
+  .nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1.8rem; margin: 0; padding: 0; list-style: none; font-weight: 500; font-size: 0.95rem; }
+  .nav a { text-decoration: none; opacity: 0.85; transition: opacity 0.2s, color 0.2s; }
+  .nav a:hover { opacity: 1; color: var(--sun); }
+
+  .hero__content { margin-top: auto; padding-block: 4rem clamp(3rem, 8vw, 6rem); }
+  .hero h1 { margin-top: 1.2rem; font-size: clamp(3.2rem, 9vw, 8.5rem); letter-spacing: -0.015em; line-height: 0.92; }
+  .lede { max-width: 36rem; margin-top: 1.6rem; font-size: 1.2rem; color: rgb(241 234 216 / 0.85); }
+  .hero__row { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.6rem; margin-top: 2.4rem; }
+  .hours { display: inline-flex; align-items: center; gap: 0.7rem; padding: 0.7rem 1.1rem; border: 1px solid var(--line); border-radius: var(--radius-leaf); background: rgb(15 29 22 / 0.45); backdrop-filter: blur(10px); font-size: 0.92rem; }
+  .hours strong { font-weight: 700; white-space: nowrap; }
+  .hours__dot { width: 8px; height: 8px; border-radius: 50%; background: #8fd18a; box-shadow: 0 0 0 0 rgb(143 209 138 / 0.6); animation: pulse 2.4s infinite; }
+
+  /* Sections */
+  .section { padding-top: clamp(4rem, 8vw, 7rem); }
+  .section__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.6rem 1.4rem; margin-bottom: 3rem; padding-bottom: 1.4rem; border-bottom: 1px solid var(--line); }
+  .section__num { font-size: 0.85rem; font-weight: 700; color: var(--sun); letter-spacing: 0.1em; }
+  .section__head h2 { font-size: clamp(2.4rem, 5.5vw, 4.4rem); margin-right: auto; }
+  .sample { padding: 0.3rem 0.8rem; border-radius: var(--radius-leaf-sm); border: 1px dashed rgb(242 193 78 / 0.6); font-size: 0.8rem; color: var(--sun); }
+
+  /* Timeline */
+  .timeline { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin: 0 0 2.5rem; padding: 0; list-style: none; }
+  .timeline::before { content: ""; position: absolute; top: 6px; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, var(--sun), var(--line) 80%); }
+  .moment { position: relative; display: flex; flex-direction: column; align-items: flex-start; padding-top: 2.2rem; }
+  .moment__dot { position: absolute; top: 0; left: 0; width: 13px; height: 13px; border-radius: 50%; background: var(--night); border: 2px solid var(--sun); transition: background-color 0.25s, transform 0.25s; }
+  .moment:hover .moment__dot { background: var(--sun); transform: scale(1.3); }
+  .moment__date { display: flex; align-items: baseline; gap: 0.5rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.8rem; font-weight: 600; }
+  .moment__day { font-family: var(--serif); font-size: 3.4rem; line-height: 1; letter-spacing: 0; color: var(--cream); }
+  .moment h3 { margin-top: 0.8rem; font-size: 1.75rem; line-height: 1.1; }
+  .moment__time { margin-top: 0.4rem; font-size: 0.92rem; color: var(--muted); }
+  .moment__desc { margin-top: 0.6rem; font-size: 0.92rem; color: rgb(241 234 216 / 0.7); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .timeline :global(.moment__cal) { margin-top: 1.1rem; padding: 0.5rem 1rem; border: 1px solid var(--line); border-radius: var(--radius-leaf-sm); background: transparent; color: var(--cream); font: 600 0.85rem var(--sans); cursor: pointer; transition: border-radius 0.4s cubic-bezier(0.3, 0.7, 0.2, 1), border-color 0.2s, color 0.2s, background-color 0.2s; }
+  .timeline :global(button.moment__cal:hover) { border-radius: var(--radius-leaf-sm-flip); border-color: var(--sun); color: var(--sun); }
+  .timeline :global(span.moment__cal) { opacity: 0.45; cursor: not-allowed; }
+  .empty { font-family: var(--serif); font-size: 1.8rem; color: var(--muted); }
+
+  /* Docs & links */
+  .lists { display: grid; grid-template-columns: 1.6fr 1fr; gap: clamp(2rem, 5vw, 5rem); }
+  .rows { margin: 0; padding: 0; list-style: none; }
+  .rows a { position: relative; display: grid; grid-template-columns: 3.5rem 1fr auto; align-items: baseline; gap: 1rem; padding: 1.4rem 0.4rem; border-bottom: 1px solid var(--line); text-decoration: none; isolation: isolate; }
+  .rows a::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--night-2); transform: scaleY(0); transform-origin: bottom; transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .rows a:hover::before { transform: scaleY(1); }
+  .rows__num { font-size: 0.85rem; font-weight: 700; color: var(--muted); }
+  .rows__title { font-family: var(--serif); font-size: clamp(1.5rem, 2.6vw, 2.1rem); line-height: 1.1; transition: transform 0.3s; }
+  .rows a:hover .rows__title { transform: translateX(8px); color: var(--sun); }
+  .rows__meta { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; color: var(--muted); }
+  .side h3 { margin-top: 1.8rem; font-size: 1.8rem; }
+  .side__photo { margin: 0; overflow: hidden; border-radius: 200px 200px 16px 16px; aspect-ratio: 4 / 3.4; }
+  .side__photo :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .side__links { margin: 0.8rem 0 0; padding: 0; list-style: none; }
+  .side__links a { display: block; padding: 0.7rem 0; border-bottom: 1px solid var(--line); font-size: 0.95rem; text-decoration: none; color: rgb(241 234 216 / 0.85); }
+  .side__links a:hover { color: var(--sun); }
+
+  /* Join */
+  .join { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: clamp(2rem, 5vw, 5rem); margin-top: clamp(4rem, 8vw, 7rem); padding: clamp(1.5rem, 3vw, 2.5rem); border: 1px solid var(--line); border-radius: 28px; background: linear-gradient(135deg, var(--night-2), transparent); }
+  .join__photo { margin: 0; overflow: hidden; border-radius: 18px; aspect-ratio: 4 / 3; }
+  .join__photo :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .join h2 { font-size: clamp(2.2rem, 4.5vw, 3.6rem); }
+  .join p { margin-top: 1rem; max-width: 30rem; color: rgb(241 234 216 / 0.8); }
+  .join__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.6rem; margin-top: 1.8rem; }
+
+  /* Footer */
+  .footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--line); font-size: 0.92rem; color: var(--muted); }
+  .footer__brand { font-family: var(--serif); font-size: 1.8rem; color: var(--cream); }
+  .footer ul { display: flex; gap: 1.4rem; margin: 0; padding: 0; list-style: none; }
+  .footer a { text-decoration: none; }
+  .footer a:hover { color: var(--sun); }
+
+  /* Motion */
+  .fade { animation: fade 1s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: var(--d, 0ms); }
+  @keyframes fade { from { opacity: 0; transform: translateY(16px); filter: blur(4px); } }
+  @keyframes drift { from { transform: scale(1.08); } }
+  @keyframes pulse { 70% { box-shadow: 0 0 0 10px rgb(143 209 138 / 0); } 100% { box-shadow: 0 0 0 0 rgb(143 209 138 / 0); } }
+
+  @media (max-width: 1000px) {
+    .timeline { grid-template-columns: repeat(2, 1fr); row-gap: 3rem; }
+    .timeline::before { display: none; }
+    .moment { border-top: 1px solid var(--line); }
+    .moment__dot { top: -7px; }
+    .lists, .join { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .timeline { grid-template-columns: 1fr; }
+    .nav { gap: 0.25rem 1.1rem; }
+    .rows a { grid-template-columns: 2.4rem 1fr; }
+    .rows__meta { display: none; }
+  }
+</style>

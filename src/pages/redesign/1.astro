@@ -1,0 +1,410 @@
+---
+// Mockup 1 — "Gartenjournal": natural & warm, like a garden magazine
+import "@fontsource/young-serif";
+import "@fontsource-variable/instrument-sans";
+import { Picture } from "astro:assets";
+import RedesignLayout from "@layouts/RedesignLayout.astro";
+import EventCalendarButton from "@components/redesign/EventCalendarButton.astro";
+import pathImage from "@assets/Ergebnis_Heckenschnitt.webp";
+import flowerImage from "@assets/Blumen.webp";
+import gateImage from "@assets/Gartentor.webp";
+import logo from "@assets/logo.avif";
+import {
+  getHomeEvents,
+  getHomeDocuments,
+  getHomeLinks,
+  formatTime,
+  day,
+  monthLong,
+  weekday,
+} from "@utils/homeData";
+
+const { events, isSample } = await getHomeEvents(4);
+const documents = await getHomeDocuments(5);
+const links = await getHomeLinks(4);
+
+const now = new Date();
+const seasons = ["Winter", "Winter", "Frühling", "Frühling", "Frühling", "Sommer", "Sommer", "Sommer", "Herbst", "Herbst", "Herbst", "Winter"];
+const issue = `${seasons[now.getMonth()]}ausgabe ${now.getFullYear()}`;
+
+const nav = [
+  { title: "Neuigkeiten", path: "/blog" },
+  { title: "Termine", path: "/dates" },
+  { title: "Über uns", path: "/about" },
+  { title: "Dokumente", path: "/documents" },
+  { title: "Kontakt", path: "/contact" },
+];
+---
+
+<RedesignLayout title="Gartenjournal" themeColor="#f2ebdd" current={1}>
+  <div class="journal">
+    <header class="masthead wrap">
+      <div class="masthead__meta">
+        <span>Kleingartenverein · Münster-Gievenbeck</span>
+        <span>{issue}</span>
+      </div>
+      <div class="masthead__bar">
+        <a href="/redesign/1" class="brand" aria-label="Im Auenviertel – Startseite">
+          <Picture src={logo} alt="" widths={[48, 96]} sizes="48px" class="brand__logo" />
+          <span class="brand__name">Im Auenviertel</span>
+        </a>
+        <nav aria-label="Hauptnavigation">
+          <ul class="nav">
+            {nav.map((item) => <li><a href={item.path}>{item.title}</a></li>)}
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="hero wrap" aria-labelledby="hero-title">
+        <div class="hero__text">
+          <p class="eyebrow reveal" style="--d: 0ms">Willkommen im Verein</p>
+          <h1 id="hero-title" class="reveal" style="--d: 80ms">
+            Ein Stück Land,<br /><em>eine Gemeinschaft.</em>
+          </h1>
+          <p class="lede reveal" style="--d: 160ms">
+            Zwischen Hecken, Lauben und Gemüsebeeten gärtnern wir gemeinsam im Münsteraner
+            Auenviertel – mit viel Erde an den Händen und Zeit füreinander.
+          </p>
+          <div class="hero__actions reveal" style="--d: 240ms">
+            <a class="btn btn--solid" href="#kalender">Zum Gartenkalender</a>
+            <a class="btn btn--line" href="/blog">Neuigkeiten lesen</a>
+          </div>
+          <dl class="hours reveal" style="--d: 320ms">
+            <div>
+              <dt>Anlage geöffnet</dt>
+              <dd>15.03. – 30.09.</dd>
+            </div>
+            <div>
+              <dt>täglich</dt>
+              <dd>08 – 20 Uhr</dd>
+            </div>
+          </dl>
+        </div>
+
+        <figure class="hero__figure reveal" style="--d: 120ms">
+          <div class="arch">
+            <Picture
+              src={pathImage}
+              alt="Der Hauptweg der Anlage mit frisch geschnittenen Hecken und einer roten Gartenlaube"
+              widths={[480, 720, 960, 1280]}
+              sizes="(max-width: 900px) 92vw, 46vw"
+              loading="eager"
+            />
+          </div>
+          <div class="stamp" aria-hidden="true">
+            <Picture src={flowerImage} alt="" widths={[200, 320]} sizes="160px" />
+          </div>
+          <figcaption>Der Hauptweg nach dem gemeinsamen Heckenschnitt.</figcaption>
+        </figure>
+      </section>
+
+      <section id="kalender" class="calendar wrap" aria-labelledby="calendar-title">
+        <div class="section-head">
+          <p class="eyebrow">Gartenkalender</p>
+          <h2 id="calendar-title">Was als Nächstes ansteht</h2>
+          {isSample && <span class="sample-note">Beispieldaten – Termine der neuen Saison fehlen noch</span>}
+        </div>
+
+        {
+          events.length > 0 ? (
+            <ol class="almanac">
+              {events.map((event) => (
+                <li class="almanac__item">
+                  <div class="almanac__date">
+                    <span class="almanac__day">{day(event.date)}</span>
+                    <span class="almanac__month">{monthLong(event.date)}</span>
+                  </div>
+                  <div class="almanac__body">
+                    <h3>{event.title}</h3>
+                    <p class="almanac__when">
+                      {weekday(event.date)} · {formatTime(event)}
+                    </p>
+                    {event.description && <p class="almanac__desc">{event.description}</p>}
+                  </div>
+                  <EventCalendarButton event={event} isSample={isSample} class="almanac__cal">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v3M17 3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm7 7v5m-2.5-2.5h5" /></svg>
+                    <span>Eintragen</span>
+                  </EventCalendarButton>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p class="empty">Gerade stehen keine Termine an. Schau bald wieder vorbei!</p>
+          )
+        }
+        <a class="more" href="/dates">Alle Termine ansehen →</a>
+      </section>
+
+      <section class="archive" aria-labelledby="archive-title">
+        <div class="wrap archive__grid">
+          <div class="archive__intro">
+            <p class="eyebrow">Aus dem Vereinsarchiv</p>
+            <h2 id="archive-title">Ordnungen, Formulare &amp; gute Adressen</h2>
+            <figure class="archive__photo">
+              <Picture
+                src={gateImage}
+                alt="Gartentor mit dem Vereinsschild und den Öffnungszeiten"
+                widths={[400, 640]}
+                sizes="(max-width: 900px) 92vw, 30vw"
+              />
+            </figure>
+          </div>
+
+          <div class="index">
+            <h3>Dokumente</h3>
+            <ul>
+              {documents.map((doc) => (
+                <li>
+                  <a href={doc.data.file} download>
+                    <span class="index__title">{doc.data.title}</span>
+                    <span class="index__leader" aria-hidden="true"></span>
+                    <span class="index__tag">PDF</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <a class="more" href="/documents">Alle Dokumente →</a>
+          </div>
+
+          <div class="index">
+            <h3>Links</h3>
+            <ul>
+              {links.map((link) => (
+                <li>
+                  <a href={link.data.url} target="_blank" rel="noopener noreferrer">
+                    <span class="index__title">{link.data.title}</span>
+                    <span class="index__leader" aria-hidden="true"></span>
+                    <span class="index__tag">↗</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer wrap">
+      <p class="footer__sign">Im Auenviertel e.V.</p>
+      <p>Fragen an den Vorstand: <a href="mailto:mail@imauenviertel.de">mail@imauenviertel.de</a></p>
+      <ul class="footer__links">
+        <li><a href="/impressum">Impressum</a></li>
+        <li><a href="/datenschutz">Datenschutz</a></li>
+        <li><a href="/contact">Kontakt</a></li>
+      </ul>
+    </footer>
+  </div>
+</RedesignLayout>
+
+<script>
+  import "../../scripts/calendar-button.js";
+</script>
+
+<style>
+  .journal {
+    --paper: #f2ebdd;
+    --paper-deep: #e7dcc6;
+    --ink: #2f241b;
+    --ink-soft: #6a5a4a;
+    --moss: #4c6a3a;
+    --clay: #b85c38;
+    --rule: rgb(47 36 27 / 0.18);
+    --serif: "Young Serif", Georgia, serif;
+    --sans: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
+
+    min-height: 100vh;
+    padding-bottom: 6rem;
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    background-color: var(--paper);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .18 0 0 0 0 .14 0 0 0 0 .1 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .wrap { width: min(1200px, 100% - 2.5rem); margin-inline: auto; }
+  a { color: inherit; }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 400; margin: 0; line-height: 1.08; hyphens: auto; overflow-wrap: break-word; }
+
+  .eyebrow {
+    margin: 0 0 0.9rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--clay);
+  }
+
+  /* Masthead */
+  .masthead { padding-top: 1.25rem; }
+  .masthead__meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--rule);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .masthead__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    padding: 1.1rem 0;
+    border-bottom: 3px double var(--rule);
+  }
+  .brand { display: flex; align-items: center; gap: 0.8rem; text-decoration: none; }
+  .brand :global(img) { width: 44px; height: auto; }
+  .brand__name { font-family: var(--serif); font-size: 1.6rem; }
+  .nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1.6rem; margin: 0; padding: 0; list-style: none; }
+  .nav a { text-decoration: none; font-weight: 500; background: linear-gradient(var(--clay), var(--clay)) 0 100% / 0 1.5px no-repeat; transition: background-size 0.3s; }
+  .nav a:hover { background-size: 100% 1.5px; }
+
+  /* Hero */
+  .hero {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
+    padding-block: clamp(3rem, 7vw, 6rem);
+  }
+  .hero h1 { font-size: clamp(2.7rem, 6.2vw, 5.4rem); letter-spacing: -0.01em; }
+  .hero h1 em { font-style: normal; color: var(--moss); }
+  .lede { max-width: 34rem; margin: 1.6rem 0 0; font-size: 1.2rem; color: var(--ink-soft); }
+  .hero__actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 2.2rem; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.85rem 1.4rem;
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.2s, background-color 0.2s, color 0.2s;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn--solid { background: var(--ink); color: var(--paper); }
+  .btn--solid:hover { background: var(--moss); }
+  .btn--line { border: 1.5px solid var(--ink); }
+  .btn--line:hover { background: var(--ink); color: var(--paper); }
+
+  .hours { display: flex; gap: 2.5rem; margin: 2.6rem 0 0; padding-top: 1.4rem; border-top: 1px solid var(--rule); }
+  .hours dt { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
+  .hours dd { margin: 0.2rem 0 0; font-family: var(--serif); font-size: 1.5rem; }
+
+  .hero__figure { position: relative; margin: 0; }
+  .arch {
+    overflow: hidden;
+    border-radius: 999px 999px 1.5rem 1.5rem;
+    aspect-ratio: 4 / 5;
+    box-shadow: 0 30px 60px -30px rgb(47 36 27 / 0.45);
+  }
+  .arch :global(img) { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .stamp {
+    position: absolute;
+    left: -2.2rem;
+    bottom: 3.2rem;
+    width: clamp(110px, 13vw, 160px);
+    aspect-ratio: 1;
+    padding: 6px;
+    border-radius: 50%;
+    background: var(--paper);
+    transform: rotate(-8deg);
+    box-shadow: 0 12px 24px -10px rgb(47 36 27 / 0.4);
+  }
+  .stamp :global(img) { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
+  .hero__figure figcaption { margin-top: 0.9rem; font-size: 0.9rem; font-style: italic; color: var(--ink-soft); text-align: right; }
+
+  /* Calendar */
+  .calendar { padding-block: clamp(3rem, 6vw, 5rem); border-top: 1px solid var(--rule); }
+  .section-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1.5rem; margin-bottom: 2.4rem; }
+  .section-head .eyebrow { flex-basis: 100%; margin: 0; }
+  .section-head h2 { font-size: clamp(2rem, 4vw, 3.2rem); }
+  .sample-note {
+    padding: 0.3rem 0.75rem;
+    border: 1px dashed var(--clay);
+    border-radius: 999px;
+    font-size: 0.8rem;
+    color: var(--clay);
+  }
+
+  .almanac { margin: 0; padding: 0; list-style: none; }
+  .almanac__item {
+    display: grid;
+    grid-template-columns: 9rem 1fr auto;
+    gap: 1.5rem 2.5rem;
+    align-items: start;
+    padding: 1.8rem 0;
+    border-bottom: 1px solid var(--rule);
+    transition: background-color 0.25s;
+  }
+  .almanac__item:first-child { border-top: 1px solid var(--rule); }
+  .almanac__item:hover { background: rgb(255 255 255 / 0.35); }
+  .almanac__date { display: flex; flex-direction: column; }
+  .almanac__day { font-family: var(--serif); font-size: 3.6rem; line-height: 0.9; color: var(--moss); }
+  .almanac__month { margin-top: 0.35rem; font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; }
+  .almanac__body h3 { font-size: 1.65rem; }
+  .almanac__when { margin: 0.35rem 0 0; font-weight: 600; color: var(--clay); }
+  .almanac__desc { max-width: 40rem; margin: 0.5rem 0 0; color: var(--ink-soft); }
+  .almanac :global(.almanac__cal) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink);
+    font: 600 0.9rem var(--sans);
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+  }
+  .almanac :global(.almanac__cal svg) { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
+  .almanac :global(button.almanac__cal:hover) { background: var(--ink); color: var(--paper); }
+  .almanac :global(span.almanac__cal) { opacity: 0.5; cursor: not-allowed; }
+  .empty { font-family: var(--serif); font-size: 1.4rem; color: var(--ink-soft); }
+  .more { display: inline-block; margin-top: 1.6rem; font-weight: 600; text-decoration: none; border-bottom: 1.5px solid currentColor; }
+  .more:hover { color: var(--clay); }
+
+  /* Archive */
+  .archive { padding-block: clamp(3.5rem, 7vw, 6rem); background: var(--paper-deep); }
+  .archive__grid { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: clamp(2rem, 4vw, 4rem); }
+  .archive__intro h2 { font-size: clamp(1.9rem, 3.4vw, 2.7rem); }
+  .archive__photo { margin: 1.8rem 0 0; overflow: hidden; border-radius: 1rem; transform: rotate(-1.5deg); box-shadow: 0 20px 40px -24px rgb(47 36 27 / 0.5); }
+  .archive__photo :global(img) { display: block; width: 100%; height: auto; }
+  .index h3 { padding-bottom: 0.7rem; border-bottom: 2px solid var(--ink); font-size: 1.4rem; }
+  .index ul { margin: 0; padding: 0; list-style: none; }
+  .index li a { display: flex; align-items: baseline; gap: 0.6rem; padding: 0.85rem 0; border-bottom: 1px solid var(--rule); text-decoration: none; }
+  .index__title { font-weight: 500; }
+  .index__leader { flex: 1; min-width: 1rem; border-bottom: 1.5px dotted var(--rule); transform: translateY(-0.3em); }
+  .index__tag { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; color: var(--moss); }
+  .index li a:hover .index__title { color: var(--clay); }
+
+  /* Footer */
+  .footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem; padding-top: 2.5rem; font-size: 0.95rem; color: var(--ink-soft); }
+  .footer p { margin: 0; }
+  .footer__sign { font-family: var(--serif); font-size: 1.4rem; color: var(--ink); }
+  .footer__links { display: flex; gap: 1.4rem; margin: 0; padding: 0; list-style: none; }
+
+  /* Load animation */
+  .reveal { animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: var(--d, 0ms); }
+  @keyframes rise { from { opacity: 0; transform: translateY(18px); } }
+
+  @media (max-width: 900px) {
+    .hero, .archive__grid { grid-template-columns: 1fr; }
+    .hero__figure { max-width: 520px; margin-inline: auto; width: 100%; }
+    .stamp { left: -0.5rem; }
+    .almanac__item { grid-template-columns: 5.5rem minmax(0, 1fr); gap: 1rem 1.25rem; }
+    .almanac__day { font-size: 2.8rem; }
+    .almanac :global(.almanac__cal) { grid-column: 2; justify-self: start; }
+  }
+  @media (max-width: 560px) {
+    .masthead__meta span:first-child { display: none; }
+    .hours { gap: 1.5rem; }
+  }
+</style>

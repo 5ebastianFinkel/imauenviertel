@@ -7,7 +7,12 @@ import icon from "astro-icon";
 // https://astro.build/config
 export default defineConfig({
   site: "https://imauenviertel.netlify.app",
-  integrations: [mdx(), sitemap(), icon()],
+  integrations: [
+    mdx(),
+    // Keep design preview pages out of the sitemap
+    sitemap({ filter: (page) => !page.includes("/redesign") }),
+    icon(),
+  ],
   vite: {
     plugins: [tailwind()],
   },

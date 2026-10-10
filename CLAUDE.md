@@ -44,6 +44,10 @@ Uses Astro's content collections pattern:
 - `src/content/team/` - Team member profiles
 - `src/content/config.ts` - Content collection schemas
 
+### Decap CMS
+- Admin panel lives in `public/admin/` (`config.yml`, `index.html`); `src/pages/admin/index.astro` mirrors `index.html` for the dev server
+- The `decap-cms` script is pinned to an exact version with an SRI `integrity` hash; when upgrading, change version and hash in both admin files (see `DECAP_CMS_GUIDE.md` → "Updating Decap CMS")
+
 ### Key Features
 - **ICS Calendar Generation** - `src/utils/icsGenerator.ts` creates downloadable calendar files
 - **Event Management** - Calendar button component with download functionality

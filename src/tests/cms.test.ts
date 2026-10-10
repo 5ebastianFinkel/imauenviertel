@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import fs from 'fs';
 import path from 'path';
-import yaml from 'js-yaml';
+import { load } from 'js-yaml';
 
 describe('Decap CMS Configuration', () => {
   it('should have admin index.html file', () => {
@@ -18,13 +18,13 @@ describe('Decap CMS Configuration', () => {
     const configPath = path.join(process.cwd(), 'public/admin/config.yml');
     const configContent = fs.readFileSync(configPath, 'utf8');
     
-    expect(() => yaml.load(configContent)).not.toThrow();
+    expect(() => load(configContent)).not.toThrow();
   });
 
   it('should have correct backend configuration', () => {
     const configPath = path.join(process.cwd(), 'public/admin/config.yml');
     const configContent = fs.readFileSync(configPath, 'utf8');
-    const config = yaml.load(configContent) as any;
+    const config = load(configContent) as any;
     
     expect(config.backend).toBeDefined();
     expect(config.backend.name).toBe('git-gateway');
@@ -34,7 +34,7 @@ describe('Decap CMS Configuration', () => {
   it('should have all required collections', () => {
     const configPath = path.join(process.cwd(), 'public/admin/config.yml');
     const configContent = fs.readFileSync(configPath, 'utf8');
-    const config = yaml.load(configContent) as any;
+    const config = load(configContent) as any;
     
     expect(config.collections).toBeDefined();
     expect(config.collections).toHaveLength(5);
@@ -50,7 +50,7 @@ describe('Decap CMS Configuration', () => {
   it('should have correct media folder configuration', () => {
     const configPath = path.join(process.cwd(), 'public/admin/config.yml');
     const configContent = fs.readFileSync(configPath, 'utf8');
-    const config = yaml.load(configContent) as any;
+    const config = load(configContent) as any;
     
     expect(config.media_folder).toBe('public/uploads');
     expect(config.public_folder).toBe('/uploads');

@@ -18,9 +18,9 @@
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "lint:ci": "oxlint --max-warnings 0",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "astro sync && tsc --noEmit",
     "typecheck:watch": "tsc --noEmit --watch",
-    "typecheck:ci": "tsc --noEmit --strict"
+    "typecheck:ci": "astro sync && tsc --noEmit --strict"
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",

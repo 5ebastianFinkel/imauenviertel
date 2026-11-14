@@ -43,7 +43,7 @@ function BlogPage() {
             data-reveal
             style={{ "--reveal-delay": `${(index % 2) * 120}ms` } as CSSProperties}
           >
-            <Link to="/blog/$id" params={{ id: post.id }}>
+            <Link to="/blog/$id/" params={{ id: post.id }}>
               <div className="post__image">
                 <img
                   src={post.image.src}

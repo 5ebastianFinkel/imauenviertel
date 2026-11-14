@@ -23,7 +23,7 @@ export function NotFound() {
                 <path d="M5 12h14m-6-6 6 6-6 6"></path>
               </svg>
             </Link>
-            <Link className="link-arrow" to="/blog">
+            <Link className="link-arrow" to="/blog/">
               Neuigkeiten <span aria-hidden="true">→</span>
             </Link>
           </div>

@@ -40,8 +40,8 @@ function DatenschutzPage() {
             <p>
               Ihre Daten werden zum einen dadurch erhoben, dass Sie uns diese mitteilen, z. B. durch ein
               Kontaktformular.
-              Andere Daten werden automatisch oder nach Ihrer Einwilligung beim Besuch der Website durch
-              unsere IT-Systeme erfasst.
+              Andere Daten werden beim Besuch der Website automatisch durch die IT-Systeme unseres
+              Hosters erfasst.
               Das sind vor allem technische Daten (z. B. Internetbrowser, Betriebssystem oder Uhrzeit des
               Seitenaufrufs).
             </p>
@@ -50,7 +50,7 @@ function DatenschutzPage() {
             <p>
               Ein Teil der Daten wird erhoben, um eine fehlerfreie Bereitstellung der Website zu
               gewährleisten.
-              Andere Daten können zur Analyse Ihres Nutzerverhaltens verwendet werden.
+              Wir setzen keine Analyse- oder Tracking-Werkzeuge ein und werten Ihr Nutzerverhalten nicht aus.
             </p>
 
             <h3>Welche Rechte haben Sie bezüglich Ihrer
@@ -69,13 +69,21 @@ function DatenschutzPage() {
 
             <h3>Externes Hosting</h3>
             <p>
-              Diese Website wird bei einem externen Dienstleister (Hoster) gehostet. Die dabei
-              verarbeiteten Daten umfassen IP-Adressen,
-              Kontaktanfragen, Meta- und Kommunikationsdaten, Vertragsdaten, Namen, Webseitenzugriffe u.a.
+              Diese Website wird bei Netlify, Inc. (USA) gehostet. Wenn Sie die Website aufrufen,
+              verarbeitet Netlify die dafür technisch nötigen Daten in Server-Logfiles: Ihre IP-Adresse,
+              Datum und Uhrzeit des Aufrufs, die aufgerufene Seite, die zuvor besuchte Seite (Referrer)
+              sowie Angaben zu Browser und Betriebssystem.
             </p>
             <p>
-              Der Einsatz des Hosters erfolgt zur Vertragserfüllung und im Interesse einer sicheren und
-              effizienten Bereitstellung (Art. 6 Abs. 1 lit. b & f DSGVO).
+              Außerdem lädt jede Seite ein Skript von Netlify (identity.netlify.com), über das sich
+              Vereinsmitglieder mit Redaktionszugang anmelden. Auch dabei wird Ihre IP-Adresse an Netlify
+              übermittelt.
+            </p>
+            <p>
+              Der Einsatz des Hosters erfolgt im Interesse einer sicheren und effizienten Bereitstellung
+              unserer Website (Art. 6 Abs. 1 lit. f DSGVO). Netlify nimmt nach eigenen Angaben am
+              EU-US Data Privacy Framework teil. Weitere Informationen finden Sie in der{" "}
+              <a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener noreferrer">Datenschutzerklärung von Netlify</a>.
             </p>
             <p>
               Unser Hoster wird Ihre Daten nur insoweit verarbeiten, wie dies zur Erfüllung seiner
@@ -84,7 +92,49 @@ function DatenschutzPage() {
 
             <h3>Auftragsverarbeitung</h3>
             <p>
-              Wir haben mit dem Hoster einen Vertrag über Auftragsverarbeitung abgeschlossen.
+              Mit Netlify besteht ein Vertrag über Auftragsverarbeitung (Data Processing Agreement), der
+              Bestandteil der Nutzungsbedingungen von Netlify ist.
+            </p>
+          </section>
+
+          <section>
+            <h2>Bilder externer Anbieter</h2>
+            <p>
+              Einige Bilder, vor allem in unseren Neuigkeiten, werden nicht von unserem Hoster, sondern
+              direkt von den folgenden Anbietern geladen. Ihr Browser stellt dafür eine Verbindung zu deren
+              Servern her und übermittelt dabei Ihre IP-Adresse sowie technische Angaben wie den Browsertyp.
+              Rechtsgrundlage ist unser berechtigtes Interesse an einer schnellen, in Größe und Format
+              angepassten Auslieferung der Bilder (Art. 6 Abs. 1 lit. f DSGVO).
+            </p>
+
+            <h3>Cloudinary</h3>
+            <p>
+              Bilder, die wir über unser Redaktionssystem hochladen, speichert und liefert Cloudinary
+              (Cloudinary Ltd. und verbundene Unternehmen) aus. Cloudinary nimmt nach eigenen Angaben am
+              EU-US Data Privacy Framework teil. Weitere Informationen finden Sie in der{" "}
+              <a href="https://cloudinary.com/privacy" target="_blank" rel="noopener noreferrer">Datenschutzerklärung von Cloudinary</a>.
+            </p>
+
+            <h3>Unsplash</h3>
+            <p>
+              Einzelne Beitragsbilder stammen von Unsplash und werden von deren Servern
+              (images.unsplash.com) geladen. Weitere Informationen finden Sie in der{" "}
+              <a href="https://unsplash.com/privacy" target="_blank" rel="noopener noreferrer">Datenschutzerklärung von Unsplash</a>.
+            </p>
+          </section>
+
+          <section>
+            <h2>Cookies, Speicherung im Browser und Schriftarten</h2>
+            <p>
+              Diese Website setzt keine Cookies. Damit beim Zurückblättern die zuletzt angesehene Stelle
+              einer Seite wieder erscheint, speichert Ihr Browser die Scrollposition im Sitzungsspeicher
+              (sessionStorage). Diese Angabe verlässt Ihr Gerät nicht und wird gelöscht, sobald Sie den Tab
+              schließen. Die Speicherung ist für die von Ihnen genutzte Funktion unbedingt erforderlich
+              (§ 25 Abs. 2 Nr. 2 TDDDG).
+            </p>
+            <p>
+              Die verwendeten Schriftarten werden von unserem Hoster ausgeliefert. Es besteht dabei keine
+              Verbindung zu Servern von Google oder anderen Schriftarten-Anbietern.
             </p>
           </section>
 
@@ -126,7 +176,8 @@ function DatenschutzPage() {
             <h3>Beschwerderecht bei der Aufsichtsbehörde</h3>
             <p>
               Im Falle von Verstößen gegen die DSGVO steht Ihnen ein Beschwerderecht bei der zuständigen
-              Aufsichtsbehörde zu.
+              Aufsichtsbehörde zu. Für uns ist das die{" "}
+              <a href="https://www.ldi.nrw.de/" target="_blank" rel="noopener noreferrer">Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen</a>.
             </p>
 
             <h3>Recht auf Datenübertragbarkeit</h3>
@@ -161,12 +212,21 @@ function DatenschutzPage() {
           </section>
 
           <section>
-            <h2>Datenerfassung auf dieser Website</h2>
+            <h2>Kontaktaufnahme</h2>
 
             <h3>Kontaktformular</h3>
             <p>
               Die Angaben aus dem Kontaktformular werden zur Bearbeitung Ihrer Anfrage gespeichert. Die
               Verarbeitung erfolgt gemäß Art. 6 Abs. 1 lit. b oder f DSGVO.
+            </p>
+            <p>
+              Für den Versand nutzen wir den Dienst Web3Forms, betrieben von Web3Creative mit Sitz in
+              Indien. Ihre Eingaben (Name, E-Mail-Adresse und Nachricht) werden an Web3Forms übermittelt und
+              von dort als E-Mail an den Vorstand weitergeleitet. Weitere Informationen finden Sie im{" "}
+              <a href="https://web3forms.com/dpa" target="_blank" rel="noopener noreferrer">
+                Vertrag zur Auftragsverarbeitung von Web3Forms
+              </a>
+              .
             </p>
 
             <h3>Anfragen per E-Mail, Telefon oder Telefax</h3>
@@ -177,26 +237,33 @@ function DatenschutzPage() {
           </section>
 
           <section>
-            <h2>Eigene Dienste</h2>
+            <h2>Bewerbung um einen Kleingarten</h2>
 
-            <h3>Umgang mit Bewerberdaten</h3>
+            <h3>Bewerbungsbogen und Warteliste</h3>
             <p>
-              Wenn Sie sich bei uns bewerben, verarbeiten wir Ihre Daten im Rahmen des
-              Bewerbungsverfahrens nach § 26 BDSG und Art. 6 DSGVO.
+              Wenn Sie uns den Bewerbungsbogen senden, verarbeiten wir Ihre Angaben, um Sie auf unsere
+              Warteliste aufzunehmen und Ihnen eine Parzelle anbieten zu können. Rechtsgrundlage ist die
+              Anbahnung eines Pacht- und Mitgliedschaftsverhältnisses (Art. 6 Abs. 1 lit. b DSGVO).
             </p>
 
-            <h3>Aufbewahrungsdauer der Bewerbungsdaten</h3>
+            <h3>Speicherdauer</h3>
             <p>
-              Bei Absage werden Ihre Daten bis zu 6 Monate gespeichert. Danach erfolgt eine Löschung,
-              sofern keine anderen Gründe dagegensprechen.
-            </p>
-
-            <h3>Bewerber-Pool</h3>
-            <p>
-              Mit Ihrer Einwilligung können wir Ihre Daten für zwei Jahre in einem Bewerber-Pool
-              speichern, um Sie bei passenden Stellen zu kontaktieren.
+              Wir speichern Ihre Angaben, solange Sie auf der Warteliste stehen. Ziehen Sie Ihre Bewerbung
+              zurück oder kommt keine Pacht zustande, löschen wir Ihre Daten, sofern keine gesetzlichen
+              Aufbewahrungspflichten entgegenstehen.
             </p>
           </section>
+
+          <section>
+            <h2>Redaktionssystem</h2>
+            <p>
+              Vereinsmitglieder mit Redaktionszugang pflegen die Inhalte unter /admin/. Dieser Bereich lädt
+              das Redaktionssystem Decap CMS über den Dienst unpkg.com und nutzt für die Anmeldung Netlify
+              Identity. Für Besucherinnen und Besucher der übrigen Seiten ist er nicht relevant.
+            </p>
+          </section>
+
+          <p>Stand: November 2026</p>
 
         </article>
       </div>

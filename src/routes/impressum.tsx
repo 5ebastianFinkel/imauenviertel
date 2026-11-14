@@ -20,7 +20,7 @@ function ImpressumPage() {
           Vereinsregister: 4895<br />
           Registergericht: Amtsgericht Münster<br />
           Vertreten durch: Vorsitzenden Dr. Christos Moustakis<br />
-          E-Mail: <a href="">mail(at)imauenviertel.de</a>
+          E-Mail: <a href="mailto:mail@imauenviertel.de">mail@imauenviertel.de</a>
         </address>
         <section className="mt-16">
           <h2>Verbraucherstreitbeteiligung /

@@ -107,7 +107,7 @@ function DatenschutzPage() {
               Holtbeck 43<br />
               48161 Münster<br />
               Vorsitzender: Dr. Christos Moustakis<br />
-              E-Mail: <a href="">!! MAIL ADRESSE OBFUSCICATION</a>
+              E-Mail: <a href="mailto:mail@imauenviertel.de">mail@imauenviertel.de</a>
             </address>
 
             <h3>Widerruf Ihrer Einwilligung zur

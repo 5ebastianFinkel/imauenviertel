@@ -19,6 +19,10 @@ export const Route = createFileRoute("/blog/")({
   component: BlogPage,
 });
 
+// Displayed image widths, see .posts in styles/pages/blog.css
+const LEAD_IMAGE_SIZES = "(max-width: 760px) 100vw, 60vw";
+const IMAGE_SIZES = "(max-width: 760px) 100vw, 50vw";
+
 // Styles: styles/pages/blog.css
 function BlogPage() {
   const { posts } = Route.useLoaderData();
@@ -47,8 +51,7 @@ function BlogPage() {
             <Link to="/blog/$id" params={{ id: post.id }}>
               <div className="post__image">
                 <img
-                  {...responsiveImage(post.image.src, post.image.width)}
-                  sizes={index === 0 ? "(max-width: 760px) 100vw, 60vw" : "(max-width: 760px) 100vw, 50vw"}
+                  {...responsiveImage(post.image.src, index === 0 ? LEAD_IMAGE_SIZES : IMAGE_SIZES)}
                   alt={post.image.alt}
                   width={1200}
                   height={900}

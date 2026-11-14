@@ -59,8 +59,7 @@ function BlogPostPage() {
 
         <figure className="article__image">
           <img
-            {...responsiveImage(post.image.src, post.image.width)}
-            sizes="(max-width: 1032px) calc(100vw - 2.5rem), 992px"
+            {...responsiveImage(post.image.src, "(max-width: 1032px) calc(100vw - 2.5rem), 992px")}
             alt={post.image.alt}
             width={1600}
             height={900}

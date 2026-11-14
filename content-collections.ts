@@ -4,7 +4,7 @@ import { join } from "node:path";
 import remarkGfm from "remark-gfm";
 import sharp from "sharp";
 import { z } from "zod";
-import { canTransform, responsiveImage } from "./src/utils/images";
+import { responsiveImage } from "./src/utils/images";
 
 // The CMS sometimes saves a single file as an array, normalize to string
 const fileRef = z.union([z.string(), z.array(z.string()).nonempty().transform((arr) => arr[0])]);
@@ -33,7 +33,8 @@ async function localImageSize(src: string): Promise<{ width: number; height: num
 
 type HastNode = { type: string; tagName?: string; properties?: Record<string, unknown>; children?: HastNode[] };
 
-// Serve images in posts through the Netlify Image CDN (see src/utils/images.ts)
+// Images in posts: a srcset for images on Cloudinary or Unsplash (see
+// src/utils/images.ts), width/height for files in public/ to avoid layout shift
 const rehypeResponsiveImages = () => async (tree: HastNode) => {
   const images: HastNode[] = [];
   const collect = (node: HastNode) => {
@@ -45,15 +46,12 @@ const rehypeResponsiveImages = () => async (tree: HastNode) => {
   await Promise.all(
     images.map(async (node) => {
       const src = String(node.properties?.src ?? "");
-      if (!canTransform(src)) return;
+      // Post body column, see .article__body in styles/pages/post.css
+      const image = responsiveImage(src, "(max-width: 800px) calc(100vw - 2.5rem), 768px");
       const size = await localImageSize(src);
-      const image = responsiveImage(src, size?.width);
       node.properties = {
         ...node.properties,
-        src: image.src,
-        srcSet: image.srcSet,
-        // Post body column, see .article__body in styles/pages/post.css
-        sizes: "(max-width: 800px) calc(100vw - 2.5rem), 768px",
+        ...image,
         ...(size && { width: size.width, height: size.height }),
         loading: "lazy",
         decoding: "async",
@@ -85,9 +83,7 @@ const blog = defineCollection({
       { _meta, content: _content },
       { remarkPlugins: [remarkGfm], rehypePlugins: [rehypeResponsiveImages] },
     );
-    // The cover's own width keeps the image CDN from scaling it up
-    const cover = await localImageSize(data.image.src);
-    return { ...data, image: { ...data.image, width: cover?.width }, id: _meta.path, html };
+    return { ...data, id: _meta.path, html };
   },
 });
 

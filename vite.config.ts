@@ -1,4 +1,4 @@
-import { defineConfig, type Connect, type Plugin } from "vite";
+import { defineConfig, type Plugin } from "vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
@@ -19,30 +19,11 @@ const adminDevRewrite = (): Plugin => ({
   },
 });
 
-// The Netlify Image CDN (/.netlify/images, see src/utils/images.ts) only runs
-// on Netlify. Locally, send its requests to the original image instead.
-const imageCdnFallback = (): Plugin => {
-  const redirect: Connect.NextHandleFunction = (req, res, next) => {
-    if (!req.url?.startsWith("/.netlify/images")) return next();
-    const target = new URL(req.url, "http://localhost").searchParams.get("url");
-    if (!target) return next();
-    res.statusCode = 302;
-    res.setHeader("Location", target);
-    res.end();
-  };
-  return {
-    name: "image-cdn-fallback",
-    configureServer: (server) => void server.middlewares.use(redirect),
-    configurePreviewServer: (server) => void server.middlewares.use(redirect),
-  };
-};
-
 export default defineConfig({
   server: { port: 4321 },
   resolve: { tsconfigPaths: true },
   plugins: [
     adminDevRewrite(),
-    imageCdnFallback(),
     contentCollections(),
     imagetools(),
     tailwindcss(),

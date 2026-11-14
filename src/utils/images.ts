@@ -1,61 +1,60 @@
-// Responsive images through the Netlify Image CDN (https://docs.netlify.com/build/image-cdn/overview/).
-// /.netlify/images resizes and re-encodes an image on request. It only exists
-// on Netlify; `pnpm dev` and `pnpm preview` redirect it to the original image
-// (see imageCdnFallback in vite.config.ts).
+// Responsive images for content images that live on an image service which
+// resizes through the URL:
+// - Cloudinary, where Decap CMS uploads images (media_library in public/admin/config.yml)
+// - Unsplash (imgix URL parameters)
+// Other images, such as the older files in public/uploads, are used as they are.
 
-// Remote hosts the CDN may fetch from. Keep in sync with `remote_images` in
-// netlify.toml; images from other hosts are used as they are.
-export const REMOTE_IMAGE_HOSTS = ["images.unsplash.com", "res.cloudinary.com"];
+// Our Cloudinary cloud. Images of other clouds are left alone, their
+// transformation settings and quota are not ours to use.
+export const CLOUDINARY_CLOUD = "dc6swddrn";
 
 export const IMAGE_WIDTHS = [480, 800, 1200, 1600, 2000];
 
-// Site images (/uploads/...) and images on the allowed remote hosts
-export function canTransform(src: string): boolean {
-  if (src.startsWith("/")) return !src.startsWith("//") && !src.startsWith("/.netlify/");
-  try {
-    const url = new URL(src);
-    return url.protocol === "https:" && REMOTE_IMAGE_HOSTS.includes(url.hostname);
-  } catch {
-    return false;
-  }
-}
+// res.cloudinary.com/<cloud>/image/upload/[transformations/]v<version>/<public id>
+const cloudinaryUpload = new RegExp(
+  `^(https://res\\.cloudinary\\.com/${CLOUDINARY_CLOUD}/image/upload/)((?:[^/]+/)*?)(v\\d+/.+)$`,
+);
 
-export function imageCdnUrl(src: string, width: number): string {
-  // The url parameter is the image URL as a browser would request it, so
-  // percent-encode it once (CMS file names may contain spaces and umlauts)
-  // and then encode it as a query value.
-  const url = src.startsWith("/") ? encodeURI(safeDecodeURI(src)) : src;
-  return `/.netlify/images?url=${encodeURIComponent(url)}&w=${width}`;
+// URL of the image resized to `width`, or undefined if it cannot be resized
+export function resizedImageUrl(src: string, width: number): string | undefined {
+  const cloudinary = cloudinaryUpload.exec(src);
+  if (cloudinary) {
+    // Appended after transformations the CMS may have added. f_auto/q_auto
+    // pick the format and quality per browser; c_limit never scales up.
+    const [, base, transformations, rest] = cloudinary;
+    return `${base}${transformations}f_auto,q_auto,c_limit,w_${width}/${rest}`;
+  }
+
+  let url: URL;
+  try {
+    url = new URL(src);
+  } catch {
+    return undefined;
+  }
+  if (url.protocol === "https:" && url.hostname === "images.unsplash.com") {
+    url.searchParams.set("w", String(width));
+    const auto = url.searchParams.get("auto");
+    if (!auto?.split(",").includes("format")) url.searchParams.set("auto", auto ? `${auto},format` : "format");
+    return url.toString();
+  }
+
+  return undefined;
 }
 
 export interface ResponsiveImage {
   src: string;
   srcSet?: string;
+  sizes?: string;
 }
 
-// `src` plus a `srcSet` of CDN widths. Pass the image's own width when it is
-// known, so small images are not scaled up.
-export function responsiveImage(src: string, intrinsicWidth?: number): ResponsiveImage {
-  if (!canTransform(src)) return { src };
-
-  const largest = IMAGE_WIDTHS[IMAGE_WIDTHS.length - 1];
-  const widths = intrinsicWidth
-    ? [...IMAGE_WIDTHS.filter((width) => width < intrinsicWidth), Math.min(intrinsicWidth, largest)]
-    : IMAGE_WIDTHS;
-  const unique = [...new Set(widths)];
-
-  // Browsers without srcset support get a mid-sized image
-  const fallback = unique.find((width) => width >= 1200) ?? unique[unique.length - 1];
+// `src`, `srcSet` across IMAGE_WIDTHS and `sizes` (the displayed width, as in
+// the <img> attribute) for images that can be resized; just `src` otherwise
+export function responsiveImage(src: string, sizes?: string): ResponsiveImage {
+  if (!resizedImageUrl(src, IMAGE_WIDTHS[0])) return { src };
   return {
-    src: imageCdnUrl(src, fallback),
-    srcSet: unique.map((width) => `${imageCdnUrl(src, width)} ${width}w`).join(", "),
+    // Browsers without srcset support get a mid-sized image
+    src: resizedImageUrl(src, 1200)!,
+    srcSet: IMAGE_WIDTHS.map((width) => `${resizedImageUrl(src, width)} ${width}w`).join(", "),
+    sizes,
   };
-}
-
-function safeDecodeURI(value: string): string {
-  try {
-    return decodeURI(value);
-  } catch {
-    return value;
-  }
 }

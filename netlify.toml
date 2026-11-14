@@ -5,11 +5,6 @@
 [build.environment]
   NODE_VERSION = "22"
 
-# Remote hosts the Image CDN may fetch from (/.netlify/images). Keep in sync
-# with REMOTE_IMAGE_HOSTS in src/utils/images.ts.
-[images]
-  remote_images = ['https://images\.unsplash\.com/.*', 'https://res\.cloudinary\.com/.*']
-
 # Headers for the admin section
 [[headers]]
   for = "/admin/*"

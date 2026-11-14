@@ -1,24 +1,23 @@
 {
-  "extends": "astro/tsconfigs/base",
-  "include": [
-    ".astro/types.d.ts",
-    "src/types/**/*",
-    "**/*"
-  ],
-  "exclude": [
-    "dist",
-    "node_modules"
-  ],
+  "include": ["src", "*.ts"],
+  "exclude": ["dist", "node_modules"],
   "compilerOptions": {
-    "strictNullChecks": true,
-    "types": ["astro/client"],
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "types": ["vite/client", "vitest/globals"],
     "paths": {
-      "@lib/*": ["./src/lib/*"],
       "@utils/*": ["./src/utils/*"],
       "@components/*": ["./src/components/*"],
-      "@layouts/*": ["./src/layouts/*"],
       "@assets/*": ["./src/assets/*"],
-      "@pages/*": ["./src/pages/*"]
+      "content-collections": ["./.content-collections/generated"]
     }
   }
 }

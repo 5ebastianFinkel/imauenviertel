@@ -30,7 +30,8 @@
   "ignore_pattern": [
     "node_modules",
     "dist",
-    ".astro",
+    ".content-collections",
+    "src/routeTree.gen.ts",
     "*.d.ts",
     "public",
     "src/env.d.ts"

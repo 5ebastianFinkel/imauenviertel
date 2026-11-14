@@ -67,10 +67,7 @@ Decap CMS (formerly Netlify CMS) has been integrated into the Im Auenviertel web
 4. **Deploy**: Netlify automatically rebuilds the site
 
 ## Updating Decap CMS
-The CMS script is loaded from unpkg with a pinned version and a Subresource Integrity (SRI) hash, so the browser refuses to run it if the file served by the CDN is ever altered. The script tag appears in **two files**, which must stay identical:
-
-- `public/admin/index.html` (served in production)
-- `src/pages/admin/index.astro` (used by the dev server)
+The CMS script is loaded from unpkg with a pinned version and a Subresource Integrity (SRI) hash, so the browser refuses to run it if the file served by the CDN is ever altered. The script tag lives in `public/admin/index.html`, which is served in production and by the dev server:
 
 ```html
 <script src="https://unpkg.com/decap-cms@3.16.3/dist/decap-cms.js"
@@ -92,8 +89,8 @@ To upgrade:
      | openssl dgst -sha384 -binary | openssl base64 -A
    ```
    Optionally cross-check against jsDelivr (`https://cdn.jsdelivr.net/npm/decap-cms@X.Y.Z/dist/decap-cms.js`); both hashes must match.
-3. Update the version in the `src` URL and set `integrity="sha384-<hash>"` in **both** files.
-4. Run `pnpm build` and confirm `dist/admin/index.html` contains the new tag, then open `/admin` with `pnpm dev` and log in to verify the CMS loads.
+3. Update the version in the `src` URL and set `integrity="sha384-<hash>"` in `public/admin/index.html`.
+4. Run `pnpm build` and confirm `dist/client/admin/index.html` contains the new tag, then open `/admin` with `pnpm dev` and log in to verify the CMS loads.
 
 Never use a version range (e.g. `@^3.0.0`) together with `integrity`: a range resolves to new files over time and the hash would stop matching.
 

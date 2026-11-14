@@ -1,0 +1,41 @@
+/* Page header (src/components/SectionHead.tsx) */
+.page-head {
+  position: relative;
+  padding-block: clamp(3rem, 7vw, 5.5rem) 2.2rem;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  border-bottom: 1px solid var(--color-line);
+}
+.page-head h1 {
+  max-width: 18ch;
+  margin-top: 1rem;
+  font-size: clamp(3rem, 7vw, 5.6rem);
+  line-height: 0.95;
+  letter-spacing: -0.015em;
+  animation: page-head-in 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.page-head__desc {
+  max-width: 40rem;
+  margin-top: 1.2rem;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: rgb(31 58 43 / 0.8);
+  animation: page-head-in 0.9s 0.1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.page-head__leaf {
+  position: absolute;
+  right: 0;
+  bottom: 2.2rem;
+  width: clamp(48px, 7vw, 84px);
+  fill: rgb(244 194 71 / 0.35);
+  stroke: var(--color-leaf);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transform: rotate(8deg);
+}
+@keyframes page-head-in {
+  from { opacity: 0; transform: translateY(14px); }
+}
+@media (max-width: 640px) {
+  .page-head__leaf { display: none; }
+}

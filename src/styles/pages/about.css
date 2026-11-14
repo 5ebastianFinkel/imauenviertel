@@ -1,0 +1,14 @@
+/* About page (src/routes/about.tsx) */
+.page-about {
+  .intro { max-width: 46rem; }
+  .intro h2 { margin: 0; font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1.05; }
+  .intro p { margin: 1rem 0 0; font-size: 1.1rem; line-height: 1.7; color: rgb(31 58 43 / 0.8); }
+  .intro a { color: var(--color-accent); font-weight: 600; }
+
+  .team { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1.25rem; margin: clamp(3rem, 6vw, 4.5rem) 0 0; padding: 0; list-style: none; }
+  .member { padding: 1.6rem; border: 1px solid var(--color-line); border-radius: var(--radius-leaf); background: linear-gradient(160deg, #fff, var(--color-surface)); transition: border-radius 0.45s cubic-bezier(0.3, 0.7, 0.2, 1), transform 0.3s, box-shadow 0.3s; }
+  .member:hover { border-radius: var(--radius-leaf-flip); transform: translateY(-3px); box-shadow: 0 24px 40px -28px rgb(31 58 43 / 0.45); }
+  .member__mark { display: grid; place-items: center; width: 3.4rem; height: 3.4rem; border-radius: var(--radius-leaf-sm); background: var(--color-sun); font-family: var(--font-display); font-size: 1.5rem; }
+  .member h3 { margin: 1.2rem 0 0; font-size: 1.75rem; line-height: 1.1; }
+  .member p { margin: 0.35rem 0 0; font-weight: 600; color: var(--color-accent); }
+}

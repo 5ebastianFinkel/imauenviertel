@@ -69,7 +69,8 @@ Dates are stored as strings: events as `YYYY-MM-DD` (use `parseLocalDate` from `
 
 ### Images
 - Images in `src/assets/` are resized by `vite-imagetools` through import queries, e.g. `import img from "@assets/photo.webp?w=480;800&format=webp&as=img"` (typed in `src/env.d.ts`)
-- Images referenced by content (CMS uploads in `public/uploads/`, remote URLs) are used as they are
+- Blog images on Cloudinary (where Decap CMS uploads them) and Unsplash get a srcset of resized versions through URL parameters, see `src/utils/images.ts`. Only Cloudinary URLs of our cloud (`dc6swddrn`, as in `public/admin/config.yml`) are rewritten
+- Other content images, such as the older files in `public/uploads/`, are used as they are; images in post bodies get `width`/`height` from the file at build time
 
 ### Decap CMS
 - Admin panel lives in `public/admin/` (`config.yml`, `index.html`); the dev server maps `/admin` to it (see `adminDevRewrite` in `vite.config.ts`)

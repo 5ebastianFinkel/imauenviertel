@@ -4,6 +4,7 @@ import { allBlogs } from "content-collections";
 import { Container } from "@components/Container";
 import { SectionHead } from "@components/SectionHead";
 import { formatPublishDate, getPublished } from "@utils/content";
+import { responsiveImage } from "@utils/images";
 import { pageHead } from "@utils/seo";
 import { useScrollReveal } from "@utils/useScrollReveal";
 
@@ -17,6 +18,10 @@ export const Route = createFileRoute("/blog/")({
   }),
   component: BlogPage,
 });
+
+// Displayed image widths, see .posts in styles/pages/blog.css
+const LEAD_IMAGE_SIZES = "(max-width: 760px) 100vw, 60vw";
+const IMAGE_SIZES = "(max-width: 760px) 100vw, 50vw";
 
 // Styles: styles/pages/blog.css
 function BlogPage() {
@@ -46,7 +51,7 @@ function BlogPage() {
             <Link to="/blog/$id" params={{ id: post.id }}>
               <div className="post__image">
                 <img
-                  src={post.image.src}
+                  {...responsiveImage(post.image.src, index === 0 ? LEAD_IMAGE_SIZES : IMAGE_SIZES)}
                   alt={post.image.alt}
                   width={1200}
                   height={900}

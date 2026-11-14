@@ -4,7 +4,7 @@ Diese umfassende Anleitung erklärt, wie neue Blog-Artikel für die Website des 
 
 ## Übersicht
 
-Blog-Artikel werden als Markdown- oder MDX-Dateien im Verzeichnis `src/content/blog/` gespeichert. Jeder Artikel ist eine eigene Datei mit spezifischen Metadaten im Frontmatter-Bereich und dem eigentlichen Inhalt in Markdown.
+Blog-Artikel werden als Markdown-Dateien im Verzeichnis `src/content/blog/` gespeichert. Jeder Artikel ist eine eigene Datei mit spezifischen Metadaten im Frontmatter-Bereich und dem eigentlichen Inhalt in Markdown.
 
 ## Dateistruktur
 
@@ -18,12 +18,10 @@ src/content/blog/
 Verwenden Sie aussagekräftige Dateinamen in Kleinbuchstaben mit Bindestrichen:
 - ✅ Gut: `heckenschnitt.md`
 - ✅ Gut: `neues-zur-gemeinschaftsarbeit.md`
-- ✅ Gut: `sommerfest-2025.mdx` (für MDX-Dateien)
 - ❌ Vermeiden: `Artikel1.md` oder `2025-07-05.md`
 
 ### Dateitypen
 - `.md` - Standard Markdown-Dateien
-- `.mdx` - MDX-Dateien (Markdown mit React-Komponenten)
 
 ## Frontmatter-Felder
 
@@ -217,25 +215,6 @@ Hier steht der versteckte Inhalt, der beim Klicken angezeigt wird.
 </details>
 ```
 
-## MDX-Features
-
-MDX-Dateien unterstützen alle Markdown-Features plus React-Komponenten:
-
-### Import von Komponenten
-```mdx
----
-# Frontmatter wie gewohnt
----
-
-import MeineKomponente from '../../components/MeineKomponente.astro';
-
-# Mein Artikel
-
-Normaler Markdown-Text.
-
-<MeineKomponente prop="wert" />
-```
-
 ## Bilder verwenden
 
 ### Externe Bilder (URLs)
@@ -270,7 +249,7 @@ image: {
 
 1. **Neue Datei erstellen**
    - Navigieren Sie zu `src/content/blog/`
-   - Erstellen Sie eine neue `.md` oder `.mdx` Datei
+   - Erstellen Sie eine neue `.md` Datei
 
 2. **Frontmatter hinzufügen**
    ```markdown

@@ -1,6 +1,25 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@import "@fontsource/instrument-serif/400.css";
+@import "@fontsource/instrument-serif/400-italic.css";
+@import "@fontsource-variable/manrope/index.css";
+
+/* Component and page styles. Page styles are nested under a page class
+   (.home, .page-about, ...) so they cannot leak into other pages. */
+@import "./components/navbar.css";
+@import "./components/footer.css";
+@import "./components/section-head.css";
+@import "./components/contact-form.css";
+@import "./pages/home.css";
+@import "./pages/about.css";
+@import "./pages/blog.css";
+@import "./pages/post.css";
+@import "./pages/contact.css";
+@import "./pages/dates.css";
+@import "./pages/documents.css";
+@import "./pages/404.css";
+
 /* "Morgengarten" design tokens */
 @theme {
   --font-sans: "Manrope Variable", ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
@@ -231,4 +250,38 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Screen reader only utility class */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.focus\:not-sr-only:focus {
+  position: absolute;
+  width: auto;
+  height: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* Improve performance for below-the-fold images */
+img[loading="lazy"] {
+  content-visibility: auto;
+}
+
+/* Reduce layout shift */
+.calendar-button {
+  contain: layout style paint;
 }

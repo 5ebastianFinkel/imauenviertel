@@ -45,14 +45,13 @@
 - `/public/admin/config.yml`
 - `/netlify.toml`
 - `/public/uploads/` (directory)
-- `/src/pages/admin.astro` (redirect)
 - `/src/tests/cms.test.ts`
 - `/src/tests/cms-integration.test.ts`
 - `/DECAP_CMS_GUIDE.md`
 
 **Modified:**
 - `/package.json` (added decap-cms-app)
-- `/src/layouts/Layout.astro` (added Netlify Identity widget)
+- `/src/routes/__root.tsx` (loads the Netlify Identity widget)
 
 ## Next Steps for Production
 

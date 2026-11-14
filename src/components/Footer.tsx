@@ -32,16 +32,16 @@ export function Footer() {
           <p>
             <a href="mailto:mail@imauenviertel.de">mail@imauenviertel.de</a>
             <br />
-            <Link to="/contact">Zum Kontaktformular</Link>
+            <Link to="/contact/">Zum Kontaktformular</Link>
           </p>
         </div>
 
         <div>
           <h2 className="eyebrow">Rechtliches</h2>
           <p>
-            <Link to="/impressum">Impressum</Link>
+            <Link to="/impressum/">Impressum</Link>
             <br />
-            <Link to="/datenschutz">Datenschutz</Link>
+            <Link to="/datenschutz/">Datenschutz</Link>
           </p>
         </div>
       </div>

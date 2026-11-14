@@ -8,11 +8,11 @@ interface Props {
 }
 
 const menuitems = [
-  { title: "Neuigkeiten", path: "/blog" },
-  { title: "Termine", path: "/dates" },
-  { title: "Über uns", path: "/about" },
-  { title: "Dokumente & Links", path: "/documents" },
-  { title: "Kontakt", path: "/contact" },
+  { title: "Neuigkeiten", path: "/blog/" },
+  { title: "Termine", path: "/dates/" },
+  { title: "Über uns", path: "/about/" },
+  { title: "Dokumente & Links", path: "/documents/" },
+  { title: "Kontakt", path: "/contact/" },
 ] as const;
 
 // Styles: styles/components/navbar.css

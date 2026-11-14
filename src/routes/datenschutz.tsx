@@ -81,8 +81,9 @@ function DatenschutzPage() {
             </p>
             <p>
               Der Einsatz des Hosters erfolgt im Interesse einer sicheren und effizienten Bereitstellung
-              unserer Website (Art. 6 Abs. 1 lit. f DSGVO). Netlify nimmt nach eigenen Angaben am
-              EU-US Data Privacy Framework teil. Weitere Informationen finden Sie in der{" "}
+              unserer Website (Art. 6 Abs. 1 lit. f DSGVO). Netlify ist nach dem EU-US Data Privacy
+              Framework zertifiziert, auf dessen Grundlage die EU-Kommission ein angemessenes
+              Datenschutzniveau festgestellt hat (Art. 45 DSGVO). Weitere Informationen finden Sie in der{" "}
               <a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener noreferrer">Datenschutzerklärung von Netlify</a>.
             </p>
             <p>
@@ -110,8 +111,8 @@ function DatenschutzPage() {
             <h3>Cloudinary</h3>
             <p>
               Bilder, die wir über unser Redaktionssystem hochladen, speichert und liefert Cloudinary
-              (Cloudinary Ltd. und verbundene Unternehmen) aus. Cloudinary nimmt nach eigenen Angaben am
-              EU-US Data Privacy Framework teil. Weitere Informationen finden Sie in der{" "}
+              (Cloudinary Ltd. und verbundene Unternehmen) aus. Cloudinary ist nach dem EU-US Data
+              Privacy Framework zertifiziert. Weitere Informationen finden Sie in der{" "}
               <a href="https://cloudinary.com/privacy" target="_blank" rel="noopener noreferrer">Datenschutzerklärung von Cloudinary</a>.
             </p>
 

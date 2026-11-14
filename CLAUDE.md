@@ -50,6 +50,7 @@ This is a TanStack Start (React) website for "Im Auenviertel" Kleingartenverein 
 - `src/routes/__root.tsx` - Document shell, site-wide head tags, header/footer layout
 - `src/routes/*.tsx` - One file per page; each sets its title and canonical URL with `pageHead()` from `src/utils/seo.ts`
 - Internal links use `<Link>` from `@tanstack/react-router`; downloads and external links are plain `<a>`
+- The router uses `trailingSlash: "always"` (`src/router.tsx`), so link targets end in a slash (`to="/dates/"`, `to="/blog/$id/"`), matching the `/page/index.html` files Netlify serves
 - Mind JSX whitespace: put `{" "}` before an inline element that starts a new line
 
 ### Styling

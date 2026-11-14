@@ -136,7 +136,7 @@ function HomePage() {
             )}
           </div>
         )}
-        <Link className="link-arrow" to="/dates" data-reveal>
+        <Link className="link-arrow" to="/dates/" data-reveal>
           Alle Termine <span aria-hidden="true">→</span>
         </Link>
       </section>
@@ -161,7 +161,7 @@ function HomePage() {
                 </li>
               ))}
             </ul>
-            <Link className="link-arrow rows__more" to="/documents" data-reveal>
+            <Link className="link-arrow rows__more" to="/documents/" data-reveal>
               Alle Dokumente <span aria-hidden="true">→</span>
             </Link>
           </div>
@@ -213,13 +213,13 @@ function HomePage() {
             Der Vorstand beantwortet gern deine Fragen zu freien Parzellen, Wartezeiten und dem Vereinsleben.
           </p>
           <div className="join__actions">
-            <Link className="btn" to="/contact">
+            <Link className="btn" to="/contact/">
               Kontakt aufnehmen
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M5 12h14m-6-6 6 6-6 6"></path>
               </svg>
             </Link>
-            <Link className="link-arrow" to="/documents">
+            <Link className="link-arrow" to="/documents/">
               Bewerbungsbogen <span aria-hidden="true">→</span>
             </Link>
           </div>

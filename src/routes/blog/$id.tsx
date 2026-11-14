@@ -39,7 +39,7 @@ function BlogPostPage() {
     <Container className="page-post">
       <article className="article">
         <header className="article__head">
-          <Link className="link-arrow back" to="/blog">
+          <Link className="link-arrow back" to="/blog/">
             <span aria-hidden="true">←</span> Alle Neuigkeiten
           </Link>
           <p className="eyebrow category">{post.category}</p>
@@ -63,7 +63,7 @@ function BlogPostPage() {
         <div className="prose prose-lg article__body" dangerouslySetInnerHTML={{ __html: post.html }} />
 
         <footer className="article__foot">
-          <Link className="btn btn-outline" to="/blog">
+          <Link className="btn btn-outline" to="/blog/">
             Zurück zur Übersicht
           </Link>
         </footer>

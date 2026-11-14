@@ -4,6 +4,7 @@ import { allBlogs } from "content-collections";
 import { Container } from "@components/Container";
 import { SectionHead } from "@components/SectionHead";
 import { formatPublishDate, getPublished } from "@utils/content";
+import { responsiveImage } from "@utils/images";
 import { pageHead } from "@utils/seo";
 import { useScrollReveal } from "@utils/useScrollReveal";
 
@@ -46,7 +47,8 @@ function BlogPage() {
             <Link to="/blog/$id" params={{ id: post.id }}>
               <div className="post__image">
                 <img
-                  src={post.image.src}
+                  {...responsiveImage(post.image.src, post.image.width)}
+                  sizes={index === 0 ? "(max-width: 760px) 100vw, 60vw" : "(max-width: 760px) 100vw, 50vw"}
                   alt={post.image.alt}
                   width={1200}
                   height={900}

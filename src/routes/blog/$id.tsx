@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { allBlogs } from "content-collections";
 import { Container } from "@components/Container";
 import { formatPublishDate } from "@utils/content";
+import { responsiveImage } from "@utils/images";
 import { pageHead } from "@utils/seo";
 
 // Posts may reference images in src/assets relatively (../../assets/photo.webp).
@@ -57,7 +58,14 @@ function BlogPostPage() {
         </header>
 
         <figure className="article__image">
-          <img src={post.image.src} alt={post.image.alt} width={1600} height={900} loading="eager" />
+          <img
+            {...responsiveImage(post.image.src, post.image.width)}
+            sizes="(max-width: 1032px) calc(100vw - 2.5rem), 992px"
+            alt={post.image.alt}
+            width={1600}
+            height={900}
+            loading="eager"
+          />
         </figure>
 
         <div className="prose prose-lg article__body" dangerouslySetInnerHTML={{ __html: post.html }} />

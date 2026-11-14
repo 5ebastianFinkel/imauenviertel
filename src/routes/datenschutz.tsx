@@ -221,13 +221,16 @@ function DatenschutzPage() {
               Verarbeitung erfolgt gemäß Art. 6 Abs. 1 lit. b oder f DSGVO.
             </p>
             <p>
-              Für den Versand nutzen wir den Dienst Web3Forms, betrieben von Web3Creative mit Sitz in
-              Indien. Ihre Eingaben (Name, E-Mail-Adresse und Nachricht) werden an Web3Forms übermittelt und
-              von dort als E-Mail an den Vorstand weitergeleitet. Weitere Informationen finden Sie im{" "}
-              <a href="https://web3forms.com/dpa" target="_blank" rel="noopener noreferrer">
-                Vertrag zur Auftragsverarbeitung von Web3Forms
-              </a>
-              .
+              Für den Versand nutzen wir Netlify Forms, einen Dienst unseres Hosters Netlify (siehe
+              oben). Ihre Eingaben (Name, E-Mail-Adresse und Nachricht) werden in unserem
+              Netlify-Konto gespeichert und dem Vorstand per E-Mail zugestellt. Zum Schutz vor Spam prüft
+              Netlify die Eingaben mit dem Dienst Akismet der Automattic Inc. (USA). Die Verarbeitung
+              durch Netlify ist vom Vertrag über Auftragsverarbeitung mit Netlify umfasst.
+            </p>
+            <p>
+              Die Angaben verbleiben bei uns, bis Sie uns zur Löschung auffordern oder der Zweck der
+              Speicherung entfällt, etwa wenn Ihre Anfrage abschließend bearbeitet ist. Gesetzliche
+              Aufbewahrungsfristen bleiben unberührt.
             </p>
 
             <h3>Anfragen per E-Mail, Telefon oder Telefax</h3>

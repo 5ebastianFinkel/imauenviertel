@@ -5,7 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 import contentCollections from "@content-collections/vite";
 import { imagetools } from "vite-imagetools";
 
-// Decap CMS lives in public/admin/. Vite only serves it at /admin/index.html,
+// The CMS (Sveltia) lives in public/admin/. Vite only serves it at /admin/index.html,
 // so point /admin and /admin/ there during development (Netlify does this in
 // production).
 const adminDevRewrite = (): Plugin => ({

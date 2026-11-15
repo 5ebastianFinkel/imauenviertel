@@ -2,75 +2,62 @@ import { describe, it, expect } from 'vitest';
 import fs from 'fs';
 import path from 'path';
 import { load } from 'js-yaml';
+import { CLOUDINARY_CLOUD } from '../utils/images';
 
-describe('Decap CMS Configuration', () => {
-  it('should have admin index.html file', () => {
-    const adminPath = path.join(process.cwd(), 'public/admin/index.html');
-    expect(fs.existsSync(adminPath)).toBe(true);
-  });
+const read = (file: string) => fs.readFileSync(path.join(process.cwd(), file), 'utf8');
+const config = load(read('public/admin/config.yml')) as any;
+const adminHtml = read('public/admin/index.html');
 
-  it('should have admin config.yml file', () => {
-    const configPath = path.join(process.cwd(), 'public/admin/config.yml');
-    expect(fs.existsSync(configPath)).toBe(true);
-  });
-
-  it('should have valid YAML configuration', () => {
-    const configPath = path.join(process.cwd(), 'public/admin/config.yml');
-    const configContent = fs.readFileSync(configPath, 'utf8');
-    
-    expect(() => load(configContent)).not.toThrow();
-  });
-
-  it('should have correct backend configuration', () => {
-    const configPath = path.join(process.cwd(), 'public/admin/config.yml');
-    const configContent = fs.readFileSync(configPath, 'utf8');
-    const config = load(configContent) as any;
-    
-    expect(config.backend).toBeDefined();
-    expect(config.backend.name).toBe('git-gateway');
-    expect(config.backend.branch).toBe('main');
+describe('Sveltia CMS configuration', () => {
+  it('should commit to main through the GitHub backend', () => {
+    expect(config.backend).toEqual({ name: 'github', repo: '5ebastianFinkel/imauenviertel', branch: 'main' });
   });
 
   it('should have all required collections', () => {
-    const configPath = path.join(process.cwd(), 'public/admin/config.yml');
-    const configContent = fs.readFileSync(configPath, 'utf8');
-    const config = load(configContent) as any;
-    
-    expect(config.collections).toBeDefined();
-    expect(config.collections).toHaveLength(5);
-    
-    const collectionNames = config.collections.map((c: any) => c.name);
-    expect(collectionNames).toContain('blog');
-    expect(collectionNames).toContain('events');
-    expect(collectionNames).toContain('team');
-    expect(collectionNames).toContain('documents');
-    expect(collectionNames).toContain('links');
+    expect(config.collections.map((c: any) => c.name)).toEqual(['blog', 'events', 'team', 'documents', 'links']);
   });
 
-  it('should have correct media folder configuration', () => {
-    const configPath = path.join(process.cwd(), 'public/admin/config.yml');
-    const configContent = fs.readFileSync(configPath, 'utf8');
-    const config = load(configContent) as any;
-    
+  it('should store repository uploads in public/uploads', () => {
     expect(config.media_folder).toBe('public/uploads');
     expect(config.public_folder).toBe('/uploads');
   });
 
-  it('should have Netlify Identity script in admin HTML', () => {
-    const adminPath = path.join(process.cwd(), 'public/admin/index.html');
-    const adminContent = fs.readFileSync(adminPath, 'utf8');
-    
-    expect(adminContent).toContain('https://identity.netlify.com/v1/netlify-identity-widget.js');
-    expect(adminContent).toContain('decap-cms');
+  it('should upload to the Cloudinary cloud whose images the site resizes', () => {
+    expect(config.media_libraries.cloudinary.config.cloud_name).toBe(CLOUDINARY_CLOUD);
+    expect(config.media_libraries.cloudinary.config).not.toHaveProperty('api_secret');
   });
 
-  it('should have netlify.toml configuration', () => {
-    const netlifyPath = path.join(process.cwd(), 'netlify.toml');
-    expect(fs.existsSync(netlifyPath)).toBe(true);
-    
-    const netlifyContent = fs.readFileSync(netlifyPath, 'utf8');
-    expect(netlifyContent).toContain('pnpm build');
-    expect(netlifyContent).toContain('X-Frame-Options = "SAMEORIGIN"');
-    expect(netlifyContent).toContain('GIT_LFS_ENABLED = "true"');
+  it('should shrink photos uploaded to the repository', () => {
+    const { raster_image } = config.media_libraries.default.config.transformations;
+    expect(raster_image.format).toBe('webp');
+    expect(raster_image.width).toBeLessThanOrEqual(2048);
+  });
+
+  it('should keep PDFs in the repository', () => {
+    const documents = config.collections.find((c: any) => c.name === 'documents');
+    const file = documents.fields.find((f: any) => f.name === 'file');
+    expect(file.media_libraries.cloudinary).toBe(false);
+  });
+});
+
+describe('Admin page', () => {
+  it('should load a pinned Sveltia CMS version with an SRI hash', () => {
+    expect(adminHtml).toMatch(
+      /<script src="https:\/\/unpkg\.com\/@sveltia\/cms@\d+\.\d+\.\d+\/dist\/sveltia-cms\.js" integrity="sha384-[A-Za-z0-9+/=]+" crossorigin="anonymous"><\/script>/,
+    );
+  });
+
+  it('should not load Decap CMS or Netlify Identity any more', () => {
+    expect(adminHtml).not.toContain('decap-cms');
+    expect(adminHtml).not.toContain('netlify-identity');
+    expect(read('src/routes/__root.tsx')).not.toContain('netlify-identity');
+  });
+});
+
+describe('netlify.toml', () => {
+  it('should build with pnpm and protect the admin page', () => {
+    const netlify = read('netlify.toml');
+    expect(netlify).toContain('pnpm build');
+    expect(netlify).toContain('X-Frame-Options = "SAMEORIGIN"');
   });
 });

@@ -6,24 +6,6 @@ import { NotFound } from "@components/NotFound";
 import { NOT_FOUND_TITLE, SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@utils/seo";
 import appCss from "../styles/globals.css?url";
 
-// After a login on the public site, continue to the CMS
-const identityRedirect = `
-document.addEventListener("DOMContentLoaded", () => {
-  try {
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", (user) => {
-        if (!user) {
-          window.netlifyIdentity.on("login", () => {
-            document.location.href = "/admin/";
-          });
-        }
-      });
-    }
-  } catch (error) {
-    console.error("Netlify Identity initialization error:", error);
-  }
-});`;
-
 export const Route = createRootRoute({
   head: ({ matches }) => ({
     meta: [
@@ -58,8 +40,6 @@ export const Route = createRootRoute({
       // Marks the document as scripted before the first paint (see the
       // scroll reveal and mobile menu styles)
       { children: 'document.documentElement.classList.add("js");' },
-      { src: "https://identity.netlify.com/v1/netlify-identity-widget.js", defer: true },
-      { children: identityRedirect },
     ],
   }),
   shellComponent: RootDocument,

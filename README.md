@@ -93,7 +93,7 @@ pnpm test:ui
 
 ## 📝 Content Management
 
-Content is managed through content collections (schemas in `content-collections.ts`), either by editing the files or through Decap CMS at `/admin`:
+Content is managed through content collections (schemas in `content-collections.ts`), either by editing the files or through Sveltia CMS at `/admin` (see `CMS_GUIDE.md`):
 
 - **Blog Posts**: Add Markdown files to `src/content/blog/`
 - **Events**: Add event data to `src/content/events/`

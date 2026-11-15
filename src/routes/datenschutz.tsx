@@ -75,11 +75,6 @@ function DatenschutzPage() {
               sowie Angaben zu Browser und Betriebssystem.
             </p>
             <p>
-              Außerdem lädt jede Seite ein Skript von Netlify (identity.netlify.com), über das sich
-              Vereinsmitglieder mit Redaktionszugang anmelden. Auch dabei wird Ihre IP-Adresse an Netlify
-              übermittelt.
-            </p>
-            <p>
               Der Einsatz des Hosters erfolgt im Interesse einer sicheren und effizienten Bereitstellung
               unserer Website (Art. 6 Abs. 1 lit. f DSGVO). Netlify ist nach dem EU-US Data Privacy
               Framework zertifiziert, auf dessen Grundlage die EU-Kommission ein angemessenes
@@ -262,8 +257,10 @@ function DatenschutzPage() {
             <h2>Redaktionssystem</h2>
             <p>
               Vereinsmitglieder mit Redaktionszugang pflegen die Inhalte unter /admin/. Dieser Bereich lädt
-              das Redaktionssystem Decap CMS über den Dienst unpkg.com und nutzt für die Anmeldung Netlify
-              Identity. Für Besucherinnen und Besucher der übrigen Seiten ist er nicht relevant.
+              das Redaktionssystem Sveltia CMS über den Dienst unpkg.com. Die Anmeldung erfolgt mit einem
+              GitHub-Konto über Netlify; die Inhalte werden bei GitHub (GitHub, Inc., USA) gespeichert.
+              Bilder laden Redaktionsmitglieder bei Cloudinary hoch. Für Besucherinnen und Besucher der
+              übrigen Seiten ist dieser Bereich nicht relevant.
             </p>
           </section>
 

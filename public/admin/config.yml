@@ -1,19 +1,37 @@
+# Sveltia CMS configuration, see CMS_GUIDE.md.
+# Editors sign in with their GitHub account (Netlify's GitHub OAuth provider,
+# set up under Project configuration > Security > OAuth) and need write access
+# to the repository.
 backend:
-  name: git-gateway
-  branch: main # Branch to update
+  name: github
+  repo: 5ebastianFinkel/imauenviertel
+  branch: main
 
-media_folder: "public/uploads" # Media files will be stored here
-public_folder: "/uploads" # The src attribute for uploaded media
-# IMPORTANT: Always use /uploads/ (not public/uploads/) in markdown and file paths!
-# Decap CMS may generate paths with "public/uploads/" - these must be corrected to "/uploads/"
+# Files uploaded to the repository land here
+media_folder: "public/uploads"
+public_folder: "/uploads"
 
-media_library:
-  name: cloudinary
-  config:
-    cloud_name: dc6swddrn
-    api_key: 518612256514236
-    upload_preset: decap_cms_uploads  # No api_key needed!
-    multiple: true
+media_libraries:
+  # Images go to our Cloudinary account, which resizes them for visitors
+  # (src/utils/images.ts). Editors sign in with their own Cloudinary login;
+  # the API key is public, the secret must never be added here.
+  cloudinary:
+    config:
+      cloud_name: dc6swddrn
+      api_key: 518612256514236
+  # Uploads to the repository, for editors without a Cloudinary login and for
+  # PDFs. Photos are converted to WebP and scaled down so the repository stays
+  # small.
+  default:
+    config:
+      # In bytes. Mainly limits PDFs: converted photos are far smaller.
+      max_file_size: 10000000
+      transformations:
+        raster_image:
+          format: webp
+          quality: 85
+          width: 2048
+          height: 2048
 
 collections:
   - name: "blog" # Used in routes
@@ -34,7 +52,6 @@ collections:
       - {label: "Autor", name: "author", widget: "string", default: "Im Auenviertel"}
       - {label: "Kategorie", name: "category", widget: "select", options: ["Bericht", "Ankündigung", "Information"]}
       - {label: "Tags", name: "tags", widget: "list", default: ["Gemeinschaftsarbeit"]}
-      # Note: When inserting images in markdown body, always use /uploads/ (not public/uploads/)
       - {label: "Inhalt", name: "body", widget: "markdown"}
 
   - name: "events" # Used in routes
@@ -76,7 +93,8 @@ collections:
     fields: # The fields for each document
       - {label: "Titel", name: "title", widget: "string"}
       - {label: "Beschreibung", name: "description", widget: "text"}
-      - {label: "PDF Datei", name: "file", widget: "file", allow_multiple: false}
+      # PDFs stay in the repository, not on Cloudinary
+      - {label: "PDF Datei", name: "file", widget: "file", media_libraries: {cloudinary: false}}
       - {label: "Reihenfolge", name: "order", widget: "number", default: 0}
       - {label: "Veröffentlichungsdatum", name: "publishDate", widget: "datetime", format: "YYYY-MM-DD"}
 

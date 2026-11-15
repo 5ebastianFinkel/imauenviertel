@@ -70,12 +70,14 @@ Dates are stored as strings: events as `YYYY-MM-DD` (use `parseLocalDate` from `
 
 ### Images
 - Images in `src/assets/` are resized by `vite-imagetools` through import queries, e.g. `import img from "@assets/photo.webp?w=480;800&format=webp&as=img"` (typed in `src/env.d.ts`)
-- Blog images on Cloudinary (where Decap CMS uploads them) and Unsplash get a srcset of resized versions through URL parameters, see `src/utils/images.ts`. Only Cloudinary URLs of our cloud (`dc6swddrn`, as in `public/admin/config.yml`) are rewritten
+- Blog images on Cloudinary (where the CMS uploads them) and Unsplash get a srcset of resized versions through URL parameters, see `src/utils/images.ts`. Only Cloudinary URLs of our cloud (`dc6swddrn`, as in `public/admin/config.yml`) are rewritten
 - Other content images, such as the older files in `public/uploads/`, are used as they are; images in post bodies get `width`/`height` from the file at build time
 
-### Decap CMS
+### Sveltia CMS
 - Admin panel lives in `public/admin/` (`config.yml`, `index.html`); the dev server maps `/admin` to it (see `adminDevRewrite` in `vite.config.ts`)
-- The `decap-cms` script is pinned to an exact version with an SRI `integrity` hash; when upgrading, change version and hash in `public/admin/index.html` (see `DECAP_CMS_GUIDE.md` → "Updating Decap CMS")
+- Editors sign in with GitHub (Netlify OAuth provider) and commit straight to `main`; setup and editor management in `CMS_GUIDE.md`
+- Images go to Cloudinary or, converted to WebP, to `public/uploads/`; PDFs always to `public/uploads/`
+- The `@sveltia/cms` script is pinned to an exact version with an SRI `integrity` hash; when upgrading, change version and hash in `public/admin/index.html` (see `CMS_GUIDE.md` → "Updating Sveltia CMS")
 
 ### Contact Form
 - `src/components/ContactForm.tsx` submits to Netlify Forms (form name `kontakt`, posted URL-encoded to `/__forms.html`)

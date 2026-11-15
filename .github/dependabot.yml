@@ -13,9 +13,22 @@ updates:
     labels:
       - "dependencies"
     groups:
-      patch-updates:
-        update-types:
-          - "patch"
-      minor-updates:
+      # Patch and minor updates arrive together in one weekly PR
+      minor-and-patch-updates:
         update-types:
           - "minor"
+          - "patch"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+      timezone: "Europe/Berlin"
+    commit-message:
+      prefix: "chore(ci):"
+    labels:
+      - "dependencies"
+    groups:
+      github-actions:
+        patterns:
+          - "*"

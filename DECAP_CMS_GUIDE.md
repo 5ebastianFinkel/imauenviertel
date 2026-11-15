@@ -70,7 +70,7 @@ Decap CMS (formerly Netlify CMS) has been integrated into the Im Auenviertel web
 The CMS script is loaded from unpkg with a pinned version and a Subresource Integrity (SRI) hash, so the browser refuses to run it if the file served by the CDN is ever altered. The script tag lives in `public/admin/index.html`, which is served in production and by the dev server:
 
 ```html
-<script src="https://unpkg.com/decap-cms@3.16.3/dist/decap-cms.js"
+<script src="https://unpkg.com/decap-cms@3.17.3/dist/decap-cms.js"
         integrity="sha384-..."
         crossorigin="anonymous"></script>
 ```
@@ -104,7 +104,7 @@ The Netlify Identity widget (`identity.netlify.com/v1/netlify-identity-widget.js
 - Clear browser cache and cookies
 
 ### Admin panel stays blank
-- Open the browser console. An error like `Failed to find a valid digest in the 'integrity' attribute` means the SRI hash doesn't match the script. Recompute it as described in [Updating Decap CMS](#updating-decap-cms) and make sure the version and hash are identical in both admin files.
+- Open the browser console. An error like `Failed to find a valid digest in the 'integrity' attribute` means the SRI hash doesn't match the script. Recompute it as described in [Updating Decap CMS](#updating-decap-cms) and make sure the version and hash in `public/admin/index.html` belong together.
 
 ### Changes not appearing
 - Ensure changes are published (not just saved)

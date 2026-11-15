@@ -77,6 +77,12 @@ Dates are stored as strings: events as `YYYY-MM-DD` (use `parseLocalDate` from `
 - Admin panel lives in `public/admin/` (`config.yml`, `index.html`); the dev server maps `/admin` to it (see `adminDevRewrite` in `vite.config.ts`)
 - The `decap-cms` script is pinned to an exact version with an SRI `integrity` hash; when upgrading, change version and hash in `public/admin/index.html` (see `DECAP_CMS_GUIDE.md` → "Updating Decap CMS")
 
+### Contact Form
+- `src/components/ContactForm.tsx` submits to Netlify Forms (form name `kontakt`, posted URL-encoded to `/__forms.html`)
+- Netlify only detects forms in static HTML, so `public/__forms.html` declares the same form; keep the field names of both files in sync, Netlify drops undeclared fields
+- Submissions only arrive on Netlify with form detection enabled. Locally nothing is sent, but `pnpm dev` and `pnpm preview` answer the POST with 200, so the success message shows anyway
+- E-mail notifications are configured in the Netlify UI (Forms → Submission notifications)
+
 ### Key Features
 - **ICS Calendar Generation** - `src/utils/icsGenerator.ts` creates downloadable calendar files
 - **Event Management** - Calendar button component with download functionality

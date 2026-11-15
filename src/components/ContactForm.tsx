@@ -1,12 +1,15 @@
 import { useState, type FormEvent } from "react";
 import { Button } from "./ui/Button";
 
-const ENDPOINT = "https://api.web3forms.com/submit";
+// Submissions are handled by Netlify Forms. Netlify only detects forms in
+// static HTML, so public/__forms.html declares this form for it: keep the
+// field names of both files in sync, Netlify drops fields it does not know.
+// Submissions only arrive on Netlify; locally nothing is sent (see CLAUDE.md).
+const FORM_NAME = "kontakt";
+const ENDPOINT = "/__forms.html";
 
 type Result = { message: string; tone?: "success" | "error" };
 
-// To make this contact form work, create your free access key from https://web3forms.com/
-// Then you will get all form submissions in your email inbox.
 // Styles: styles/components/contact-form.css
 export function ContactForm() {
   const [validated, setValidated] = useState(false);
@@ -21,30 +24,29 @@ export function ContactForm() {
       return;
     }
 
-    const json = JSON.stringify(Object.fromEntries(new FormData(form)));
     setResult({ message: "Wird gesendet..." });
 
     try {
+      // Netlify Forms takes URL-encoded data only, not JSON
+      const fields = [...new FormData(form)].map(([key, value]) => [key, String(value)]);
       const response = await fetch(ENDPOINT, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: json,
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(fields).toString(),
       });
-      const body: { message?: string } = await response.json();
-      if (response.status === 200) {
-        setResult({ message: "Erfolgreich versendet. Danke für Ihre Nachricht", tone: "success" });
-      } else {
-        console.log(response);
-        setResult({ message: body.message ?? "Leider ist etwas schief gelaufen!", tone: "error" });
-      }
+      if (!response.ok) throw new Error(`Form submission failed with status ${response.status}`);
     } catch (error) {
-      console.log(error);
-      setResult({ message: "Leider ist etwas schief gelaufen!" });
+      // Keep the message so it can be sent again
+      console.error(error);
+      setResult({
+        message:
+          "Leider ist etwas schief gelaufen! Bitte versuchen Sie es später erneut oder schreiben Sie an mail@imauenviertel.de.",
+        tone: "error",
+      });
+      return;
     }
 
+    setResult({ message: "Erfolgreich versendet. Danke für Ihre Nachricht", tone: "success" });
     form.reset();
     setValidated(false);
     setTimeout(() => setResult(null), 5000);
@@ -54,15 +56,22 @@ export function ContactForm() {
 
   return (
     <form
+      name={FORM_NAME}
+      // Without JavaScript the browser posts the form and Netlify shows its own confirmation page
       action={ENDPOINT}
       method="POST"
       className={validated ? "contact-form was-validated" : "contact-form"}
       noValidate
       onSubmit={onSubmit}
     >
-      <input type="hidden" name="subject" value="" />
-      <input type="hidden" name="access_key" value="c6632c04-f25d-4a80-bb47-ec9146cd5476" />
-      <input type="checkbox" className="hidden" style={{ display: "none" }} name="botcheck" />
+      <input type="hidden" name="form-name" value={FORM_NAME} />
+      <input type="hidden" name="subject" value="Neue Nachricht über das Kontaktformular" />
+      {/* Honeypot: Netlify discards submissions that fill it in */}
+      <div hidden aria-hidden="true">
+        <label>
+          Nicht ausfüllen: <input type="text" name="bot-field" tabIndex={-1} autoComplete="off" />
+        </label>
+      </div>
       <div className="mb-5">
         <label htmlFor="contact_name" className="sr-only">
           Vollständiger Name

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>Formulare</title>
+  </head>
+  <body>
+    <!--
+      Netlify Forms only detects forms in static HTML. This file declares the
+      contact form rendered by src/components/ContactForm.tsx, which also
+      posts here. Keep the field names in sync with that component: Netlify
+      drops submitted fields that are not declared here.
+    -->
+    <form name="kontakt" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="subject" />
+      <input type="text" name="bot-field" />
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <textarea name="message"></textarea>
+    </form>
+  </body>
+</html>

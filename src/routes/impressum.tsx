@@ -13,6 +13,7 @@ function ImpressumPage() {
     <Container>
       <SectionHead eyebrow="Rechtliches" title="Impressum" />
       <div className="prose prose-lg max-w-3xl legal">
+        <h2>Angaben gemäß § 5 DDG</h2>
         <address>
           <strong>Kleingärtnerverein „Im Auenviertel“ e.V.</strong><br />
           Holtbeck 43,<br />
@@ -23,8 +24,7 @@ function ImpressumPage() {
           E-Mail: <a href="mailto:mail@imauenviertel.de">mail@imauenviertel.de</a>
         </address>
         <section className="mt-16">
-          <h2>Verbraucherstreitbeteiligung /
-            Universalschlichtungsstelle</h2>
+          <h2>Verbraucherstreitbeilegung / Universalschlichtungsstelle</h2>
           <p>
             Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer
             Verbraucherschlichtungsstelle teilzunehmen.
@@ -34,11 +34,12 @@ function ImpressumPage() {
         <section>
           <h2>Haftung für Inhalte</h2>
           <p>
-            Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den
-            allgemeinen Gesetzen verantwortlich.
-            Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder
-            gespeicherte fremde Informationen zu
-            überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
+            Als Diensteanbieter sind wir für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen
+            verantwortlich. Für fremde Informationen, die wir übermitteln oder speichern, gelten die
+            Haftungsbeschränkungen der Art. 4 bis 6 der Verordnung (EU) 2022/2065 (Digital Services Act) in
+            Verbindung mit § 7 DDG. Danach sind wir nicht verpflichtet, diese Informationen allgemein zu
+            überwachen oder aktiv nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen
+            (Art. 8 Digital Services Act).
           </p>
           <p>
             Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen
